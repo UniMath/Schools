@@ -382,7 +382,7 @@ Proof.
   apply funextsec; intro x0.
   apply hPropUnivalence; intro r.
 Admitted.
-(* continue with definition in place
+(* continue with definitions in place
   - exact (eqax1 (pr2 c) (pr1 x) x0 r (pr2 x)).
   - exact (eqax2 (pr2 c) (pr1 x) x0 (pr2 x) r).
 Defined.
@@ -409,7 +409,7 @@ Proof.
   simpl. apply funextsec.
   intro x0. apply hPropUnivalence.
 Admitted.
-(* continue with definition in place
+(* continue with definitions in place
   - intro r0. apply (eqreltrans R _ _ _ (eqrelsymm R _ _ r) r0).
   - intro x0'. apply (eqreltrans R _ _ _ r x0').
 Defined.
@@ -489,7 +489,7 @@ Proof.
     set (e' := maponpaths (pr1setquot R) e). simpl in e'.
     set (e'' := maponpaths (λ f : _, f x') e'). simpl in e''.
 Admitted.
-(* continue with definition in place
+(* continue with definitions in place
     rewrite e''.
     apply eqrelrefl.
   - apply propproperty.

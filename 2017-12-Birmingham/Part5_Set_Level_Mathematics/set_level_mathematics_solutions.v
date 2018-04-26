@@ -184,9 +184,11 @@ Defined.
 (** * The universe is not a set *)
 (** The next result requires univalence *)
 
+Require Import UniMath.Foundations.UnivalenceAxiom.
+
+
 Module universe_is_not_a_set.
 
-  Require Import UniMath.Foundations.UnivalenceAxiom.
 
   Lemma isweq_negb : isweq negb.
   Proof.
