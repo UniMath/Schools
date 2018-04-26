@@ -37,6 +37,8 @@ More precise instructions and hints:
 6.-9. no further particulars
 *)
 
+
+Require Import UniMath.Foundations.Preamble.
 Require Import UniMath.Foundations.PartA.
 Require Import UniMath.Foundations.NaturalNumbers.
 
@@ -60,6 +62,9 @@ d) sub (S n) (S m) = sub n m
 
 
 (** from exercises to Lecture 2: *)
+
+
+
 Definition ifbool (A : UU) (x y : A) : bool -> A :=
   bool_rect (λ _ : bool, A) x y.
 
@@ -67,6 +72,8 @@ Definition negbool : bool -> bool := ifbool bool false true.
 
 Definition nat_rec (A : UU) (a : A) (f : nat -> A -> A) : nat -> A :=
   nat_rect (λ _ : nat, A) a f.
+
+Definition pred : nat -> nat := nat_rec nat 0 (fun x _ => x).
 
 Definition is_zero : nat -> bool := nat_rec bool true (λ _ _, false).
 

@@ -9,6 +9,7 @@ Written by Anders Mörtberg.
 
 *)
 Require Import UniMath.Foundations.Preamble.
+Require Import fundamentals_lecture.
 
 Definition idfun : forall (A : UU), A -> A := fun (A : UU) (a : A) => a.
 
@@ -36,6 +37,7 @@ Eval compute in orbool false true.    (* true *)
 Eval compute in orbool false false.   (* false *)
 
 (** * Natural numbers *)
+
 Definition nat_rec (A : UU) (a : A) (f : nat -> A -> A) : nat -> A :=
   nat_rect (fun _ : nat => A) a f.
 
@@ -45,8 +47,8 @@ Definition even : nat -> bool := nat_rec bool true (fun _ b => negbool b).
 Definition odd : nat -> bool :=
   nat_rec bool false (fun _ b => negbool b).
 
-Eval compute in odd 42.    (* false *)
-Eval compute in odd 101.   (* true *)
+Eval compute in odd 24.    (* false *)
+Eval compute in odd 19.   (* true *)
 
 
 (** Exercise: define a notation "myif b then x else y" for "ifbool _ x y b"
@@ -80,7 +82,7 @@ Definition iter (A : UU) (a : A) (f : A → A) : nat → A :=
 
 Notation "f ̂ n" := (λ x, iter _ x f n) (at level 10).
 
-Definition sub (m n : nat) : nat := pred̂n m.
+Definition sub (m n : nat) : nat := pred ̂ n m.
 
 (** Exercise: define addition using iter and S *)
 Definition add' (m : nat) : nat → nat :=

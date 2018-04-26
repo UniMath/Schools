@@ -68,6 +68,8 @@ Definition negbool : bool -> bool := ifbool bool false true.
 Definition nat_rec (A : UU) (a : A) (f : nat -> A -> A) : nat -> A :=
   nat_rect (λ _ : nat, A) a f.
 
+Definition pred : nat -> nat := nat_rec nat 0 (fun x _ => x).
+
 Definition is_zero : nat -> bool := nat_rec bool true (λ _ _, false).
 
 Definition iter (A : UU) (a : A) (f : A → A) : nat → A :=

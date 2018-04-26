@@ -89,7 +89,7 @@ Definition exercise_2_2_comm : UU :=
 Theorem nat_plus_is_assoc : exercise_2_2_assoc.
 Proof.
   exact
-    (nat_rec
+    (nat_rect
        (λ m, forall n o,
            nat_plus (nat_plus m n) o
          = nat_plus m (nat_plus n o))
@@ -109,9 +109,9 @@ Qed.
 Theorem nat_plus_is_comm : exercise_2_2_comm.
 Proof.
   exact
-    (nat_rec
+    (nat_rect
        (λ m, forall n, nat_plus m n = nat_plus n m)
-       (nat_rec
+       (nat_rect
           (λ n, n = nat_plus n 0)
           (idpath 0)
           (λ n IHn, maponpaths S IHn))
@@ -131,7 +131,7 @@ Definition exercise_3_1 : UU := ∑ n, bool_to_rel (evenb n).
 (** 2. prime numbers *)
 
 Definition nat_mult : nat → nat → nat :=
-  nat_rec (λ _, nat → nat) (λ _, 0) (λ _ IHm n, nat_plus n (IHm n)).
+  nat_rect (λ _, nat → nat) (λ _, 0) (λ _ IHm n, nat_plus n (IHm n)).
 
 Definition is_prime : nat → UU :=
   λ n, ∑ _:((n = 1) → empty), (∏ m1 m2, nat_mult m1 m2 = n → (m1 = 1) ⨿ (m2 = 1)).

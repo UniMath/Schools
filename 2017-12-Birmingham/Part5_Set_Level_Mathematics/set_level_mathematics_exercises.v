@@ -161,9 +161,11 @@ Admitted.
 (** * The universe is not a set *)
 (** The next result requires univalence *)
 
+Require Import UniMath.Foundations.UnivalenceAxiom.
+
+
 Module universe_is_not_a_set.
 
-  Require Import UniMath.Foundations.UnivalenceAxiom.
 
   Lemma isweq_negb : isweq negb.
   Proof.
@@ -212,6 +214,7 @@ Definition isrefl {X : UU} (R : hrel X) : UU
 (* FILL IN THE DEFINITIONS OF istrans AND issymm *)
 (* Definition istrans {X : UU} (R : hrel X) : UU := *)
 (* Definition issymm {X : UU} (R : hrel X) : UU := *)
+Variables istrans issymm: forall {X: UU}, hrel X -> UU. (* to be deleted *)
 
 Definition ispreorder {X : UU} (R : hrel X) : UU := istrans R × isrefl R.
 
@@ -363,10 +366,12 @@ Proof.
   split.
   - exact (hinhpr (tpair _ x (rax x))).
   - split; intros x1 x2 X1 X2.
+Admitted.
+(* continue with proper definition of istrans in place:
     + exact (tax x x1 x2 X2 X1).
     + exact (tax x1 x x2 (sax x x1 X1) X2).
 Defined.
-
+*)
 
 Lemma setquotl0 {X : UU} (R : eqrel X) (c : setquot R) (x : c) :
   setquotpr R (pr1 x) = c.
@@ -376,10 +381,12 @@ Proof.
   Unset Printing Coercions.
   apply funextsec; intro x0.
   apply hPropUnivalence; intro r.
+Admitted.
+(* continue with definition in place
   - exact (eqax1 (pr2 c) (pr1 x) x0 r (pr2 x)).
   - exact (eqax2 (pr2 c) (pr1 x) x0 (pr2 x) r).
 Defined.
-
+*)
 
 Theorem issurjsetquotpr {X : UU} (R : eqrel X) : issurjective (setquotpr R).
 Proof.
@@ -401,10 +408,12 @@ Proof.
   Unset Printing Coercions.
   simpl. apply funextsec.
   intro x0. apply hPropUnivalence.
+Admitted.
+(* continue with definition in place
   - intro r0. apply (eqreltrans R _ _ _ (eqrelsymm R _ _ r) r0).
   - intro x0'. apply (eqreltrans R _ _ _ r x0').
 Defined.
-
+*)
 
 (** *** Universal property of [seqtquot R] for functions to sets satisfying compatibility condition [iscomprelfun] *)
 
@@ -450,8 +459,12 @@ Theorem setquotunivcomm {X : UU} (R : eqrel X) (Y : hSet) (f : X -> Y)
         (is : iscomprelfun R f) :
   ∏ x : X, setquotuniv R Y f is (setquotpr R x) = f x.
 Proof.
-  intros. apply idpath.
+  intros.
+Admitted.
+(* continue with definitions in place
+apply idpath.
 Defined.
+*)
 
 Lemma setquotpr_eq_eqrel {X : UU} (R : eqrel X) (x x' : X)
   : setquotpr R x = setquotpr R x' → R x x'.
@@ -459,9 +472,12 @@ Proof.
   intro e.
   set (e' := maponpaths (pr1setquot R) e). simpl in e'.
   set (e'' := maponpaths (λ f : _, f x') e'). simpl in e''.
+Admitted.
+(* continue with definitions in place
   rewrite e''.
   apply eqrelrefl.
 Defined.
+*)
 
 Theorem weqpathsinsetquot {X : UU} (R : eqrel X) (x x' : X) :
   R x x' ≃ setquotpr R x = setquotpr R x'.
@@ -472,10 +488,13 @@ Proof.
   - intro e.
     set (e' := maponpaths (pr1setquot R) e). simpl in e'.
     set (e'' := maponpaths (λ f : _, f x') e'). simpl in e''.
+Admitted.
+(* continue with definition in place
     rewrite e''.
     apply eqrelrefl.
   - apply propproperty.
   - apply isasetsetquot.
 Defined.
+*)
 
 (* End of file *)
