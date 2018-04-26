@@ -206,7 +206,7 @@ Definition orbool : bool -> bool -> bool :=
 
 *)
 
-(** The natural numbers also come from the Coq standard library *)
+(** The natural numbers do no longer come from the Coq standard library (as of 2018) *)
 About nat.
 Print nat.
 

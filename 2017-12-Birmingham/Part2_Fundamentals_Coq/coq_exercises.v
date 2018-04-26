@@ -49,6 +49,8 @@ Definition even : nat -> bool := nat_rec bool true (fun _ b => negbool b).
 (* This should satisfy
 Eval compute in odd 24.    (* false *)
 Eval compute in odd 19.   (* true *)
+
+Beware of big numbers: [UniMath.Foundations.Preamble] only defines notation up to 24.
 *)
 
 (** Exercise: define a notation "myif b then x else y" for "ifbool _ x y b"
