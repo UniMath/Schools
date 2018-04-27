@@ -1,9 +1,10 @@
 (** * Lecture 4: Tactics in UniMath *)
 (** by Ralph Matthes, CNRS, IRIT, Univ. Toulouse, France *)
 
-(** This is the extended version of a presentation at the
-    UniMath school 2017 in Birmingham, meant for self-study
-    and for exploring the UniMath library.
+(** This is material for presentation at the UniMath school
+    2017 in Birmingham; an extended version for self-study
+    and for exploring the UniMath library is available as
+    [lecture_tactics_long_version.v].
 
     The material has been slightly enriched on December 13, 2017,
     which is one day after the presentation.
@@ -13,13 +14,13 @@
 
 (** Compiles with the command
 [[
-coqc -type-in-type lecture_tactics_long_version.v
+coqc -type-in-type lecture_tactics.v
 ]]
 when placed into the UniMath library *)
 
 (** Can be transformed into HTML documentation with the command
 [[
-coqdoc -utf8 lecture_tactics_long_version.v
+coqdoc -utf8 lecture_tactics.v
 ]]
 *)
 
@@ -49,8 +50,6 @@ Proof.
   (** If you think there are too many hits and you only want to
       find library elements that *yield* booleans, then try *)
   SearchPattern bool.
-  (** If you want to see everything that *involves* booleans, then try *)
-  Search bool.
   (** [true] does not take an argument, and it is already a term we can take as definiens. *)
   exact true.
   (** [exact] is a tactic which takes the term as argument and informs Coq in the proof mode to
@@ -192,99 +191,35 @@ Proof.
   set (Hyp3 := pr2 Hyp23).
   cbn in Hyp3.
   apply Hyp1.
-  apply tpair. (** could be done with [split.] as well *)
-  - assumption. (** instruct Coq to look into the current context *)
-
-                (** this could be done with [exact Hyp3.] as well *)
+  apply tpair.
+  - exact Hyp3.
   - apply Hyp2.
-    assumption.
+    exact Hyp3.
 Defined.
 
 Print combinatorS.
 
-Local Definition combinatorS_intro_pattern (A B C: UU):
-  (A × B -> C) × (A -> B) × A -> C.
-Proof.
-  intros [Hyp1 [Hyp2 Hyp3]]. (** deconstruct the hypothesis at the time of introduction;
-                                 notice that [×] associates to the right;
-                                 [intros] can also introduce multiple hypotheses, see below *)
-  apply Hyp1.
-  split.
-  - assumption.
-  - apply Hyp2.
-    assumption.
-Defined.
-
-Print combinatorS_intro_pattern.
-(** may look harmless but is not allowed by UniMath coding style *)
-Set Printing All.
-Print combinatorS_intro_pattern.
-(** UniMath coding style forbids the generation of terms that involve [match] constructs!
-    The UniMath language is a voluntarily limited subset of Coq, and tactics need to be used
-    with care so as to stay within that fragment. *)
-Unset Printing All.
-
-(** However, the two definitions are even convertible: *)
-Local Lemma combinatorS_intro_pattern_is_the_same:
-  combinatorS = combinatorS_intro_pattern.
-Proof.
-  apply idpath.
-Defined.
-
-(** another try to make life easier: *)
-Local Definition combinatorS_destruct (A B C: UU):
-  (A × B -> C) × (A -> B) × A -> C.
-Proof.
-  intro Hyp123.
-  destruct Hyp123 as [Hyp1 Hyp23]. (** deconstruct the hypothesis when needed *)
-  apply Hyp1.
-  destruct Hyp23 as [Hyp2 Hyp3]. (** deconstruct the hypothesis when needed *)
-  split.
-  - assumption.
-  - apply Hyp2.
-    assumption.
-Defined.
-
-Set Printing All.
-Print combinatorS_destruct.
-Unset Printing All.
-
-(** Since we see [match], this proof is therefore equally disallowed by UniMath coding style! *)
-
-(** Again, the definition is definitionally equal to the first one: *)
-Local Lemma combinatorS_destruct_is_the_same: combinatorS = combinatorS_destruct.
-Proof.
-  apply idpath.
-Defined.
-
-(** We declared the unwanted definitions and lemmas as [Local], so that they would
-    at least not be exported. In the UniMath library, there should be no such definitions
-    at all, not even declared as local. *)
-
-(** The way out: *)
+(** a more comfortable variant: *)
 Definition combinatorS_induction (A B C: UU): (A × B -> C) × (A -> B) × A -> C.
 Proof.
   intro Hyp123.
   induction Hyp123 as [Hyp1 Hyp23]. (** wishes to invoke the recursor *)
   apply Hyp1.
   induction Hyp23 as [Hyp2 Hyp3]. (** wishes to invoke the recursor *)
-  split.
-  - assumption.
+  apply tpair.
+  - exact Hyp3.
   - apply Hyp2.
-    assumption.
+    exact Hyp3.
 Defined.
 
 Set Printing All.
 Print combinatorS_induction.
 Unset Printing All.
 
-(** Unfortunately, this is not better than before, but it comes from
-    a recent change in the status of Sigma types. They are a record now,
-    in order to profit from "primitive projections".
-    The UniMath team would hope that the Coq developers provide a means
-    of inducing Coq into using the induction principle [total2_rect]
-    when calling tactic [induction] on Sigma types and their special
-    case that is pairs.
+(** This uses [match] that is normally not allowed in UniMath. The
+    presence of [match] is due to a recent change in the status of
+    Σ-types. They are a record now, in order to profit from "primitive
+    projections".
 
     Notice that even the projections [pr1] and [pr2] are defined by help
     of [match] - for the time being, since this is what happens with
@@ -298,11 +233,10 @@ Proof.
       in the goal formula, see also the next definition *)
   intros H1 H2 H3.
   apply H1.
-  - assumption.
+  - exact H3.
   - set (proofofB := H2 H3).
-    (** set up abbreviations that can make use of the current context;
-        will be considered as an extra element of the context: *)
-    assumption.
+    (** set up abbreviations that can make use of the current context *)
+    exact proofofB.
 Defined.
 
 Print combinatorS_curried.
@@ -328,12 +262,12 @@ Proof.
       although it would rather be a comb. The proof of the assertion should
       be packaged by enclosing it in curly braces like so: *)
   { apply H2.
-    assumption.
+    exact H3.
   }
   (** Now, [proofofB] is in the context with type [B]. *)
   apply H1.
-  - assumption.
-  - assumption.
+  - exact H3.
+  - exact proofofB.
 Defined.
 
 (** the wildcard [?] for [intros] *)
@@ -351,7 +285,8 @@ Locate "⨿". (** this symbol is harder to type in with Agda input
   mode: use backslash union and then choose the right symbol with
   arrow down key: the symbol might only appear in the menu to
   choose from after having hit the arrow down key! *)
-Print coprod. (** defined in UniMath preamble as inductive type, can be seen as disjunction *)
+Print coprod. (** defined in UniMath preamble as inductive type,
+  can be seen as disjunction *)
 
 Locate "∏".
 (** company-coq shows the result with universal quantifiers,
@@ -360,14 +295,6 @@ Locate "∏".
 
 Locate "=". (** the identity type of UniMath *)
 Print paths.
-
-(** A word of warning for those who read "Coq in a Hurry": [SearchRewrite]
-    does not find equations w.r.t. this notion, only w.r.t. Coq's built-in
-    propositional equality. *)
-SearchPattern (paths _ _).
-(** Among the search results is [pathsinv0l] that has [idpath] in its conclusion. *)
-SearchRewrite idpath.
-(** No result! *)
 
 (** *** How to decompose formulas *)
 
@@ -386,9 +313,9 @@ SearchRewrite idpath.
 
     Π-type: idem (implication is a special case of product)
 
-    [×]: [apply dirprodpair], less specifically [apply tpair] or [split]
+    [×]: [apply dirprodpair], less specifically [apply tpair]
 
-    Σ-type: [use tpair] or [exists] or [split with], see explanations below
+    Σ-type: [use tpair] or [exists], see explanations below
 
     [A ⨿ B]: [apply ii1] or [apply ii2], but this constitutes a choice
              of which way to go
@@ -437,34 +364,6 @@ SearchRewrite idpath.
            named [IH].
  *)
 
-(** ** Handling unfinished proofs *)
-
-(** In the middle of a proof effort - not in the UniMath library - you can use
-    [admit] to abandon the current goal. *)
-Local Lemma badex1 (A: UU): ∅ × (A -> A).
-Proof.
-  split.
-  - (** seems difficult in the current context *)
-    admit.
-
-    (** we continue with decent proof work: *)
-  - intro H.
-    assumption.
-Admitted.
-
-(** This is strictly forbidden to commit to UniMath! [admit] allows to pursue the other goals,
-    while [Admitted.] makes the lemma available for further proofs. *)
-
-(** An alternative to interrupt work on a proof: *)
-Lemma badex2 (A: UU): ∅ × (A -> A).
-Proof.
-  split.
-  -
-Abort.
-(** [badex2] is not in the symbol table. *)
-
-(** [Abort.] is a way of documenting a problem with proving a result.
-    At least, Coq can check the partial proof up to the [Abort.] command. *)
 
 (** ** Working with holes in proofs *)
 
@@ -477,7 +376,7 @@ Print pathscomp0.
 
 (** The salient feature of transitivity is that the intermediate
     expression cannot be deduced from the equation to be proven. *)
-Lemma badex3 (A B C D: UU) : ((A × B) × (C × D)) = (A × (B × C) × D).
+Lemma badex (A B C D: UU) : ((A × B) × (C × D)) = (A × (B × C) × D).
 (** Notice that the outermost parentheses are needed here. *)
 Proof.
   Fail apply pathscomp0.
@@ -499,41 +398,13 @@ We need to help Coq with the argument [b] to [pathscomp0].
 *)
   apply (pathscomp0 (b := A × (B × (C × D)))).
   - (** is this not just associativity with third argument [C × D]? *)
-    SearchPattern(_ × _).
-    (** No hope at all - we can only hope for weak equivalence. *)
+    Search (_ × _).
+    (** No hope at all for our equation - we can only hope
+        for weak equivalence. *)
 Abort.
+(** [badex] is not in the symbol table. *)
 
-SearchPattern(_ ≃ _).
-Print weqcomp.
-Print weqdirprodasstor.
-Print weqdirprodasstol.
-Print weqdirprodf.
-Print idweq.
-
-Lemma assocex (A B C D: UU) : ((A × B) × (C × D)) ≃ (A × (B × C) × D).
-Proof.
-  Fail apply weqcomp.
-  eapply weqcomp.
-(** [eapply] generates "existential variables" for the expressions
-    it cannot infer from applying a lemma.
-
-    The further proof will narrow on those variables and finally
-    make them disappear - otherwise, the proof is not considered
-    completed.
- *)
-  - (** We recall that on this side, only associativity was missing. *)
-    apply weqdirprodasstor.
-  - (** The subgoal is now fully given. *)
-
-    (** The missing link is associativity, but only on the
-        right-hand side of the top [×] symbol. *)
-    apply weqdirprodf.
-    + apply idweq.
-    + apply weqdirprodasstol.
-Defined.
-
-(** Warning: tactic [exact] does not work if there are existential
-    variables in the goal, but [eexact] can then be tried. *)
+(** [Abort.] is a way of documenting a problem with proving a result. *)
 
 Lemma sumex (A: UU) (P Q: A -> UU):
   (∑ x:A, P x × Q x) -> (∑ x:A, P x) × ∑ x:A, Q x.
@@ -545,76 +416,26 @@ Proof.
   (** decompose the pair: *)
   induction H' as [H1 H2].
   (** decompose the pair in the goal *)
-  split.
-  - Fail split.
+  apply tpair.
+  - Fail (apply tpair).
     (**
 [[
 The command has indeed failed with message:
          Unable to find an instance for the variable pr1.
 ]]
      *)
-    Fail (apply tpair).
     (** A simple way out, by providing the first component: *)
-    split with x. (** [exists x] does the same *)
-    assumption.
-  - (** or use [eapply] and create an existential variable: *)
-    eapply tpair.
-    Fail assumption. (** the assumption [H2] does not agree with the goal *)
-    eexact H2.
+    exists x.
+    exact H1.
+  - (** or use [use] *)
+    use tpair.
+    + exact x.
+    + cbn. (** is given only for better readability *)
+      exact H2.
 Defined.
-(** Notice that [eapply tpair] is not used in the UniMath library,
-    since [use tpair] normally comes in handier, see below. *)
-
-(** *** Warning on existential variables *)
-(** It may happen that the process of instantiating existential variables
-    is not completed when all goals have been treated.
- *)
-
-(** an example adapted from one by Arnaud Spiwack, ~2007 *)
-
-About unit. (** from the Coq library *)
-
-Local Definition P (x:nat) := unit.
-
-Lemma uninstex: unit.
-Proof.
-  refine ((fun x:P _ => _) _).
-  (** [refine] is like [exact], but one can leave holes with the wildcard "_".
-      This tactic should hardly be needed since most uses in UniMath
-      can be replaced by a use of the "tactic" [use], see further down
-      on this tactic notation for an Ltac definition.
-
-      Still, [refine] can come to rescue in difficult situations,
-      in particular during proof development. Its simpler variant
-      [simple refine] is captured by the [use] "tactic".
+(* [use] is not generally available in Coq but defined in the
+   preamble of the UniMath library.
 *)
-  - exact tt.
-  - exact tt.
-    (** Now, Coq presents a subgoal that pops up from the "shelved goals".
-
-       Still, no more "-" bullets can be used.
-
-[[ -
-Error: Wrong bullet - : No more subgoals.
-]]
-     *)
-Show Existentials.
-(** a natural number is still asked for *)
-Unshelve.
-(** Like this, we can focus on the remaining goal. *)
-exact 0.
-Defined.
-
-(** one can also name the existential variables in [refine]: *)
-Lemma uninstexnamed: unit.
-  Proof.
-    refine ((fun x:P ?[n] => _) _).  (** give a name to the existential variable *)
-    - exact tt.
-    - exact tt.
-Show Existentials.
-Unshelve.
-instantiate (n := 0).  (** more symbols to type but better to grasp *)
-Defined.
 
 (** ** a bit more on equational reasoning *)
 
@@ -630,8 +451,7 @@ Print idfun. (** the identity function *)
 Locate "∘".
 Print funcomp.
 (** plain function composition in diagrammatic order, i.e.,
-    first the first argument, then the second argument;
-    the second argument may even have a dependent type *)
+    first the first argument, then the second argument *)
 
 Variables A B: UU.
 (* makes good sense in a section *)
@@ -651,11 +471,8 @@ Proof.
       [unfold interestingstatement] was there only for illustration! *)
 
   (** we want to use transitivity that is expressed by [pathscomp0] and
-      instruct Coq to take a specific intermediate term *)
-Set Printing All.
-Print Ltac intermediate_path.
-(** reveals that there is an abbreviation for the tactic call we have in mind *)
-Unset Printing All.
+      instruct Coq to take a specific intermediate term; for this, there
+      is a "convenience tactic" in UniMath: [intermediate_path] *)
   intermediate_path (w (w' (v a))).
   - apply pathsinv0. (** apply symmetry of equality *)
     unfold homot in homoth1.
@@ -670,15 +487,12 @@ Unset Printing All.
     rewrite <- hyp.
     (** remark: for a forward rewrite, use [rewrite] without directional
         argument *)
-    (** beautify the current goal: *)
-    change ((v' ∘ v) a = idfun A a).
-    (** just for illustration of [change] that allows to replace the goal
-        by a convertible expression; also works for hypotheses, e.g.: *)
-    change (v' ~ w') in hyp.
-    (** since [hyp] was no longer necessary, we should rather have deleted it: *)
-    clear hyp.
     apply homoth2.
 Defined.
+(* An alternative for [intermediate_path] with the explicit intermediate
+   term would have been to call the UniMath-specific tactic [etrans] -
+   the term would be constructed during the execution of the tactics
+   that follow in the proof script. *)
 
 Variables v w: A -> B.
 Variables v' w': B → A.
@@ -714,30 +528,7 @@ Eval compute in (ourisinjinvmap' v w v' w').
 End homot.
 Check ourisinjinvmap'.
 (** The section variables [A] and [B] are abstracted away after the end
-    of the section - only the relevant ones. *)
-
-(** [assert] is a "chameleon" w.r.t. to opaqueness: *)
-Definition combinatorS_curried_with_assert2 (A B C: UU):
-  (A -> B -> C) -> (A -> B) -> A -> C.
-Proof.
-  intros H1 H2 H3.
-  assert (proofofB : B).
-  { apply H2.
-    assumption.
-  }
-  (** [proofofB] is just an identifier and not associated to the
-      construction we gave. Hence, the proof is opaque for us. *)
-  apply H1.
-  - assumption.
-  - assumption.
-Defined.
-Print combinatorS_curried_with_assert2.
-(** We see that [proofofB] is there with its definition, so it is
-    transparent.
-
-    See much further below for [transparent assert] that is like
-    [assert], but consistently transparent.
-*)
+    of the section. *)
 
 (** ** composing tactics *)
 
@@ -754,14 +545,15 @@ Proof.
   induction Hyp123 as [Hyp1 Hyp23];
   apply Hyp1;
   induction Hyp23 as [Hyp2 Hyp3];
-  split;
-  [ assumption
+  apply tpair;
+  [ exact Hyp3
   | apply Hyp2;
-    assumption].
+    exact Hyp3].
 Defined.
 
-(** The sequential composition is written by (infix) semicolon, and the two branches
-    created by [split] are treated in the |-separated list of arguments to the brackets. *)
+(** The sequential composition is written by (infix) semicolon,
+    and the two branches created by [apply tpair] are treated
+    in the |-separated list of arguments to the brackets. *)
 
 (** Why would we want to do such compositions? There are at least four good reasons:
 
@@ -778,7 +570,7 @@ Proof.
   intros H1 H2 H3;
   assert (proofofB : B) by
   ( apply H2;
-    assumption
+    exact H3
   );
   apply H1;
   assumption.
@@ -788,14 +580,15 @@ Defined.
     [assert by] of [assert] used when only one tactic expression forms the proof of
     the assertion, and also point (2): the last line is simpler than the expected line
 [[
-[assumption | assumption].
+[exact H3 | exact proofofB].
 ]]
+This works since each branch can be given simpler as [assumption].
 *)
 
 (** Why would we want to do such compositions (cont'd)?
 
     (3) We want to capture recurring patterns of construction / proof by tactics into
-        reusable Ltac definitions, see below.
+        reusable Ltac definitions (see long version of the lecture).
 
     (4) We want to make use of the [abstract] facility, explained now.
  *)
@@ -810,7 +603,7 @@ Proof.
   (** Now imagine that the following proof was very complicated but had no computational
       relevance, i.e., could also be packed into a lemma whose proof would be finished
       by [Qed]. We can encapsulate it into [abstract]: *)
-  abstract (split;
+  abstract (apply tpair;
   [ assumption
   | apply Hyp2;
     assumption]).
@@ -822,122 +615,20 @@ Print combinatorS_induction_with_abstract.
     UniMath style guide. Note that [abstract] is used hundreds of times in the
     UniMath library. *)
 
-(** *** Ltac language for defining tactics *)
+(** **  a very useful tactic specifically in UniMath *)
 
-(** Disclaimer: Ltac can more than that, in fact Ltac is the name of the
-    whole tactic language of Coq. *)
+(**  Recall that [use tpair] is the right idiom for an interactive
+     construction of inhabitants of Σ-types. Note that the second
+     generated sub-goal may need [cbn] to make further tactics
+     applicable.
 
-(** Ltac definitions can associate identifiers for tactics with tactic expressions.
+     If the first component of the inhabitant is already at hand,
+     then the "exists" tactic yields a leaner proof script.
 
-    We have already used one such identifier: [intermediate_path] in the [Foundations]
-    package of UniMath. In file PartA.v, we have the code
-[[
-Ltac intermediate_path x := apply (pathscomp0 (b := x)).
-]]
-*)
-Print Ltac intermediate_path.
-(** does not show the formal argument [x] in the right-hand side. Remedy: *)
-Set Printing All.
-Print Ltac intermediate_path.
-Unset Printing All.
-(** The problem with these Ltac definitions is that they are barely typed, they
-    behave rather like LaTeX macros. *)
-Ltac intermediate_path_wrong x := apply (pathscomp0 (X := x)(b := x)).
-(** This definition confounds the type argument [X] and its element [b].
-    The soundness of Coq is not at stake here, but the errors only appear
-    at runtime. *)
-
-Section homot2.
-Variables A B: UU.
-Lemma ourisinjinvmap'_failed_proof: interestingstatement A B.
-  Proof.
-  intros ? ? ? ? homoth1 homoth2 hyp a.
-  Fail intermediate_path_wrong (w (w' (v a))).
-  (** The message does not point to the problem that argument [x] appears
-      a second time in the Ltac definition with a different needed type. *)
-Abort.
-End homot2.
-(** See [https://github.com/UniMath/UniMath/blob/master/UniMath/PAdics/frac.v#L27]
-    for a huge Ltac definition in the UniMath library to appreciate the lack
-    of type information. *)
-
-(** The UniMath provides some Ltac definitions for general use: *)
-Print Ltac etrans. (** no need to explain - rather an abbreviation *)
-Set Printing All.
-Print Ltac intermediate_weq. (** analogous to [intermediate_path] *)
-Unset Printing All.
-Print Ltac show_id_type.
-(**
-[[
-Ltac show_id_type :=
-       match goal with
-       | |- paths _ _ => set (TYPE := ID); simpl in TYPE
-       end
-]]
-Not present in any proof in the library, but it can be an excellent tool
-while trying to prove an equation: it puts the index of the path space
-into the context. This index is invisible in the notation with an equals
-sign. *)
-
-(** **** The most useful Ltac definition of UniMath *)
-Print Ltac simple_rapply.
-(** It applies the [simple refine] tactic with zero up to fifteen unknown
-    arguments. *)
-
-(** This tactic must not be used in UniMath since a "tactic notation"
-    is favoured: [Foundations/Preamble.v] contains the definition
-[[
-Tactic Notation "use" uconstr(p) := simple_rapply p.
-]]
-
-Use of [use]:
-*)
-Lemma sumex_with_use (A: UU) (P Q: A -> UU):
-  (∑ x:A, P x × Q x) -> (∑ x:A, P x) × ∑ x:A, Q x.
-Proof.
-  intro H; induction H as [x H']; induction H' as [H1 H2].
-  split.
-  - use tpair.
-    + assumption.
-    + cbn. (** this is often necessary since [use] does as little as possible *)
-      assumption.
-  - (** to remind the version where the "witness" is given explicitly: *)
-    exists x; assumption.
-Defined.
-(** To conclude: [use tpair] is the right idiom for an interactive
-    construction of inhabitants of Σ-types. Note that the second
-    generated sub-goal may need [cbn] to make further tactics
-    applicable.
-
-    If the first component of the inhabitant is already at hand,
-    then the "exists" tactic yields a leaner proof script.
-
-    [use] is not confined to Σ-types. Whenever one would be
-    inclined to start trying to apply a lemma [H] with a varying
-    number of underscores, [use H] may be a better option.
-*)
-
-(** There is another recommendable tactic notation that is also by
-    Jason Gross:
-[[
-Tactic Notation "transparent" "assert"
-                "(" ident(name) ":" constr(type) ")" :=
-                simple refine (let name := (_ : type) in _).
-]]
-*)
-Definition combinatorS_curried_with_transparent_assert (A B C: UU):
-  (A -> B -> C) -> (A -> B) -> A -> C.
-Proof.
-  intros H1 H2 H3.
-  transparent assert (proofofB : B).
-  { apply H2; assumption. } (** There is no [transparent assert by]. *)
-
-  (** Now, [proofB] is present with the constructed proof of [B]. *)
-Abort.
-(** To conclude: [transparent assert] is a replacement for [assert]
-    if the construction of the assertion is needed in the rest of
-    the proof.
-*)
+     [use] is not confined to Σ-types. Whenever one would be
+     inclined to start trying to apply a lemma [H] with a varying
+     number of underscores, [use H] may be a better option.
+ *)
 
 (** ** a final word, just on searching the library *)
 
@@ -958,29 +649,17 @@ apply
 intro
 set
 cbn / cbn in (old form: simpl / simpl in)
-assumption
 intros (with pattern, with wild cards)
-split / split with / exists
-destruct as --- not desirable in UniMath
 induction / induction as
-admit --- only during proof development
-eapply
-eexact
-refine --- first consider "use" instead
-instantiate
+exists
+use (Ltac notation)
 unfold / unfold in
 intermediate_path (Ltac def.)
-rewrite / rewrite <-
-change / change in
-clear
-assert {} / assert by
-abstract
 etrans (Ltac def.)
-intermediate_weq (Ltac def.)
-show_id_type (Ltac def.)
-simple_rapply (Ltac def., not to be used)
-use (Ltac notation)
-transparent assert (Ltac notation)
+rewrite / rewrite <-
+assert {} / assert by
+assumption
+abstract
 ]]
 *)
 
