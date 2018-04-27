@@ -7,7 +7,8 @@
     [lecture_tactics_long_version.v].
 
     The material has been slightly enriched on December 13, 2017,
-    which is one day after the presentation.
+    which is one day after the presentation. It has been updated
+    to fit with the current UniMath on April 27, 2018.
 
 *)
 
