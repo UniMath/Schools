@@ -33,7 +33,7 @@ Require Import UniMath.Foundations.Preamble.
 
 (** ** define a concept interactively: *)
 
-Locate bool. (** [bool] comes from the Coq library *)
+Locate bool. (** a separate definition - [Dataypes.bool] is in the Coq library *)
 
 Definition myfirsttruthvalue: bool.
   (** only the identifier and its type given, not the definiens *)
@@ -46,10 +46,10 @@ Definition myfirsttruthvalue: bool.
 Proof.
   (** Now we still have to give the term, but we are in interactive mode. *)
   (** If you want to see everything that *involves* booleans, then do *)
-  Search bool.
+  Search bool. Search Datatypes.bool.
   (** If you think there are too many hits and you only want to
       find library elements that *yield* booleans, then try *)
-  SearchPattern bool.
+  SearchPattern bool. SearchPattern Datatypes.bool.
   (** [true] does not take an argument, and it is already a term we can take as definiens. *)
   exact true.
   (** [exact] is a tactic which takes the term as argument and informs Coq in the proof mode to
@@ -62,7 +62,7 @@ Defined.
 (** [Defined.] instructs Coq to complete the whole interactive construction of a term,
     verify it and to associate it with the given identifer, here [myfirsttruthvalue]. *)
 Search bool.
-(** The new definition appears at the end of the list. *)
+(** The new definition appears at the beginning of the list. *)
 Print myfirsttruthvalue.
 
 (** *** a more compelling example *)
@@ -93,6 +93,11 @@ Eval compute in mysecondtruthvalue.
 *)
 
 (** Again, not much has been gained by the interactive mode. *)
+
+(** Here, I copy the definition from the Coq library: *)
+Definition andb (b1 b2:bool) : bool := if b1 then b2 else false.
+
+
 Definition mythirdtruthvalue: bool.
 Proof.
   Search bool.

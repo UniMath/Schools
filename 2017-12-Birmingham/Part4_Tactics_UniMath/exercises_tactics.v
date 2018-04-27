@@ -37,6 +37,7 @@ More precise instructions and hints:
 6.-9. no further particulars
 *)
 
+Require Import UniMath.Foundations.Preamble.
 Require Import UniMath.Foundations.PartA.
 Require Import UniMath.Foundations.NaturalNumbers.
 
@@ -48,11 +49,11 @@ n - m <> 0 iff (m+1) - n = 0. Prove that the two operators are equal (using func
 
 It may be helpful to use the definitions of the exercises for lecture 2. The following lemmas on substraction sub in the natural numbers may be useful:
 
-a) sub n (S m) = Nat.pred (sub n m)
+a) sub n (S m) = pred (sub n m)
 
 b) sub 0 n = 0
 
-c) Nat.pred (sub 1 n) = 0
+c) pred (sub 1 n) = 0
 
 d) sub (S n) (S m) = sub n m
 
