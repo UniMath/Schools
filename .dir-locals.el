@@ -1,7 +1,7 @@
 ((coq-mode
   . ((eval . 
-	   (let* ((Wokshops-topdir (expand-file-name (locate-dominating-file buffer-file-name ".dir-locals.el")))
-		  (unimath-topdir (concat Wokshops-topdir "UniMath/")))
+	   (let* ((Workshops-topdir (expand-file-name (locate-dominating-file buffer-file-name ".dir-locals.el")))
+		  (unimath-topdir (concat Workshops-topdir "UniMath/")))
 	     (setq fill-column 100)
 	     (make-local-variable 'coq-use-project-file)
 	     (setq coq-use-project-file nil)
