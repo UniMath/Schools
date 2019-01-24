@@ -1,0 +1,3 @@
+[submodule "UniMath"]
+	path = UniMath
+	url = https://github.com/UniMath/UniMath
