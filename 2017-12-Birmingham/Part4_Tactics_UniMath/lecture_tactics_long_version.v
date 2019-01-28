@@ -47,10 +47,10 @@ Definition myfirsttruthvalue: bool.
 Proof.
   (** Now we still have to give the term, but we are in interactive mode. *)
   (** If you want to see everything that *involves* booleans, then do *)
-  Search bool. Search Datatypes.bool.
+  Search bool.
   (** If you think there are too many hits and you only want to
       find library elements that *yield* booleans, then try *)
-  SearchPattern bool. SearchPattern Datatypes.bool.
+  SearchPattern bool.
   (** [true] does not take an argument, and it is already a term we can take as definiens. *)
   exact true.
   (** [exact] is a tactic which takes the term as argument and informs Coq in the proof mode to
@@ -165,7 +165,7 @@ Eval compute in mythirdtruthvalue.
 
 Locate "->". (** non-dependent product, can be seen as implication *)
 Locate "∅".
-Print Empty_set. (** an inductive type that has no constructor *)
+Print empty. (** an inductive type that has no constructor *)
 Locate "¬".
 
 Require Import UniMath.Foundations.PartA.

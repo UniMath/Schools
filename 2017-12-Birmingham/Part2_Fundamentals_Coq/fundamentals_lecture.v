@@ -495,7 +495,7 @@ that you don't do something someone else has already done. *)
 Search nat.
 
 (** To search for all lemmas involving the pattern *)
-Search _ (_ -> _ <= _).
+(* Search _ (_ -> _ <= _). *)
 
 (** To find information about a notation *)
 Locate "+".
