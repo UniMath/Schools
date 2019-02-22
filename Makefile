@@ -1,6 +1,9 @@
 all:
 
-build_UniMath:
+UniMath/README.md:
+	git submodule update --init UniMath
+
+build_UniMath: UniMath/README.md
 	$(MAKE) -C UniMath TAGS all
 
 WORKSHOPS = 2017-12-Birmingham
