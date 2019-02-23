@@ -5,6 +5,19 @@
 
 Require Import UniMath.MoreFoundations.All.
 Require Import UniMath.CategoryTheory.Core.Prelude.
+Require Import UniMath.CategoryTheory.Core.Setcategories.
+Require Import UniMath.CategoryTheory.categories.HSET.Core.
+Require Import UniMath.CategoryTheory.DisplayedCats.Core.
+Require Import UniMath.CategoryTheory.limits.graphs.colimits.
+Require Import UniMath.CategoryTheory.limits.graphs.limits.
+Require Import UniMath.CategoryTheory.limits.terminal.
+Require Import UniMath.CategoryTheory.limits.initial.
+Require Import UniMath.CategoryTheory.limits.FinOrdProducts.
+Require Import UniMath.CategoryTheory.limits.equalizers.
+Require Import UniMath.CategoryTheory.limits.pullbacks.
+Require Import UniMath.CategoryTheory.Adjunctions.Core.
+Require Import UniMath.CategoryTheory.Monads.Monads.
+
 
 (* NOTE: some of these exercises (or parts of them) are straightforward, while other parts are intended to be quite difficult.  So I don’t recomment aiming to complete them in order — if stuck on a difficult part, move on and come back for another attempt later!
 
@@ -62,8 +75,6 @@ Section Exercise_2.
 
 Define the category of pointed sets, as the total category of a displayed category over sets.  Show it’s univalent as a displayed category, and conclude that it’s univalent as a category.  Alternatively, show directly that the total category is univalent.
 *)
-  Require Import UniMath.CategoryTheory.categories.category_hset.
-  Require Import UniMath.CategoryTheory.DisplayedCats.Core.
 
   Definition point_disp_cat : disp_cat hset_category.
   Proof.
@@ -99,10 +110,6 @@ Section Exercise_3.
   1. Define the empty graph and empty diagram, and show that any limit of the empty diagram is a terminal object in the directly-defined sense.
 *)
 
-  Require Import UniMath.CategoryTheory.limits.graphs.colimits.
-  Require Import UniMath.CategoryTheory.limits.graphs.limits.
-  Require Import UniMath.CategoryTheory.limits.terminal.
-
   Definition empty_graph : graph.
   Proof.
   Admitted.
@@ -118,9 +125,6 @@ Section Exercise_3.
   Admitted.
 
   (* 2. Show that for a univalent category, “having an initial object” is a property. *)
-
-  Require Import UniMath.CategoryTheory.limits.initial.
-
   Definition isaprop_initial_obs_of_univalent_category
       {C : univalent_category}
     : isaprop (Initial C).
@@ -128,10 +132,6 @@ Section Exercise_3.
   Admitted.
 
   (* 3. Show that if a category has equalisers and finite products, then it has pullbacks *)
-  Require Import UniMath.CategoryTheory.limits.FinOrdProducts.
-  Require Import UniMath.CategoryTheory.limits.equalizers.
-  Require Import UniMath.CategoryTheory.limits.pullbacks.
-
   Definition pullbacks_from_equalizers_and_products {C : category}
     : Equalizers C -> FinOrdProducts C -> Pullbacks C.
   Proof.
@@ -143,10 +143,6 @@ Section Exercise_4.
 (** Functors and natural transformations / monads and adjunctions
 
 Prove that an adjunction induces a monad.  Construct the Kleisli category of a monad.  Show that the Kleisli construction does not preserve univalence: that is, give an example of a monad on a univalent category whose Kleisli category is not univalent. *)
-
-  Require Import UniMath.CategoryTheory.functor_categories.
-  Require Import UniMath.CategoryTheory.Adjunctions.
-  Require Import UniMath.CategoryTheory.Monads.Monads.
 
   (* Hint: as usual, it may be helpful to break out parts of these multi-component structures as separate definitions. *)
 
