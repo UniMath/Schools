@@ -7,7 +7,7 @@
 Require Import UniMath.MoreFoundations.All.
 Require Import UniMath.CategoryTheory.Categories.
 
-(* NOTE: some of these exercises (or parts of them) are straightforward, while other parts are intended to be quite difficult.  So I don’t recomment aiming to complete them in order — if stuck on a difficult part, move on and come back for another attempt later! 
+(* NOTE: some of these exercises (or parts of them) are straightforward, while other parts are intended to be quite difficult.  So I don’t recomment aiming to complete them in order — if stuck on a difficult part, move on and come back for another attempt later!
 
 Skeleton solutions and hints are provided, to exhibit good tools and techniques for working with categories.  However, you may well want to add extra definitions/lemmas besides the ones suggested in the skeleton. *)
 
@@ -69,9 +69,9 @@ Define the category of pointed sets, as the total category of a displayed catego
 
   Definition point_disp_cat : disp_cat hset_category.
   Proof.
-    (* Hint: Remember, this is to be the displayed category whose *total* category is pointed sets. So the objects and morphisms of this are just the extra data needed to give a pointed set or map of pointed sets, compared to a set or map of sets. 
+    (* Hint: Remember, this is to be the displayed category whose *total* category is pointed sets. So the objects and morphisms of this are just the extra data needed to give a pointed set or map of pointed sets, compared to a set or map of sets.
 
-     As in Exercise 1, it may help to give the various components of this as separate lemmas. *) 
+     As in Exercise 1, it may help to give the various components of this as separate lemmas. *)
   Admitted.
 
   Definition pointed_hset : category.
@@ -122,13 +122,13 @@ Section Exercise_3.
   (* 2. Show that for a univalent category, “having an initial object” is a property. *)
 
   Require Import UniMath.CategoryTheory.limits.initial.
-  
+
   Definition isaprop_initial_obs_of_univalent_category
       {C : univalent_category}
     : isaprop (Initial C).
   Proof.
   Admitted.
-  
+
   (* 3. Show that if a category has equalisers and finite products, then it has pullbacks *)
   Require Import UniMath.CategoryTheory.limits.FinOrdProducts.
   Require Import UniMath.CategoryTheory.limits.equalizers.
@@ -142,7 +142,7 @@ Section Exercise_3.
 End Exercise_3.
 
 Section Exercise_4.
-(** Functors and natural transformations / monads and adjunctions 
+(** Functors and natural transformations / monads and adjunctions
 
 Prove that an adjunction induces a monad.  Construct the Kleisli category of a monad.  Show that the Kleisli construction does not preserve univalence: that is, give an example of a monad on a univalent category whose Kleisli category is not univalent. *)
 
@@ -152,7 +152,7 @@ Prove that an adjunction induces a monad.  Construct the Kleisli category of a m
 
   (* Hint: as usual, it may be helpful to break out parts of these multi-component structures as separate definitions. *)
 
-  Definition monad_from_adjunction {C D : category} 
+  Definition monad_from_adjunction {C D : category}
       (F : functor C D) (G : functor D C) (A : are_adjoints F G)
     : Monad C.
   Proof.
@@ -170,12 +170,8 @@ Prove that an adjunction induces a monad.  Construct the Kleisli category of a m
     - take [C := hset_category]
     - take [T] to be the monad sending every set to [1].
     - then in [kleisli_cat T], [iso X X] is contractible for any set [X]; in particular, for [bool].  But [bool = bool] is not contractible, by univalence.
-     *) 
+     *)
   Admitted.
 
 End Exercise_4.
 
-
-(* Local Variables:  *)
-(* coq-prog-args: ("-emacs" "-indices-matter" "-type-in-type") *)
-(* End:              *)
