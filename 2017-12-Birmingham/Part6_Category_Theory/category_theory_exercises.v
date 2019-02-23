@@ -167,8 +167,3 @@ Prove that an adjunction induces a monad.  Construct the Kleisli category of a m
   Admitted.
 
 End Exercise_4.
-
-
-(* Local Variables:  *)
-(* coq-prog-args: ("-emacs" "-indices-matter" "-type-in-type") *)
-(* End:              *)
