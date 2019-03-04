@@ -5,8 +5,8 @@
 2. Follow instructions [Installation of ProofGeneral](https://github.com/UniMath/UniMath/blob/master/INSTALL.md#installation-of-proofgeneral-all-operating-systems) of the [UniMath installation guide](https://github.com/UniMath/UniMath/blob/master/INSTALL.md)
 3. Type the following into a terminal:
    ```
-   $ git clone https://github.com/UniMath/Workshops
-   $ cd Workshops
+   $ git clone https://github.com/UniMath/Schools
+   $ cd Schools
    $ make
    ```
    This last step will take a long time: as part of that step, UniMath and Coq are downloaded and compiled.
