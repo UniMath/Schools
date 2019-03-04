@@ -1,0 +1,11 @@
+INSTALLDEFAULTROOT = .
+
+-Q ../../UniMath/UniMath UniMath
+-arg "-noinit -indices-matter -type-in-type -w -notation-overridden"
+
+category_theory_exercises.v
+category_theory_solutions.v
+
+# Local Variables:
+# compile-command: "../../UniMath/sub/coq/bin/coq_makefile -f Makefile.coq.input -o Makefile.coq"
+# End:

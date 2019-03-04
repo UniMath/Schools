@@ -1,0 +1,1104 @@
+\documentclass[aspectratio=169]{beamer}
+
+\newcommand{\Pause}{} % {\pause} 
+
+\usepackage{bbold,soul}
+\usepackage{diagrams}
+\newarrow{Into}{C}{-}{-}{-}{>}
+\newarrow{Onto}{-}{-}{-}{-}{>>}
+\newarrow{Eto}{.}{.}{.}{.}{>}
+
+% \usefonttheme[onlymath]{serif}
+
+\newcommand{\UA}{\operatorname{UA}}
+\newcommand{\isPrime}{\operatorname{isPrime}}
+\newcommand{\isSubsingleton}{\operatorname{isSubsingleton}}
+\newcommand{\Prop}{\operatorname{Prop}}
+\newcommand{\isProp}{\operatorname{isProp}}
+\newcommand{\isSet}{\operatorname{isSet}}
+\newcommand{\isSurjection}{\operatorname{isSurjection}}
+\newcommand{\isSingleton}{\operatorname{isSingleton}}
+\newcommand{\isContr}{\operatorname{isContr}}
+\newcommand{\isEquivalence}{\operatorname{isEquivalence}}
+\newcommand{\isIsomorphism}{\operatorname{isIsomorphism}}
+\newcommand{\hasSection}{\operatorname{hasSection}}
+\newcommand{\image}{\operatorname{image}}
+\newcommand{\idtoeq}{\operatorname{idtoeq}}
+\newcommand{\inr}{\operatorname{inr}}
+\newcommand{\inl}{\operatorname{inl}}
+\newcommand{\eqq}{\equiv}
+\newcommand{\da}{\db{-}~}
+\usepackage[all]{xy}
+\usepackage{bbm,stmaryrd}
+
+\newcommand{\wellinside}{\eqslantless}
+\newcommand{\powerset}{\operatorname{\mathcal{P}}}
+\newcommand{\U}{\operatorname{\mathcal{U}}}
+\newcommand{\V}{\operatorname{\mathcal{V}}}
+\newcommand{\K}{\operatorname{\mathcal{K}}}
+\newcommand{\Opens}{\operatorname{\mathcal{O}}}
+\newcommand{\Sierp}{\operatorname{\mathcal{S}}}
+\newcommand{\tgs}[1]{{\scriptstyle \text{\dg{#1}}}}
+\newcommand{\ts}[1]{{\scriptstyle \text{{#1}}}}
+
+\renewcommand{\labelstyle}{\textstyle}
+
+\definecolor{darkblue}{rgb}{0,0,0.5}
+\newcommand{\db}{\textcolor{darkblue}}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\newcommand{\dg}{\textcolor{darkgreen}}
+\definecolor{grey}{rgb}{0.4,0.4,0.4}
+\newcommand{\grey}{\textcolor{grey}}
+\definecolor{darkred}{rgb}{0.5,0,0}
+\newcommand{\dr}{\textcolor{darkred}}
+
+\newcommand{\dual}[1]{{#1^{\wedge}}}
+\newcommand{\doubledual}[1]{{#1^{\wedge\wedge}}}
+\newcommand{\m}[1]{$\db{#1}$}
+\newcommand{\mm}[1]{${#1}$}
+\newcommand{\M}[1]{\[\db{#1}\]}
+\newcommand{\MM}[1]{\[{#1}\]}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\NI}{\N_\infty}
+\newcommand{\trunc}[1]{{\mathord{\parallel}#1\mathord{\parallel}}}
+\newcommand{\trunci}[1]{{\mathord{\mid}#1\mathord{\mid}}}
+\newcommand{\base}{\operatorname{base}}
+\newcommand{\loo}{\operatorname{loop}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\idp}{\operatorname{idp}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\Path}{\operatorname{Path}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\transport}{\operatorname{transport}}
+\newcommand{\one}{1} % {\mathbbm{1}}
+\newcommand{\Z}{\mathbbm{Z}}
+\newcommand{\ap}{\operatorname{ap}}
+\newcommand{\constant}{\operatorname{constant}}
+\newcommand{\eqdef}{\stackrel{{\rm def}}{=}}
+
+\title{{\Large Univalent Foundations}}
+
+\author{Mart\'in H\"otzel Escard\'o}
+\institute{University of Birmingham, UK}
+\date{\small \dg{UniMath School, Birmingham, UK, December 2017}}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Exercise}s and self-study}
+
+  \begin{itemize}
+  \vfill \item 
+  There are lots of hidden exercises disguised as claims in these notes.
+
+  \vfill
+  \item There is also important material which we won't have time to cover in the lecture.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Univalent mathematics in outline}
+
+  \begin{enumerate}
+  \vfill \item Developed in a \db{univalent type theory}.
+  \vfill \item Crucially relies on \db{identity types} or \db{type of paths between two points}.
+  \vfill \item Certain types behave like sets \grey{(e.g.\ natural numbers).}
+  \vfill \item But there are more general types \grey{(e.g.\ the type of groups, the type of categories)}.
+  \vfill \item Certain types behave like propositions \grey{(e.g.\ the empty type and the unit type.)}
+    \begin{itemize}
+    \vfill \item Logical connectives and quantifiers become constructions of types.
+  \vfill \item Proofs become constructions of elements of types.
+  \vfill \item \db{Univalent logic} is constructive by default,
+        \\ but compatible with non-constructive principles \grey{(excluded middle, choice)}.
+        \end{itemize}
+  \end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{What a univalent type theory is \framebox{for}}
+
+  \begin{enumerate}
+  \vfill \item \db{General mathematics} performed in a certain way \grey{(univalent mathematics)}.
+
+  \vfill \item \db{Synthetic homotopy theory} \grey{(homotopy type theory, or HoTT)}.
+  \end{enumerate}
+
+\vfill
+
+This lecture is about \emph{\db{general mathematics}} in univalent type theory: \\[1ex]
+\grey{\framebox{(1)} rather than (2).}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{What a univalent type theory \framebox{is}}
+
+\vfill
+
+  \db{As a first approximation, it is a \framebox{\dg{mathematical language}} for expressing definitions, theorems and proofs that is
+  \framebox{\dg{invariant under isomorphism:}}} 
+
+\vfill
+\begin{quote} \em
+If you can say something about the object \m{X}, and \m{Y} is an object \db{isomorphic} to \m{X}, then you can say the same thing about \m{Y}: \\[3ex]
+\begin{quote}
+\m{P(X)} and \m{X \simeq Y} together imply \m{P(Y)}.
+\end{quote}
+\end{quote}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{A precursor}
+
+\begin{enumerate}
+\vfill \item It may also happen for a language for mathematics that it makes impossible  to distinguish isomorphic objects, \db{even if it wasn't designed with that purpose in mind.}
+
+\vfill \item Such a language is  \db{intensional Martin-L\"of type theory} (MLTT).
+\vfill \item For example, in MLTT we can't exhibit any property \m{P} of \m{\N} that \m{\N \times \N} hasn't. \grey{(Metatheorem.)}
+\vfill \item In \emph{set theory}, they can be distinguished by the property \m{P(X) \eqq (0 \in X)}. \\[1ex] 
+
+\grey{(There isn't a global membership relation in MLTT.)} \\[1ex]
+
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Some univalent type theories}
+
+  \begin{enumerate}
+  \vfill \item A spartan MLTT \db{+} univalence axiom \db{+} resizing rules. \\[1ex]
+  \grey{(UniMath)}
+
+  \vfill \item A more generous MLTT \db{+} univalence axiom \db{+} higher-inductive types. \\[1ex]
+  \grey{(Homotopy type theory book)}
+
+  \vfill \item Cubical Type Theory.\\[1ex]
+  \begin{itemize}
+  \item  Has univalence as a theorem.
+  \item  Has some higher-inductive types.
+  \item  Extends a spartan MLTT.
+  \item  Has intrinsic computational content.
+  \end{itemize}
+  \end{enumerate}
+
+  I will formulate the univalence axiom after we have developed enough
+  material.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{A spartan \grey{(intensional)} Martin-L\"of type theory}
+
+\vfill
+
+  \begin{enumerate}
+  \vfill \item Base types \m{\mathbb{0}}, \m{\mathbb{1}},  \m{\mathbb{2}}, \m{\N}.
+  \vfill \item Cartesian products \m{A \times B} and \m{\Pi(x:X), A(x)}.
+  \vfill \item Function types \m{X \to A} also written \m{A^X}.
+  \vfill \item Sums \m{A + B} and \m{\Sigma(x:X), A(x)}.
+  \vfill \item A large type \m{\U} of small types (universe). \\[1ex] Sometimes an extra large type \m{\V} of large types.
+  \vfill \item An identity type \m{\Id_X(x,y)} for any \m{X : \U} and \m{x,y:X}. 
+\end{enumerate}
+
+\vfill
+
+\end{frame}
+
+% \begin{frame}
+%   \frametitle{A spartan (intensional) Martin-L\"of type theory}
+
+% \vfill
+
+%   \begin{enumerate}
+%   \vfill \item Base types \m{\mathbb{0}}, \m{\mathbb{1}},  \m{\mathbb{2}}, \m{\N}.
+%   \vfill \item Cartesian products \m{A \times B} and \m{\Pi(x:X), A(x)}.\\[1ex] 
+%   \begin{itemize}
+% \item \grey{Elements of \m{A \times B} are pairs \m{(a,b)} with \m{a:A} and \m{b:B}.} \\[1ex]
+
+% \item \grey{Elements of \m{\Pi(x:X), A(x)} are functions that map \m{x:X} to some \m{a : A(x)}}.
+%   \end{itemize}
+%   \vfill \item Function types \m{X \to A} also written \m{A^X}.
+%   \vfill \item Sums \m{A + B} and \m{\Sigma(x:X), A(x)}.\\[1ex]
+%   \begin{itemize}
+%   \item An element of \m{A+B} is either an element of \m{A} or an element of \m{B} with a tag. \\[1ex]
+%   \item 
+% Elements of \m{\Sigma(x:X), A(x)} are pairs \m{(x,a)} with \m{x:X} and \m{a:A(x)}. 
+%   \end{itemize}
+%   \vfill \item A large type \m{\U} of small types (universe). \\[1ex] Sometimes a extralarge type \m{\V} of large types. \\[1ex]
+%   \vfill \item An identity type \m{\Id_X(x,y)} for any \m{X : \U} and \m{x,y:X}. \\[1ex]
+%   \begin{itemize}
+%   \item This type collects the ways in which the points \m{x} and \m{y} are identified.
+%   \end{itemize}
+% \end{enumerate}
+
+% \vfill
+
+% \end{frame}
+
+\begin{frame}
+  \frametitle{Identity type discussion}
+
+  \begin{enumerate}
+\vfill \item The type \m{\Id_X(x,y)} collects the ways in which the points \m{x,y:X} are identified.
+  \vfill \item For some types the identity type can be defined from the other types. 
+  \vfill \item E.g.\ for the type of natural numbers, it can be constructed by double induction:
+  \db{\begin{eqnarray*}
+    \Id_\N(0,0) & \eqq & \mathbb{1}, \\
+    \Id_\N(0,n+1) & \eqq & \mathbb{O}, \\
+    \Id_\N(m+1,0) & \eqq & \mathbb{O}, \\
+    \Id_\N(m+1,n+1) & \eqq & \Id_\N(m,n).
+  \end{eqnarray*}}
+
+  \vspace*{-4ex}
+
+  \vfill \item In this example, \m{\Id_X(x,y)} is always a subsingleton.
+  \vfill \item In general, there may be more identifications of \m{x} and \m{y} in the identity type.
+  \vfill \item We often write \m{x =_X y} or simply \m{x = y} to denote \m{\Id_X(x,y)}.
+  \vfill \item We write \m{\eqq} for definitions.
+  \end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Universe discussion}
+
+  \begin{itemize}
+  \vfill \item We assume a large type \m{\U} whose elements are small types.
+\vfill \item This has many uses, e.g.:
+  \end{itemize}
+\begin{enumerate}
+\vfill \item Define type families as functions \m{X \to \U}, for example by induction if \m{X} is the type of natural numbers. \\[1ex]
+\grey{(Like in the previous slide.)}
+\vfill \item Define properties of elements of types, e.g. \m{\operatorname{isEven} : \N \to \U}.
+\vfill \item Define the type of groups:
+\M{Group \eqq \Sigma(G:\U), \isSet(G) \times \Sigma(\cdot : G \times G \to G), \Sigma(e:G), (\Pi(x:G), x \cdot e = x) \times \cdots} \\[1ex]
+Define the type of categories. Or of topological spaces.
+Etc.
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Two kinds of type-theoretic logic}
+
+  \begin{itemize}
+  \vfill \item Curry--Howard logic.
+
+  \begin{enumerate}
+  \item Propositions are types.
+  \item Proofs are elements of types.
+  \end{enumerate}
+
+  \vfill \item Univalent logic.
+  \begin{enumerate}
+  \item Propositions are \db{subsingleton} types.
+  \grey{(As in topos logic.)}
+
+  \item Proofs are again elements of types.
+  \end{enumerate}
+  \end{itemize}
+
+\vfill \da Both are constructive by default.
+
+\vfill \da But we can consistently postulate excluded middle and choice if we wish. \\
+\grey{~~(At the expense of losing implicit computational content.)}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Curry--Howard propositional logic}
+
+Given two propositions \grey{(that is, types)} \m{A} and \m{B}, we define
+\begin{enumerate}
+\vfill \item \dg{Conjunction.} \mm{\dr{A \wedge B} \eqq \db{A \times B}}. \\[1ex]
+  \begin{quote}
+``A proof of \m{A\wedge B} is a pair \m{(a,b)} consisting of a proof \m{a} of \m{A} and a proof \m{b} of \m{B}.''    
+  \end{quote}
+\vfill \item \dg{Disjunction.} \mm{\dr{A \vee B} \eqq \db{A + B}}. \\[1ex]
+  \begin{quote}
+``A proof of \m{A\vee B} is either a proof of \m{A} or a proof of \m{B}.''    
+  \end{quote}
+\vfill \item \dg{Implication.} \mm{\dr{A \to B}} is the function space, which has the same notation. \\[1ex]
+  \begin{quote}
+``A proof of \m{A \to B} transforms any proof of \m{A} into a proof of \m{B}.''    
+  \end{quote}
+
+\vfill \item \dg{Negation} \mm{\dr{\neg A} \eqq \db{A \to \mathbb{0}}}. \\[1ex]
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Curry--Howard quantifiers}
+
+Given a family \m{A} of propositions (that is, types) indexed by a type \m{X}, we have:
+\begin{enumerate}
+\vfill \item \dg{Universal quantification:} \quad \mm{\dr{\forall(x:X), A(x)} \eqq \db{\Pi(x:X), A(x)}}.
+
+\vfill
+
+\begin{quote}
+  ``A proof of \m{\forall(x:X), A(x)} is a function that gives a proof of \m{A(x)} for any given \m{x:X}.''
+\end{quote}
+
+
+\vfill \item \dg{Existential quantification:} \quad \mm{\dr{\exists(x:X), A(x)} \eqq \db{\Sigma(x:X), A(x)}}.
+
+\vfill
+
+\begin{quote}
+  ``A proof of \m{\exists(x:X), A(x)} is a pair \m{(x,a)}  consisting of a witness \m{x:X} and a proof \m{a} of \m{A(x)}.''
+\end{quote}
+
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Curry--Howard logic}
+
+  \begin{tabular}{|| l | l | l | l ||}
+    \hline \hline
+    false &  \m{\bot}         & \m{\mathbb{0}}  & empty type \\ \hline
+    true &  \m{\top}        & \  & any type for which a point can be exhibited \\ \hline
+    and &  \m{\wedge} & \m{\times} & cartesian product of two types \\ \hline
+    or &  \m{\vee} & \m{+} & disjoint sum of two types \\ \hline
+    implies  & \m{\to} & \m{\to} & function space \\ \hline
+    for all  & \m{\forall} & \m{\Pi} & product of a type family \\ \hline
+    for some &  \m{\exists} & \m{\Sigma} & disjoint sum of a type family \\ \hline
+equals & \m{=} & \m{\Id} & identity type \\ \hline 
+    \hline
+  \end{tabular}
+
+\vfill
+
+Martin-L\"of introduced the identity type precisely to extend
+Curry-Howard logic with equality.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Example:} there are infinitely many prime numbers}
+
+\M{f : \Pi(n:\N), \Sigma(p:\N), (p > n) \times \isPrime(p).}
+
+
+\begin{enumerate}
+\vfill \item
+A point of this type is a function \m{f} that for any \m{n:\N} gives a prime~\m{p > n}. 
+
+\vfill \item The type \m{n > p} can be defined by induction on \m{n} and \m{p} like we defined the identity type \m{m = n}. \\[1ex]
+
+\grey{Or in many other equivalent ways, e.g. \m{(n > p) \eqq \Sigma(k : \N), p + k + 1 = n}, after we have defined addition by induction.}
+
+\vfill \item After we define multiplication by induction, we define \m{\operatorname{isPrime}(p)} in the usual way.
+
+\end{enumerate}
+\vfill
+\dr{A lot of mathematics can be formulated and proved in this way.}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Exercise}}
+
+  \begin{enumerate}
+  \item Define \m{>} of type \m{\N \to \N \to \U} by double induction on \m{\N}.
+  \item Prove that \m{n > p} implies \m{\Sigma(k : \N), p + k + 1 = n} and conversely.
+  \item Define \m{\operatorname{isPrime}}.
+  \end{enumerate}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Definition of the identity type (or path type)}
+
+  \begin{itemize}
+    \vfill \item 
+    Given a type \m{X : \U} and any two points \m{x,y:X}, we have a type \M{\Id_X \, x \, y : \U,} whose
+    elements are called \db{paths} from \m{x} to \m{y}.
+    \vfill
+    We also use the following two synonyms \grey{(often with the subscript \m{X} elided)}:
+    \M{\Path_X \,x \,y, \qquad \qquad x =_X y.}
+    \vfill \item
+    This comes with a specified path \m{\idp x : \Id \, x \, x}, called \db{identity path}, for every point \m{x:X}.
+    \vfill \item
+    And with an induction principle.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Definition of the identity type (or path type)}
+
+  Notice that \m{\Id : X \to X \to \U} is a type family and \m{\idp : \Pi(x:X), \Id \, x \, x}. 
+   
+  \begin{itemize}
+    \vfill \item \db{Recursion principle}. Given any other type family \m{Id' : X \to X \to \U} together with a function \m{\idp' : \Pi(x:X), \Id' \, x \, x}, we have a function 
+    \M{h : \Pi(x,y:X), \Id\,x\,y \to Id'\,x \, y  }
+    with
+    \M{h\,x\,x\,(\idp x) \eqq idp' \, x.}
+   \end{itemize}
+
+    This \db{doesn't} say that \m{\idp \, x} is the only path.
+
+\vfill
+    
+    What this says is that \m{h} is uniquely determined by its effect on identity paths.
+
+\vfill
+    
+    \grey{(Compare to the Yoneda Lemma, if you know it, which says that a
+    natural transformation of a certain kind is uniquely determined by
+    its effect on identity morphisms.)}
+
+ \end{frame}
+
+
+\begin{frame}
+  \frametitle{Definition of the identity type (or path type)}
+
+  The recursion principle allows to define many useful things, including:
+  \begin{enumerate}
+  \item Path inverse: \m{\Pi(x,y:X), x = y \to y = x}.
+  \item Path composition: \m{\Pi(x,y,z:X), x = y \to y = z \to x = z}.
+  \item Map-on-path: \m{\Pi(f:X \to Y),\Pi(x,y:X), x = y \to f \, x = f \, y}.
+  \item Transport: \m{\Pi(A : X \to \U), \Pi (x,y:X), x = y \to A \, x \to A \, y}.
+\end{enumerate}
+
+But the recursion principle is not enough to e.g.\ show that
+\begin{enumerate}
+\item Path inversion is an involution.
+\item Path composition is associative with identity paths as a left- and right-neutral elements.
+\item Map-on-path is functorial with respect to path identity and composition.
+\item A transport along any path is invertible.
+\end{enumerate}
+
+
+ \end{frame}
+
+\begin{frame} \frametitle{\dg{Exercise}}
+
+  Define path inversion, composition, map-on-path, and transport.
+
+\end{frame}
+
+ 
+ \begin{frame}
+  \frametitle{Definition of the identity type (or path type)}
+
+  \begin{itemize}
+  \item \db{Induction principle}. If \m{P : \Pi(x,y), x=y \to \U} is any type family and \m{b : \Pi(x:X), P\,x\,x\,(\idp x)} is any function, then we have a function
+    \M{h : \Pi(x,y:X), \Pi(p:x=y), P\,x\,y\, p}
+    with
+    \M{h \, x \, x\, (\idp x) = P \, x \, x\, (b\, x).}
+  \end{itemize}
+
+  \vfill
+  
+  This says that to ``prove'' that \m{P} ``holds'' for all paths \m{p}
+  between any two points \m{x} and~\m{y}, it suffices to prove the
+  ``base case'' \m{b} that it holds for all identity paths.
+
+  \vfill
+
+  The recursion principle is the particular case with \m{P \, x\,y\,p
+    \eqq \Id' \,x \,y} that depends on the end-points of \m{p}, but not
+  on \m{p} itself.
+
+ \end{frame}
+
+\begin{frame} \frametitle{\dg{Exercise}}
+
+  Formulate and prove the above properties of inversion, composition, map-on-path, and transport.
+
+\end{frame}
+
+ 
+ \begin{frame}
+  \frametitle{Definition of the identity type (or path type)}
+
+  Summary:
+  \begin{itemize}
+  \vfill \item Type former \m{\Id} \grey{(also written \m{=} or \m{\Path}).}
+  \vfill \item Identity paths \m{\idp} \grey{(also written \m{\refl} in the original literature).}
+  \vfill \item Induction principle \grey{(also called \m{J}).} \\[1ex] \grey{To prove something for all paths between any two points, it is enough to prove it for all identity paths of all points.}
+  \end{itemize}
+
+ \end{frame}
+
+ \begin{frame}
+  \frametitle{\dg{Preparation:} Univalence gives function extensionality (funext)}
+
+Pointwise equal functions are equal:
+\[\dg{\Pi(X:\U), \Pi(A:X \to \U), \Pi(f,g:\Pi(x:X), A(x)),} \dr{(\Pi(x:X), f(x)=g(x))} \to \db{f=g}.\]
+
+\begin{itemize}
+\vfill \item 
+Something we don't have in intensional Martin-L\"of type theories.
+\vfill \item 
+We don't have univalence yet, so we assume \db{funext} when needed, for the moment. 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Univalent propositions}
+
+Or \emph{propositions}, for short (also known as \emph{h-propositions} or \emph{mere propositions}).
+
+\vfill
+
+  \begin{enumerate}
+  \vfill \item A type \m{X} is a \db{proposition} if any two of its elements are equal: 
+\MM{\dr{\isProp(X)} \eqq \db{\Pi(x,y:X), x=y}.}
+
+\vfill
+
+We also say that \m{X} is a \db{subsingleton}.
+\MM{\dr{\Prop} \eqq \db{\Sigma(P:\U), \isProp(P)}.}
+
+\vfill
+
+  \vfill \item We have \m{\text{funext} \to \isProp(\isProp(X))}.
+
+\vfill
+
+  \grey{Being a proposition is itself a proposition.}
+
+\vfill
+
+\vfill \item Assuming \db{funext}, also any two maps into the same proposition are equal.
+
+\end{enumerate}
+
+\vfill
+
+\end{frame}
+
+\begin{frame} \frametitle{\dg{Exercise}}
+
+  \begin{enumerate}
+  \item  \m{\text{funext} \to \isProp(\isProp(X))}.
+  \item Any two functions into a proposition are equal, assuming funext.
+  \end{enumerate}
+
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Example of a non-trivial type that is a univalent proposition}
+
+\M{\Sigma(n:\N), \isPrime(n) \times \text{(n is the difference of two squares of primes).}}
+
+\begin{enumerate}
+\vfill \item Although propositions are subsingletons, they are not necessarily \db{``proof-irrelevant''}.
+\begin{itemize}
+\vfill \item They have \db{information content}. 
+\vfill \item The number \m{5} can be extracted from any proof of this proposition.
+\end{itemize}
+
+\vfill \item But for the above \db{type} to really be a \db{proposition}, we additionally need:
+  \begin{itemize}
+\vfill \item \db{propositional extensionality} \grey{(any two logically equivalent  
+propositions are equal)}.
+\vfill \item Which is not provable in MLTT, but follows from univalence, like \db{funext}.
+\end{itemize}
+
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+\begin{frame}
+  \frametitle{A subtler example \grey{(the mystery of MLTT's identity type)}}
+
+Although the type \m{x=y} need not be a subsingleton for \m{x,y:X}, the type
+\M{\Sigma(x:X), x = y}
+is \db{always} a subsingleton for any \m{y:Y}, and in fact even a \db{singleton}, or \db{contractible}:
+\[
+\dr{\isSingleton(A)} \eqq \db{\Sigma(a_0:A), \Pi(a:A), a = a_0}. 
+\]
+\grey{This doesn't require propositional or function extensionality, or anything beyond MLTT.}
+
+\vfill
+
+\dg{Theorem of MLTT.} \m{\Pi(y:X), \isSingleton(\Sigma(x:X), x = y).}
+
+\vfill
+
+\dg{Non-Theorem of MLTT.} \m{\text{\st{$\Pi(x,y:X), \isSubsingleton(x = y)$}.}}
+
+\end{frame}
+
+\begin{frame}\frametitle{\dg{Exercise}}
+
+Show that \m{\Sigma(x:X), x = y} is contractible by path induction.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{An even subtler, crucial example (Voevodsky)}
+
+Let \m{f:X \to Y} be a function of two types \m{X} and \m{Y}.
+  \begin{enumerate}
+  \vfill \item The type \[\dr{\isIsomorphism(f)} \eqq \db{\Sigma(g:Y \to X),  (g \circ f = \id_X) \times (f \circ g = \id_Y)}\] need not be a proposition.
+
+\vfill
+
+\grey{Because of the potential presence, in MLTT, of higher-dimensional types.}
+
+\vfill \item However, the type 
+\[
+\dr{\isEquivalence(f)} \eqq \db{\Pi(y:Y), \isSingleton(\Sigma(x:X), f(x)=y)}
+\]
+always is a proposition, assuming functional extensionality.
+
+\vfill \grey{(And the latter is a \db{retract} of the former.)}
+  \end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Exercise}}
+
+Let \m{X} and \m{Y} be types and \m{f:X \to Y}.
+ \begin{enumerate}
+  \item Using funext, show that \m{\isProp(\isEquivalence(f))} \grey{(not hard)}.
+  \item Define a map \m{s : \isEquivalence(f) \to \isIsomorphism(f)} \grey{(not hard)}.
+  \item Define a map \m{r : \isIsomorphism(f) \to \isEquivalence(f)} \grey{(rather hard)}.
+   \item Conclude that \m{r(s(\phi)) = \phi} for any \m{\phi :
+   \isEquivalence(f)} using the fact that \m{\isProp(\isEquivalence(f))} \grey{(direct)}.
+  \end{enumerate}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Exercise}}
+
+  Define \m{\idtoeq}. You will need to prove that the identity functioni is an equivalence.
+  
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Formulation of the univalence axiom, and consequences}
+
+\begin{enumerate}
+\vfill \item $\dr{X \simeq Y} \eqq \db{\Sigma(f:X \to Y), \isEquivalence(f)}.$
+\vfill \item By path recursion, we have a function \m{\idtoeq : \Pi(X,Y:\U), X = Y \to X \simeq Y} that maps identity paths to identity equivalences.
+\vfill \item \m{\UA \eqq \Pi(X,Y:\U), \isEquivalence(\idtoeq \, X \, Y)}.
+\end{enumerate}
+
+\begin{itemize}
+\vfill \item 
+\dg{Theorem of MLTT (Voevodsky).} The type \m{\UA} is a proposition.
+
+\vfill \item
+\dg{Metatheorem (Voevodsky).} \m{\UA} is consistent with MLTT. \grey{(Simplicial set model.)}
+
+\vfill \item
+\dg{Theorem of MLTT+UA.} \m{P(X)} and \m{X \simeq Y} imply \m{P(Y)} for any \m{P : \U \to \U}.
+
+\vfill \item
+\dr{Theorem of spartan MLTT with two universes.} The univalence axiom formulated with \db{crude isomorphism} rather than \db{equivalence} is \framebox{\dr{false}}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Some consequences of univalence}
+
+  \begin{itemize}
+  \vfill \item Functional and propositional extensionality. \\[1ex]
+  \grey{Which we already needed.} \\[1ex]
+  \db{Univalence is a generalized extensionality axiom for intensional MLTT.}
+  \vfill \item In the type of groups, the paths are in one-to-one correspondence with group isomorphisms. \\[1ex]
+  Therefore isomorphic groups have the same properties (by transport).
+  \end{itemize}
+
+\end{frame}
+
+ \begin{frame}
+   \frametitle{Voevodsky's stratification of types by \db{hlevels}}
+
+   \begin{enumerate}
+   \vfill \item[0.] Contractible types.
+   \vfill \item[1.] Types whose path spaces are all contractible. \\[1ex]
+
+   \dg{Exercise}: A type is of hlevel 1 iff it is a proposition in the sense defined above.
+
+     \vfill \item[2.] Types whose path spaces are all propositions. \\[1ex]
+
+     These are known as \db{sets}. Between any two points, there is at most one path.
+
+     \vfill \item[3.] Types whose path spaces are all sets. \\[1ex]
+
+     These are known as \db{1-groupoids}. An example is the type of groups. \\[1ex]
+
+     Remember that we defined a group to be a \emph{set} together with a binary operation etc., rather than an arbitrary \db{type}.
+
+$\vdots$
+       
+       \vfill \item[n+1.] Types whose path spaces are all of hlevel \m{n}.
+       
+    
+   \end{enumerate}
+
+   
+   
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Voevodsky's stratification of types by \db{hlevels}}
+
+   \begin{itemize}
+   \vfill \item If a type is of hlevel \m{n}, then it is of hlevel \m{m} for any \m{m>n}. \\[1ex]
+
+     \grey{(Contractible types are propositions, propositions are sets, sets are (trivial) 1-groupoids, etc.)}
+
+
+     \vfill \item There is no reason why all types must have a finite hlevel. \\[1ex] Paths between paths between paths between paths \dots can go on forever in a non-trivial way.
+     
+   \vfill \item In the absence of univalence, it is consistent that all types are sets.  
+   \end{itemize}
+   
+ \end{frame}
+
+\begin{frame}
+  \frametitle{Another example of when Curry--Howard goes wrong: \framebox{image}}
+
+Define the image of a function \m{f:X \to Y} in the usual way, translated to Curry-Howard:
+\M{\dr{\image f} \eqq \db{\Sigma(y:Y), \Sigma(x:X), f(x)=y}.}
+
+\begin{itemize}
+\vfill \item 
+This is the type of points \m{y:Y} for which we have some \m{x:X} with \m{f(x)=y}.
+\vfill \item \dr{Trouble:} \m{\image f \simeq X.} \\[1ex]
+\framebox{This is not what we expect.}
+
+% \vfill
+
+% \grey{(\dg{Exercise}: Also in set theory, the graph of \m{f:X\to Y} is isomorphic to \m{X}.)}
+
+\vfill \item \dr{Example.} We don't expect the image of the unique function \m{\mathbb{2} \to \mathbb{1}} to be isomorphic to \m{\mathbb{2}}. \\[1ex]
+
+\grey{We expect the image to be a subtype of \m{\mathbb{1}}.} 
+
+%\vfill \item \dr{Can we fix this} in the same way we fixed isomorphism with equivalence?
+
+\end{itemize}
+
+\vfill
+
+\grey{Univalent logic fixes such things in the same way as topos logic.}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Exercise}}
+
+  Formulate and prove the troublesome claim.
+  
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Propositional truncation (or reflection)}
+
+  \begin{enumerate}
+  \vfill \item A \db{propositional truncation} of a type \m{X}, if it exists, is the universal solution to the problem of mapping \m{X} to a proposition:
+  \db{\begin{diagram}
+\text{\dg{arbitrary type}} \qquad &     X & \rTo & \trunc{X} & \quad \text{\dg{proposition}} \\
+&       & \rdTo  & \dEto & \\
+&       &            & P & \quad \text{\dg{proposition.}}
+  \end{diagram}}
+
+\m{\trunc{X}} is required to be the smallest proposition \m{X} maps into.
+
+\vfill \item Several kinds of types can be shown to have truncations
+in MLTT.
+
+\vfill \item There are a number of ways to extend MLTT to get truncations for \emph{\db{all}} types.
+
+\grey{(Such as resizing + funext, or higher inductive types.)}
+
+  \end{enumerate}
+
+\vfill
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+
+  \vfill
+  
+  \db{\begin{diagram}
+\text{\dg{Not always a proposition}} \qquad & \isIsomorphism f & \rTo & \isEquivalence f & \quad \text{\dg{always proposition}} \\
+&       & \rdTo  & \dEto & \\
+&       &            & P & \quad \text{\dg{proposition.}}
+  \end{diagram}}
+
+\vfill
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+
+  \vfill
+
+  Let \m{f: \N \to \N} and define \M{\dr{\Sigma^{\min}(n:\N), f\,n = 0} \eqq  \db{\Sigma(n:\N), (f \, n = 0) \times \Pi(m:\N), f\,m=0 \to n \le m}.}
+  
+  \vfill
+  
+   \begin{diagram}%[small]
+ \text{\dg{Not always a proposition}}  \qquad & \Sigma(n:\N), f\,n = 0 & \rTo & \Sigma^{\min}(n:\N), f\,n = 0 & \quad \text{\dg{a proposition}} \\
+ &       & \rdTo  & \dEto & \\
+ &       &            & P & \quad \text{\dg{proposition.}}
+   \end{diagram}
+
+\vfill
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Exercise}}
+
+  Prove that \m{\Sigma^{\min}(n:\N), f\,n = 0} is the propositional
+  truncation of \m{\Sigma(n:\N), (f \, n = 0)} by showing it has the
+  right universal property. You will need funext.
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Theorem \grey{(impredicative characterization of propositional truncation)}}
+
+\vfill
+
+\grey{(Independently of how it is defined concretely, from the universal property alone.)}
+
+\vfill
+
+
+\grey{$\underbrace{\dr{\trunc{X}}}_{\text{small type}} \iff \underbrace{\db{\Pi(P:\U), \isProp(P) \to (X \to P) \to P}}_{\text{large type}}$}
+
+\vfill
+
+Moreover, the \db{rhs} is a proposition assuming \db{funext}.
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Univalent logic}
+
+Like Curry-Howard logic, with two differences only:
+\begin{itemize}
+\vfill \item \mm{\dr{A \vee B} \eqq \db{\trunc{A + B}}}.
+\vfill \item \mm{\dr{\exists(x:X), A(x)} \eqq \db{\trunc{\Sigma(x:X),A(x) }}}.
+\end{itemize}
+
+\vfill
+
+\grey{This turns out to give exactly the same disjunction and existence as \db{topos logic} and \db{higher order intuitionistic logic}.}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example concluded: univalent image}
+
+The image of a function \m{f:X \to Y} is
+\M{\dr{\image f} \eqq \db{\Sigma(y:Y), \trunc{\Sigma(x:X), f(x)=y}}.}
+
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Theorem \grey{(impredicative characterization of univalent logic)}}
+
+We get the usual intuitionistic higher-order logic, which reduces everything to \emph{implication}~\m{\to} and \emph{universal quantification}~\m{\Pi}:
+
+  \begin{itemize}
+  \item \vfill \mm{\dr{\bot} \iff \db{\Pi(R:Prop), R}.}
+  \item \vfill \mm{\dr{P \wedge Q} \iff \db{\Pi(R:\Prop), (P \to Q \to R) \to R}.}
+  \item \vfill \mm{\dr{P \vee Q} \iff \db{\Pi(R:\Prop), (P \to R) \to (Q \to R) \to R}.}
+  \item \vfill \mm{\dr{\exists(x:X), P(x)} \iff \db{\Pi(R:\Prop), (\Pi(x:X), P(x) \to R) \to R}.}
+  \item \vfill \mm{\dr{\trunc{x=y}} \iff \db{\Pi(P:X \to \Prop), P(x) \to P(y)}}. \grey{(Leibniz principle.)}
+  \end{itemize}
+
+\vfill
+
+\grey{(Again, the \dr{lhs} types are small and the \db{rhs} types are large.)}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Curry--Howard ``excluded middle''}
+
+\dg{Theorem of MLTT+$\trunc{-}$}. The following are logically equivalent:
+\begin{enumerate}
+\item \m{\Pi(X:\U), X + \neg X}.
+\item \m{\Pi(X:\U), \neg \neg X \to X}.
+\item \m{\Pi(X:\U), \trunc{X} \to X}.
+\item \m{\Pi(X:\U), \Sigma(f:X\to X), \Pi(x,y:X), f(x)=f(y)}.
+\end{enumerate}
+\begin{itemize}
+\item This is more like \db{global choice} than excluded middle. \\[1ex]
+\grey{We can pick a point of every non-empty type.}
+\item It implies that all types are \db{sets}, making univalent type theory trivial.
+\item \dr{False} in the presence of two univalent universes.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Univalent excluded middle}
+
+\vfill
+
+The following are equivalent:
+\begin{enumerate}
+\vfill \item \m{\Pi(P:\U), \isProp(P) \to P + \neg P}.
+\vfill \item \m{\Pi(P:\U), \isProp(P) \to \neg \neg P \to P}.
+\end{enumerate}
+
+\vfill
+
+They imply \m{\Pi(X:\U), \trunc{X} \iff \neg\neg X}.
+
+\vfill
+
+\dg{Which is consistent with univalent type theory.}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\framebox{\dr{Myth:}} propositional truncation erases information}
+
+\vfill
+
+\grey{\dg{It doesn't.} E.g.:}
+
+\vfill
+
+\dg{Theorem of MLTT+$\trunc{-}$}. For any \m{f:\N \to \N}, 
+\M{\trunc{\Sigma(n:\N), f(n)=0} \to \Sigma(n:\N), f(n)=0.} 
+
+\vfill
+
+If there is a root of \m{f}, we can find one.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Exercise}}
+
+  Prove this.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Correct formulation of unique existence}
+
+  \begin{itemize}
+  \vfill \item 
+Not \mm{\db{(\Sigma(x:X), A(x))} \times \dr{(\Pi(x,y:X), A(x) \times A(y) \to x=y)}}. 
+  \vfill \item Instead \m{\isContr(\Sigma(x:X), A(x)).} \\[1ex]
+
+  \grey{Especially when formulating universal properties.}
+
+\vfill \item A unique \m{x:X} such that \m{A(x)} is not enough.
+
+\vfill \item What is really needed is a unique \emph{pair} \m{(x,a)} with \m{x:X} and \m{a:A(x)}. \\[1ex]
+\grey{Like in category theory again.} \\[1ex]
+\grey{Unless all types are sets.}
+  \end{itemize}
+
+\vfill
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Choice just holds in Curry--Howard logic}
+
+Let \m{X,Y:\U} be types and \m{R : X \times Y \to \U} be a relation.
+\[
+\dr{(\Pi(x:X), \Sigma(y:Y), R(x,y))} \to \db{\Sigma(f:X\to Y), \Pi(x:X), R(x,f(x))}.
+\]
+
+\vfill
+
+\grey{Moreover, the implication can be strengthened to a type equivalence.}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\dg{Exercise}}
+
+  Prove these two claims.
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{However, univalent choice implies univalent excluded middle}
+
+\[
+\dr{(\Pi(x:X), \trunc{\Sigma(y:Y(x)), R(x,y)})} \to \trunc{\db{\Sigma(f:\Pi(x:X), Y(x)), \Pi(x:X), R(x,f(x))}}.
+\]
+
+\vfill
+
+The assumptions are that \m{\isSet{X}} and \m{\isSet{Y(x)}} for all \m{x:X}, and we are given \m{R : (\Sigma(x:X), Y(x)) \to \Prop}.
+
+\vfill
+
+\dg{This form of choice is consistent with univalent type theory.}
+
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{But we do get unique choice}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Summary of univalent logic}
+
+  \begin{enumerate}
+  \vfill \item \m{\Sigma} is used to express given \framebox{structure} or \framebox{data} in general. \\[1ex]
+\grey{Cf.\ the type of groups.}
+
+  \vfill \item \db{Truncated} \m{\Sigma} is used to express \framebox{existence}. \grey{(Still constructive.)}
+    \begin{itemize}
+    \vfill \item But, even better, in practice, one is encouraged to use \m{\Sigma} so that it produces univalent propositions without the need of truncation \grey{(if we can).}
+\vfill \item
+A crucial example is Voevodsky's primary notion of \db{equivalence}. \\[1ex]
+\grey{(But we have seen additional examples.)}
+    \end{itemize}
+\vfill \item At the moment, it seems to be an art to decide whether  particular mathematical statements should be formulated as giving structure/data or propositions. 
+\vfill \item But the \db{main point} is that \framebox{univalent mathematics allows the distinction.} \\[1ex]
+
+\grey{(A distinction that is obliterated by the axiom of choice.)}
+
+  \end{enumerate}
+
+\end{frame}
+
+\end{document}
