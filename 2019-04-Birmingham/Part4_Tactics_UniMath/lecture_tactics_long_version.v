@@ -282,6 +282,7 @@ Proof.
     assumption.
 Defined.
 
+Print combinatorS_induction.
 Eval compute in combinatorS_induction.
 
 Definition combinatorS_curried (A B C: UU): (A -> B -> C) -> (A -> B) -> A -> C.
@@ -344,7 +345,8 @@ Locate "⨿". (** this symbol is harder to type in with Agda input
   mode: use backslash union and then choose the right symbol with
   arrow down key: the symbol might only appear in the menu to
   choose from after having hit the arrow down key! *)
-Print coprod. (** defined in UniMath preamble as inductive type, can be seen as disjunction *)
+Print coprod. (** defined in UniMath preamble as inductive type,
+  can be seen as disjunction *)
 
 Locate "∏".
 (** company-coq shows the result with universal quantifiers,
