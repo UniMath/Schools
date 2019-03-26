@@ -77,15 +77,15 @@ Section Exercise_2.
   Proof.
   Admitted.
 
-  (** Exercise 2.2: Define a displayed category on sets of a binary operation on them.
-      The displayed objects over `X` are maps `X × X → X` and the displayed morphisms over `f` are proofs that `f` preserves the operation.
+  (* Exercise 2.2: Define a displayed category on sets of a binary operation on them.
+     The displayed objects over `X` are maps `X × X → X` and the displayed morphisms over `f` are proofs that `f` preserves the operation.
    *)
   Definition operation_disp_cat
     : disp_cat SET.
   Proof.
   Admitted.
 
-  (** Using the product of displayed categories, we now define *)
+  (* Using the product of displayed categories, we now define *)
   Definition pointed_operation_disp_cat
     : disp_cat SET.
   Proof.
@@ -94,12 +94,12 @@ Section Exercise_2.
     - exact operation_disp_cat.
   Defined.
 
-  (** This gives rise to a total category *)
+  (* This gives rise to a total category *)
   Definition pointed_operation_set
     : category
     := total_category pointed_operation_disp_cat.
 
-  (** For convenience, we define some projection to access the structure *)
+  (* For convenience, we define some projection to access the structure *)
   Definition carrier
              (X : pointed_operation_set)
     : hSet
@@ -115,8 +115,8 @@ Section Exercise_2.
     : carrier X → carrier X → carrier X
     := λ x y, pr22 X (x ,, y).
 
-  (** Exercise 2.3: Define the category of monoid displayed category.
-      Hint: use `disp_full_sub`.
+  (* Exercise 2.3: Define the category of monoid displayed category.
+     Hint: use `disp_full_sub`.
    *)
   Definition monoid_laws_disp_cat
     : disp_cat pointed_operation_set.
@@ -127,7 +127,7 @@ Section Exercise_2.
     : category
     := total_category monoid_laws_disp_cat.
 
-  (** During the lecture, we already showed that pointed sets are univalent. We used this proof. *)
+  (* During the lecture, we already showed that pointed sets are univalent as follows *)
   Definition pointed_is_univalent_disp
     : is_univalent_disp pointed_disp_cat.
   Proof.
@@ -153,7 +153,7 @@ Section Exercise_2.
     apply is_univalent_disp_from_fibers.
   Admitted.
 
-  (** Now we conclude *)
+  (* Now we conclude *)
   Definition pointed_operation_is_univalent_disp
     : is_univalent_disp pointed_operation_disp_cat.
   Proof.
@@ -170,7 +170,7 @@ Section Exercise_2.
     - exact pointed_operation_is_univalent_disp.
   Defined.
 
-  (** Exercise 2.5: conclude that the category of monoids is univalent. *)
+  (* Exercise 2.5: conclude that the category of monoids is univalent. *)
   Definition monoid_is_univalent_disp
     : is_univalent_disp monoid_laws_disp_cat.
   Proof.
