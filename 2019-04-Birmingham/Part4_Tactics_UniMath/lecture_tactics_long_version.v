@@ -2,14 +2,15 @@
 (** by Ralph Matthes, CNRS, IRIT, Univ. Toulouse, France *)
 
 (** This is the extended version of a presentation at the
-    UniMath school 2017 in Birmingham, meant for self-study
+    UniMath school 2019 in Birmingham, meant for self-study
     and for exploring the UniMath library.
 
-    The material has been slightly enriched on December 13, 2017,
-    which is one day after the presentation. It has been updated
-    to fit with the current UniMath on April 27, 2018.
+    The material is based on the extended version of the
+    presentation at the UniMath school 2017 in Birmingham,
+    but slightly enriched and later updated to fit with the
+    changes in UniMath until April 2018.
 
-
+    Works with UniMath current as of mid-March 2019.
 *)
 
 
@@ -17,7 +18,8 @@
 [[
 coqc -type-in-type lecture_tactics_long_version.v
 ]]
-when placed into the UniMath library *)
+when placed into the UniMath library or with UniMath
+installed into the current Coq. The option is crucial. *)
 
 (** Can be transformed into HTML documentation with the command
 [[
@@ -34,22 +36,21 @@ Require Import UniMath.Foundations.Preamble.
 
 (** ** define a concept interactively: *)
 
-Locate bool. (** a separate definition - [Dataypes.bool] is in the Coq library *)
+Locate bool. (** a separate definition - [Init.Dataypes.bool] is in the Coq library *)
 
 Definition myfirsttruthvalue: bool.
   (** only the identifier and its type given, not the definiens *)
 
   (** This opens the interactive mode.
 
-      The UniMath style guide asks us to start what follows with [Proof.]
-      in a separate line.
+      The #<a href="https://github.com/UniMath/UniMath/tree/master/UniMath/README.md##unimath-coding-style">#UniMath style guide#</a>#
+      asks us to start what follows with [Proof.] in a separate line.
       In vanilla Coq, this would be optional (it is anyway a "nop"). *)
 Proof.
   (** Now we still have to give the term, but we are in interactive mode. *)
   (** If you want to see everything that *involves* booleans, then do *)
   Search bool.
-  (** If you think there are too many hits and you only want to
-      find library elements that *yield* booleans, then try *)
+  (** If you only want to find library elements that *yield* booleans, then try *)
   SearchPattern bool.
   (** [true] does not take an argument, and it is already a term we can take as definiens. *)
   exact true.
@@ -61,10 +62,14 @@ Proof.
 Defined.
 
 (** [Defined.] instructs Coq to complete the whole interactive construction of a term,
-    verify it and to associate it with the given identifer, here [myfirsttruthvalue]. *)
+    verify it and to associate it with the given identifer, here [myfirsttruthvalue].
+    This may go wrong for different reasons, including implementation errors of the Coq
+    system - that will not affect trustworthiness of the library. *)
 Search bool.
 (** The new definition appears at the beginning of the list. *)
 Print myfirsttruthvalue.
+(** [myfirsttruthvalue relies on an unsafe universe hierarchy] is output to indicate
+    that we are using Coq with option [-type-in-type]. *)
 
 (** *** a more compelling example *)
 Definition mysecondtruthvalue: bool.
@@ -95,7 +100,7 @@ Eval compute in mysecondtruthvalue.
 
 (** Again, not much has been gained by the interactive mode. *)
 
-(** Here, I copy the definition from the Coq library: *)
+(** Here, we see a copy of the definition from the Coq library: *)
 Definition andb (b1 b2:bool) : bool := if b1 then b2 else false.
 
 
@@ -104,7 +109,7 @@ Proof.
   Search bool.
   apply andb.
   (** [apply andb.] applies the function [andb] to obtain the required boolean,
-      thus the system has to ask for its TWO arguments, one by one *)
+      thus the system has to ask for its TWO arguments, one by one. *)
 
   (** This follows the proof pattern of "backward chaining" that tries to
       attack goals instead of building up evidence. In the course of action,
@@ -166,7 +171,7 @@ Eval compute in mythirdtruthvalue.
 Locate "->". (** non-dependent product, can be seen as implication *)
 Locate "∅".
 Print empty. (** an inductive type that has no constructor *)
-Locate "¬".
+Locate "¬". (** we need to refer to the UniMath library more explicitly *)
 
 Require Import UniMath.Foundations.PartA.
 (** Do not write the import statements in the middle of a vernacular file.
@@ -206,6 +211,7 @@ Proof.
 Defined.
 
 Print combinatorS.
+Eval compute in combinatorS.
 
 Local Definition combinatorS_intro_pattern (A B C: UU):
   (A × B -> C) × (A -> B) × A -> C.
@@ -221,22 +227,21 @@ Proof.
 Defined.
 
 Print combinatorS_intro_pattern.
-(** may look harmless but is not allowed by UniMath coding style *)
-Set Printing All.
-Print combinatorS_intro_pattern.
-(** UniMath coding style forbids the generation of terms that involve [match] constructs!
-    The UniMath language is a voluntarily limited subset of Coq, and tactics need to be used
-    with care so as to stay within that fragment. *)
-Unset Printing All.
 
-(** However, the two definitions are even convertible: *)
+(** the two definitions are even convertible: *)
+Eval compute in combinatorS_intro_pattern.
+
 Local Lemma combinatorS_intro_pattern_is_the_same:
   combinatorS = combinatorS_intro_pattern.
 Proof.
   apply idpath.
 Defined.
 
-(** another try to make life easier: *)
+(** In late 2017, [combinatorS_intro_pattern] would have contained [match] constructs,
+    but now, the introduction patterns use less overhead when possible. The UniMath
+    style guide still does not want them to be used with square brackets. *)
+
+(** another style to make life easier: *)
 Local Definition combinatorS_destruct (A B C: UU):
   (A × B -> C) × (A -> B) × A -> C.
 Proof.
@@ -250,56 +255,39 @@ Proof.
     assumption.
 Defined.
 
-Set Printing All.
 Print combinatorS_destruct.
-Unset Printing All.
-
-(** Since we see [match], this proof is therefore equally disallowed by UniMath coding style! *)
 
 (** Again, the definition is definitionally equal to the first one: *)
+Eval compute in combinatorS_destruct.
+
 Local Lemma combinatorS_destruct_is_the_same: combinatorS = combinatorS_destruct.
 Proof.
   apply idpath.
 Defined.
 
-(** We declared the unwanted definitions and lemmas as [Local], so that they would
-    at least not be exported. In the UniMath library, there should be no such definitions
-    at all, not even declared as local. *)
+(** In late 2017, [combinatorS_destruct] would also have contained [match] constructs,
+    which is why [destruct] is forbidden in the UniMath style guide. Now, this is fine
+    in our example. *)
 
-(** The way out: *)
+(** The (hitherto) preferred idiom: *)
 Definition combinatorS_induction (A B C: UU): (A × B -> C) × (A -> B) × A -> C.
 Proof.
   intro Hyp123.
-  induction Hyp123 as [Hyp1 Hyp23]. (** wishes to invoke the recursor *)
+  induction Hyp123 as [Hyp1 Hyp23].
   apply Hyp1.
-  induction Hyp23 as [Hyp2 Hyp3]. (** wishes to invoke the recursor *)
+  induction Hyp23 as [Hyp2 Hyp3].
   split.
   - assumption.
   - apply Hyp2.
     assumption.
 Defined.
 
-Set Printing All.
-Print combinatorS_induction.
-Unset Printing All.
-
-(** Unfortunately, this is not better than before, but it comes from
-    a recent change in the status of Sigma types. They are a record now,
-    in order to profit from "primitive projections".
-    The UniMath team would hope that the Coq developers provide a means
-    of inducing Coq into using the induction principle [total2_rect]
-    when calling tactic [induction] on Sigma types and their special
-    case that is pairs.
-
-    Notice that even the projections [pr1] and [pr2] are defined by help
-    of [match] - for the time being, since this is what happens with
-    non-recursive fields of Coq records.
- *)
+Eval compute in combinatorS_induction.
 
 Definition combinatorS_curried (A B C: UU): (A -> B -> C) -> (A -> B) -> A -> C.
 Proof.
-  (** use [intro] three times or rather [intros] once; UniMath coding style
-      asks for giving names to all hypotheses that are not already present
+  (** use [intro] three times or rather [intros] once; reasonable coding style
+      gives names to all hypotheses that are not already present
       in the goal formula, see also the next definition *)
   intros H1 H2 H3.
   apply H1.
@@ -316,7 +304,7 @@ Print combinatorS_curried.
     [set] is not a "macro" facility to ease typing. *)
 
 (** [let]-bindings disappear when computing the normal form of a term: *)
-Compute combinatorS_curried.
+Eval compute in combinatorS_curried.
 
 (** [set] can only be used if the term of the desired type is provided,
     but we can also work interactively as follows: *)
@@ -370,7 +358,7 @@ Print paths.
     does not find equations w.r.t. this notion, only w.r.t. Coq's built-in
     propositional equality. *)
 SearchPattern (paths _ _).
-(** Among the search results is [pathsinv0l] that has [idpath] in its conclusion. *)
+(** Among the search results is [maponpathsinv0] that has [idpath] in its conclusion. *)
 SearchRewrite idpath.
 (** No result! *)
 
@@ -401,9 +389,13 @@ SearchRewrite idpath.
     [A = B]: [apply idpath], however this only works when the expressions
              are convertible
 
-    [nat]: [exact 2017], for example (a logical reading is not
-           useful for this type)
- *)
+    [nat]: [exact 1000], for example (a logical reading is not
+         useful for this type); beware that UniMath knows only 27 numerals,
+         [Goal nat. Fail exact 2019.] leads to
+[[
+The command has indeed failed with message: No interpretation for numeral 2019.
+]]
+*)
 
 (** **** Decomposition of formula of hypothesis [H]:
 
@@ -440,7 +432,7 @@ SearchRewrite idpath.
            the base case, while in the step case, the preceding number
            is now given the name [n] and the induction hypothesis is
            named [IH].
- *)
+*)
 
 (** ** Handling unfinished proofs *)
 
@@ -458,7 +450,8 @@ Proof.
 Admitted.
 
 (** This is strictly forbidden to commit to UniMath! [admit] allows to pursue the other goals,
-    while [Admitted.] makes the lemma available for further proofs. *)
+    while [Admitted.] makes the lemma available for further proofs. A warning is shown that
+    [badex1] has been assumed as axiom. *)
 
 (** An alternative to interrupt work on a proof: *)
 Lemma badex2 (A: UU): ∅ × (A -> A).
@@ -577,7 +570,7 @@ Defined.
 
 (** an example adapted from one by Arnaud Spiwack, ~2007 *)
 
-About unit. (** from the Coq library *)
+About unit. (** from the UniMath preamble *)
 
 Local Definition P (x:nat) := unit.
 
@@ -603,8 +596,9 @@ Proof.
 Error: Wrong bullet - : No more subgoals.
 ]]
      *)
+
 Show Existentials.
-(** a natural number is still asked for *)
+(** a natural number is still being asked for *)
 Unshelve.
 (** Like this, we can focus on the remaining goal. *)
 exact 0.
@@ -705,6 +699,8 @@ Eval compute in (ourisinjinvmap' v w v' w').
  *)
 Transparent ourisinjinvmap'.
 Eval compute in (ourisinjinvmap' v w v' w').
+
+(** If one uses [Compute] in place of [Eval compute in], then [Opaque] has no effect. *)
 
 (** Full and irreversible opaqueness is obtained for a construction
     in interactive mode by completing it with [Qed.] in place of [Defined.]
@@ -829,13 +825,13 @@ Print combinatorS_induction_with_abstract.
 
 (** *** Ltac language for defining tactics *)
 
-(** Disclaimer: Ltac can more than that, in fact Ltac is the name of the
+(** Disclaimer: Ltac can do more than that, in fact Ltac is the name of the
     whole tactic language of Coq. *)
 
 (** Ltac definitions can associate identifiers for tactics with tactic expressions.
 
     We have already used one such identifier: [intermediate_path] in the [Foundations]
-    package of UniMath. In file PartA.v, we have the code
+    package of UniMath. In file [PartA.v], we have the code
 [[
 Ltac intermediate_path x := apply (pathscomp0 (b := x)).
 ]]
@@ -847,10 +843,12 @@ Print Ltac intermediate_path.
 Unset Printing All.
 (** The problem with these Ltac definitions is that they are barely typed, they
     behave rather like LaTeX macros. *)
-Ltac intermediate_path_wrong x := apply (pathscomp0 (X := x)(b := x)).
+Local Ltac intermediate_path_wrong x := apply (pathscomp0 (X := x)(b := x)).
 (** This definition confounds the type argument [X] and its element [b].
     The soundness of Coq is not at stake here, but the errors only appear
-    at runtime. *)
+    at runtime, as we will see below. Normal printing output hides the difference
+    with the correct tactic definition: *)
+Print Ltac intermediate_path_wrong.
 
 Section homot2.
 Variables A B: UU.
@@ -862,11 +860,11 @@ Lemma ourisinjinvmap'_failed_proof: interestingstatement A B.
       a second time in the Ltac definition with a different needed type. *)
 Abort.
 End homot2.
-(** See [https://github.com/UniMath/UniMath/blob/master/UniMath/PAdics/frac.v#L27]
+(** See #<a href="https://github.com/UniMath/UniMath/blob/master/UniMath/PAdics/frac.v##L23">#[https://github.com/UniMath/UniMath/blob/master/UniMath/PAdics/frac.v#L23]#</a>#
     for a huge Ltac definition in the UniMath library to appreciate the lack
     of type information. *)
 
-(** The UniMath provides some Ltac definitions for general use: *)
+(** The UniMath library provides some Ltac definitions for general use: *)
 Print Ltac etrans. (** no need to explain - rather an abbreviation *)
 Set Printing All.
 Print Ltac intermediate_weq. (** analogous to [intermediate_path] *)
@@ -875,18 +873,21 @@ Unset Printing All.
 (** for the next tactic *)
 Require Import UniMath.MoreFoundations.Tactics.
 
+Set Printing All.
 Print Ltac show_id_type.
 (**
 [[
 Ltac show_id_type :=
        match goal with
-       | |- paths _ _ => set (TYPE := ID); simpl in TYPE
+       | |- @paths ?ID _ _ => set (TYPE := ID); simpl in TYPE
        end
 ]]
-Not present in any proof in the library, but it can be an excellent tool
+Hardly ever present in proofs in the library, but it can be an excellent tool
 while trying to prove an equation: it puts the index of the path space
 into the context. This index is invisible in the notation with an equals
-sign. *)
+sign that one normally sees as the goal, and coercions can easily give a wrong
+impression about that index. *)
+Unset Printing All.
 
 (** **** The most useful Ltac definition of UniMath *)
 Print Ltac simple_rapply.
