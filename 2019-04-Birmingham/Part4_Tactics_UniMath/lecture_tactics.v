@@ -2,14 +2,14 @@
 (** by Ralph Matthes, CNRS, IRIT, Univ. Toulouse, France *)
 
 (** This is material for presentation at the UniMath school
-    2017 in Birmingham; an extended version for self-study
+    2019 in Birmingham; an extended version for self-study
     and for exploring the UniMath library is available as
     [lecture_tactics_long_version.v].
 
-    The material has been slightly enriched on December 13, 2017,
-    which is one day after the presentation. It has been updated
-    to fit with the current UniMath on April 27, 2018.
+    It grew out of the presentation at the UniMath school
+    2017 in Birmingham.
 
+    Works with UniMath current as of mid-March 2019.
 *)
 
 
@@ -17,7 +17,8 @@
 [[
 coqc -type-in-type lecture_tactics.v
 ]]
-when placed into the UniMath library *)
+when placed into the UniMath library or with UniMath
+installed into the current Coq. The option is crucial. *)
 
 (** Can be transformed into HTML documentation with the command
 [[
@@ -34,22 +35,21 @@ Require Import UniMath.Foundations.Preamble.
 
 (** ** define a concept interactively: *)
 
-Locate bool. (** a separate definition - [Dataypes.bool] is in the Coq library *)
+Locate bool. (** a separate definition - [Init.Dataypes.bool] is in the Coq library *)
 
 Definition myfirsttruthvalue: bool.
   (** only the identifier and its type given, not the definiens *)
 
   (** This opens the interactive mode.
 
-      The UniMath style guide asks us to start what follows with [Proof.]
-      in a separate line.
+      The #<a href="https://github.com/UniMath/UniMath/tree/master/UniMath/README.md##unimath-coding-style">#UniMath style guide#</a>#
+      asks us to start what follows with [Proof.] in a separate line.
       In vanilla Coq, this would be optional (it is anyway a "nop"). *)
 Proof.
   (** Now we still have to give the term, but we are in interactive mode. *)
   (** If you want to see everything that *involves* booleans, then do *)
   Search bool.
-  (** If you think there are too many hits and you only want to
-      find library elements that *yield* booleans, then try *)
+  (** If you only want to find library elements that *yield* booleans, then try *)
   SearchPattern bool.
   (** [true] does not take an argument, and it is already a term we can take as definiens. *)
   exact true.
@@ -95,7 +95,7 @@ Eval compute in mysecondtruthvalue.
 
 (** Again, not much has been gained by the interactive mode. *)
 
-(** Here, I copy the definition from the Coq library: *)
+(** Here, we see a copy of the definition from the Coq library: *)
 Definition andb (b1 b2:bool) : bool := if b1 then b2 else false.
 
 
@@ -104,7 +104,7 @@ Proof.
   Search bool.
   apply andb.
   (** [apply andb.] applies the function [andb] to obtain the required boolean,
-      thus the system has to ask for its TWO arguments, one by one *)
+      thus the system has to ask for its TWO arguments, one by one. *)
 
   (** This follows the proof pattern of "backward chaining" that tries to
       attack goals instead of building up evidence. In the course of action,
@@ -166,7 +166,7 @@ Eval compute in mythirdtruthvalue.
 Locate "->". (** non-dependent product, can be seen as implication *)
 Locate "∅".
 Print empty. (** an inductive type that has no constructor *)
-Locate "¬".
+Locate "¬". (** we need to refer to the UniMath library more explicitly *)
 
 Require Import UniMath.Foundations.PartA.
 (** Do not write the import statements in the middle of a vernacular file.
@@ -204,38 +204,28 @@ Proof.
 Defined.
 
 Print combinatorS.
+Eval compute in combinatorS.
 
 (** a more comfortable variant: *)
 Definition combinatorS_induction (A B C: UU): (A × B -> C) × (A -> B) × A -> C.
 Proof.
   intro Hyp123.
-  induction Hyp123 as [Hyp1 Hyp23]. (** wishes to invoke the recursor *)
+  induction Hyp123 as [Hyp1 Hyp23].
   apply Hyp1.
-  induction Hyp23 as [Hyp2 Hyp3]. (** wishes to invoke the recursor *)
+  induction Hyp23 as [Hyp2 Hyp3].
   apply tpair.
   - exact Hyp3.
   - apply Hyp2.
     exact Hyp3.
 Defined.
 
-Set Printing All.
 Print combinatorS_induction.
-Unset Printing All.
-
-(** This uses [match] that is normally not allowed in UniMath. The
-    presence of [match] is due to a recent change in the status of
-    Σ-types. They are a record now, in order to profit from "primitive
-    projections".
-
-    Notice that even the projections [pr1] and [pr2] are defined by help
-    of [match] - for the time being, since this is what happens with
-    non-recursive fields of Coq records.
- *)
+Eval compute in combinatorS_induction.
 
 Definition combinatorS_curried (A B C: UU): (A -> B -> C) -> (A -> B) -> A -> C.
 Proof.
-  (** use [intro] three times or rather [intros] once; UniMath coding style
-      asks for giving names to all hypotheses that are not already present
+  (** use [intro] three times or rather [intros] once; reasonable coding style
+      gives names to all hypotheses that are not already present
       in the goal formula, see also the next definition *)
   intros H1 H2 H3.
   apply H1.
@@ -251,7 +241,7 @@ Print combinatorS_curried.
     [set] is not a "macro" facility to ease typing. *)
 
 (** [let]-bindings disappear when computing the normal form of a term: *)
-Compute combinatorS_curried.
+Eval compute in combinatorS_curried.
 
 (** [set] can only be used if the term of the desired type is provided,
     but we can also work interactively as follows: *)
@@ -329,8 +319,8 @@ Print paths.
     [A = B]: [apply idpath], however this only works when the expressions
              are convertible
 
-    [nat]: [exact 2017], for example (a logical reading is not
-           useful for this type)
+    [nat]: [exact 1000], for example (a logical reading is not
+         useful for this type); beware that UniMath knows only 27 numerals
  *)
 
 (** **** Decomposition of formula of hypothesis [H]:
