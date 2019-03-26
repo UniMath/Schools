@@ -71,36 +71,119 @@ Section Exercise_1.
 End Exercise_1.
 
 Section Exercise_2.
-(** Displayed categories and displayed univalence.
-
-Define the category of pointed sets, as the total category of a displayed category over sets.  Show it’s univalent as a displayed category, and conclude that it’s univalent as a category.  Alternatively, show directly that the total category is univalent.
-*)
-
-  Definition point_disp_cat : disp_cat hset_category.
-  Proof.
-    (* Hint: Remember, this is to be the displayed category whose *total* category is pointed sets. So the objects and morphisms of this are just the extra data needed to give a pointed set or map of pointed sets, compared to a set or map of sets.
-
-     As in Exercise 1, it may help to give the various components of this as separate lemmas. *)
-  Admitted.
-
-  Definition pointed_hset : category.
+  (* Exercise 2.1: Define `pointed_disp_cat` with `disp_struct`. *)
+  Definition pointed_disp_cat
+  : disp_cat SET.
   Proof.
   Admitted.
 
-  Definition is_univalent_point_disp_cat : is_univalent_disp point_disp_cat.
+  (** Exercise 2.2: Define a displayed category on sets of a binary operation on them.
+      The displayed objects over `X` are maps `X × X → X` and the displayed morphisms over `f` are proofs that `f` preserves the operation.
+   *)
+  Definition operation_disp_cat
+    : disp_cat SET.
   Proof.
-    (* Hint: use [is_univalent_disp_from_fibers]. *)
   Admitted.
 
-  Definition isunivalent_pointed_hset : is_univalent pointed_hset.
+  (** Using the product of displayed categories, we now define *)
+  Definition pointed_operation_disp_cat
+    : disp_cat SET.
   Proof.
-    (* Use [is_univalent_point_disp_cat] *)
+    use dirprod_disp_cat.
+    - exact pointed_disp_cat.
+    - exact operation_disp_cat.
+  Defined.
+
+  (** This gives rise to a total category *)
+  Definition pointed_operation_set
+    : category
+    := total_category pointed_operation_disp_cat.
+
+  (** For convenience, we define some projection to access the structure *)
+  Definition carrier
+             (X : pointed_operation_set)
+    : hSet
+    := pr1 X.
+
+  Definition unit_el
+             (X : pointed_operation_set)
+    : carrier X
+    := pr12 X.
+
+  Definition mul
+             (X : pointed_operation_set)
+    : carrier X → carrier X → carrier X
+    := λ x y, pr22 X (x ,, y).
+
+  (** Exercise 2.3: Define the category of monoid displayed category.
+      Hint: use `disp_full_sub`.
+   *)
+  Definition monoid_laws_disp_cat
+    : disp_cat pointed_operation_set.
+  Proof.
   Admitted.
 
-  Definition isunivalent_pointed_hset_proof_2 : is_univalent pointed_hset.
+  Definition monoids
+    : category
+    := total_category monoid_laws_disp_cat.
+
+  (** During the lecture, we already showed that pointed sets are univalent. We used this proof. *)
+  Definition pointed_is_univalent_disp
+    : is_univalent_disp pointed_disp_cat.
   Proof.
-    (* Alternatively, prove this directly without using displayed univalence. *)
+    apply is_univalent_disp_from_fibers.
+    intros X x₁ x₂.
+    use isweqimplimpl.
+    - intros f.
+      apply f.
+    - apply X.
+    - apply isaproptotal2.
+      + intro.
+        apply isaprop_is_iso_disp.
+      + intros p q r₁ r₂.
+        apply X.
+  Defined.
+
+  (* Exercise 2.4: Show that each part gives rise to a displayed univalent category and conclude that the total category is univalent.
+     Hint: adapt the proof from the lecture notes.
+   *)
+  Definition operation_is_univalent_disp
+    : is_univalent_disp operation_disp_cat.
+  Proof.
+    apply is_univalent_disp_from_fibers.
   Admitted.
+
+  (** Now we conclude *)
+  Definition pointed_operation_is_univalent_disp
+    : is_univalent_disp pointed_operation_disp_cat.
+  Proof.
+    use dirprod_disp_cat_is_univalent.
+    - exact pointed_is_univalent_disp.
+    - exact operation_is_univalent_disp.
+  Defined.
+
+  Definition pointed_operation_is_univalent
+    : is_univalent pointed_operation_set.
+  Proof.
+    apply is_univalent_total_category.
+    - exact is_univalent_HSET.
+    - exact pointed_operation_is_univalent_disp.
+  Defined.
+
+  (** Exercise 2.5: conclude that the category of monoids is univalent. *)
+  Definition monoid_is_univalent_disp
+    : is_univalent_disp monoid_laws_disp_cat.
+  Proof.
+    apply disp_full_sub_univalent.
+  Admitted.
+
+  Definition monoids_is_univalent
+    : is_univalent monoids.
+  Proof.
+    apply is_univalent_total_category.
+    - exact pointed_operation_is_univalent.
+    - exact monoid_is_univalent_disp.
+  Defined.
 End Exercise_2.
 
 
