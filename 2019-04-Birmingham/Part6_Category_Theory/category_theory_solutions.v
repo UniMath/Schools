@@ -328,9 +328,7 @@ Section Exercise_3.
         * apply homset_property.
   Defined.
 
-
-
-PrEnd Exercise_3.
+End Exercise_3.
 
 Section Exercise_4.
 (** Functors and natural transformations / monads and adjunctions
