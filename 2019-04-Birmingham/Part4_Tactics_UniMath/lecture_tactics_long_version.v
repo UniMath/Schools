@@ -8,7 +8,7 @@
     The material is based on the extended version of the
     presentation at the UniMath school 2017 in Birmingham,
     but slightly enriched and later updated to fit with the
-    changes in UniMath until April 2018.
+    changes in UniMath.
 
     Works with UniMath current as of mid-March 2019.
 *)
