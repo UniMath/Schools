@@ -32,8 +32,16 @@ Section Exercise_0.
   Proposition isofhlevel3_ob_of_univalent_cat (C : category) (H : is_univalent C)
     : isofhlevel 3 (ob C).
   Proof.
-  Admitted.
-
+    intros a b.
+    induction H as [univ homsets].
+    apply (isofhlevelweqb 2 (weqpair idtoiso (univ a b))).
+    unfold iso.
+    apply isofhleveltotal2.
+    - apply homsets.
+    - intro f.
+      apply isasetaprop.
+      apply isaprop_is_iso.
+  Qed.
 End Exercise_0.
 
 Section Exercise_1.
@@ -47,7 +55,7 @@ Section Exercise_1.
 
   Definition nat_category_ob_mor : precategory_ob_mor.
   Proof.
-  Admitted.
+
 
   Definition nat_category_data : precategory_data.
   Proof.
