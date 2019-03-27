@@ -17,7 +17,7 @@ Require Import UniMath.CategoryTheory.limits.equalizers.
 Require Import UniMath.CategoryTheory.limits.pullbacks.
 Require Import UniMath.CategoryTheory.Adjunctions.Core.
 Require Import UniMath.CategoryTheory.Monads.Monads.
-
+Require Import UniMath.CategoryTheory.limits.binproducts.
 
 (* NOTE: some of these exercises (or parts of them) are straightforward, while other parts are intended to be quite difficult.  So I don’t recomment aiming to complete them in order — if stuck on a difficult part, move on and come back for another attempt later!
 
@@ -133,7 +133,7 @@ Section Exercise_3.
 
   (* 3. Show that if a category has equalisers and finite products, then it has pullbacks *)
   Definition pullbacks_from_equalizers_and_products {C : category}
-    : Equalizers C -> FinOrdProducts C -> Pullbacks C.
+    : Equalizers C -> BinProducts C -> Pullbacks C.
   Proof.
   Admitted.
 
