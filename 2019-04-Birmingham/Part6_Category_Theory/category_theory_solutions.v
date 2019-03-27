@@ -55,7 +55,7 @@ Section Exercise_1.
 
   Definition nat_category_ob_mor : precategory_ob_mor.
   Proof.
-
+  Admitted.
 
   Definition nat_category_data : precategory_data.
   Proof.
