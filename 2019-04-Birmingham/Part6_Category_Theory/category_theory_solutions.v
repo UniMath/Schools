@@ -213,7 +213,7 @@ Section Exercise_3.
   Proof.
     unfold diagram. cbn.
     exists fromempty.
-    intro a; apply fromempty; exact a.
+    intro a; induction a.
   Defined.
 
   Definition isTerminal_limit_of_empty_diagram
@@ -226,7 +226,7 @@ Section Exercise_3.
     {
       unfold cone. cbn.
       exists (λ v, fromempty v).
-      intro u; apply fromempty; exact u.
+      intro u; induction u.
     }
     set (univprop := limUnivProp L a acone).
     use iscontrretract.
@@ -234,7 +234,7 @@ Section Exercise_3.
     - exact pr1.
     - intro f.
       exists f.
-      intro v; apply fromempty; exact v.
+      intro v; induction v.
     - cbn. apply idpath.
   Defined.
 
