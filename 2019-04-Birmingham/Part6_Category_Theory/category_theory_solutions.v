@@ -4,6 +4,10 @@
 (* School and Workshop on Univalent Maths, Birmingham 2017 *)
 (* https://unimath.github.io/bham2017/ *)
 
+(* 27 March 2019:                         *)
+(* Tom de Jong                            *)
+(* Added solutions to Exercises 0,1 and 3 *)
+
 Require Import UniMath.MoreFoundations.All.
 Require Import UniMath.CategoryTheory.Core.Prelude.
 Require Import UniMath.CategoryTheory.Core.Setcategories.
@@ -156,9 +160,6 @@ Section Exercise_1.
     apply (maponpaths pr1 nonsense).
   Defined.
 
-    (* One possible argument: [iso 2 2] is not contractible, but [2 = 2] is contractible, so these cannot be equivalent. *)
-
-
 End Exercise_1.
 
 Section Exercise_2.
@@ -229,8 +230,7 @@ Section Exercise_3.
       intro u; induction u.
     }
     set (univprop := limUnivProp L a acone).
-    use iscontrretract.
-    5: { exact univprop. }
+    simple refine (iscontrretract _ _ _ univprop).
     - exact pr1.
     - intro f.
       exists f.
