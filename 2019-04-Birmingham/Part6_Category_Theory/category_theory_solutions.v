@@ -19,6 +19,7 @@ Require Import UniMath.CategoryTheory.limits.pullbacks.
 Require Import UniMath.CategoryTheory.Adjunctions.Core.
 Require Import UniMath.CategoryTheory.Monads.Monads.
 Require Import UniMath.Combinatorics.StandardFiniteSets.
+Require Import UniMath.CategoryTheory.limits.binproducts.
 
 
 (* NOTE: some of these exercises (or parts of them) are straightforward, while other parts are intended to be quite difficult.  So I don’t recomment aiming to complete them in order — if stuck on a difficult part, move on and come back for another attempt later!
@@ -104,7 +105,7 @@ Section Exercise_1.
     - apply isasetnat.
     - intros m n f g.
       cbn in f, g.
-      assert (helper : isaset ((⟦ m ⟧)%stn → (⟦ n ⟧)%stn)).
+      assert (helper : isaset (stn m → stn n)).
       { change isaset with (isofhlevel 2).
         apply impredfun.
         apply isasetstn.
@@ -144,7 +145,7 @@ Section Exercise_1.
     set (g' := @mk_iso nat_category 2 2 g giso).
     set (proofirr_iso := proofirrelevance _ isaprop_iso).
     set (f'eqg' := proofirr_iso f' g').
-    assert (nonsense : (stnpr 0 : stn 2) = (stnpr 1 : stn 2)).
+    assert (nonsense : stnel (2,0) = stnel (2,1)).
     {
       change (stnpr 0) with (f (stnpr 0)).
       change (stnpr 1) with (g (stnpr 0)).
@@ -203,32 +204,133 @@ Section Exercise_3.
 
   Definition empty_graph : graph.
   Proof.
-  Admitted.
+    unfold graph.
+    exists empty.
+    exact fromempty.
+  Defined.
 
   Definition empty_diagram (C : category) : diagram empty_graph C.
   Proof.
-  Admitted.
+    unfold diagram. cbn.
+    exists fromempty.
+    intro a; apply fromempty; exact a.
+  Defined.
 
   Definition isTerminal_limit_of_empty_diagram
       {C} (L : LimCone (empty_diagram C))
     : isTerminal _ (lim L).
   Proof.
-  Admitted.
+    unfold isTerminal.
+    intro a.
+    assert (acone : cone (empty_diagram C) a).
+    {
+      unfold cone. cbn.
+      exists (λ v, fromempty v).
+      intro u; apply fromempty; exact u.
+    }
+    set (univprop := limUnivProp L a acone).
+    use iscontrretract.
+    5: { exact univprop. }
+    - exact pr1.
+    - intro f.
+      exists f.
+      intro v; apply fromempty; exact v.
+    - cbn. apply idpath.
+  Defined.
 
   (* 2. Show that for a univalent category, “having an initial object” is a property. *)
   Definition isaprop_initial_obs_of_univalent_category
       {C : univalent_category}
     : isaprop (Initial C).
   Proof.
-  Admitted.
+    apply invproofirrelevance.
+    intros aInit bInit.
+    unfold Initial in aInit, bInit.
+    use total2_paths_f.
+    - apply isotoid.
+      + apply univalent_category_is_univalent.
+      + exact (iso_Initials aInit bInit).
+    - apply proofirrelevance.
+      unfold isInitial.
+      apply impred_isaprop.
+      intro b.
+      apply isapropiscontr.
+  Defined.
 
-  (* 3. Show that if a category has equalisers and finite products, then it has pullbacks *)
+  Local Open Scope cat.
+  (* 3. Show that if a category has equalisers and binary products, then it has pullbacks *)
   Definition pullbacks_from_equalizers_and_products {C : category}
-    : Equalizers C -> FinOrdProducts C -> Pullbacks C.
+    : Equalizers C -> BinProducts C -> Pullbacks C.
   Proof.
-  Admitted.
+    intros Eqs Prods.
+    unfold Pullbacks.
+    intros a b c f g.
+    set (prodbc := Prods b c).
+    set (btimesc := BinProductObject C prodbc).
+    set (projb := BinProductPr1 C prodbc).
+    set (projc := BinProductPr2 C prodbc).
+    set (e := Eqs btimesc a (projb · f) (projc · g)).
+    use mk_Pullback.
+    - exact e.
+    - exact (EqualizerArrow e · projb).
+    - exact (EqualizerArrow e · projc).
+    - rewrite assoc'.
+      rewrite assoc'.
+      apply EqualizerEqAr.
+    - use mk_isPullback.
+      intros d h k comm.
+      set (hk := BinProductArrow C prodbc h k).
+      assert (hkequalizes : hk · (projb · f) = hk · (projc · g)).
+      {
+        do 2 (rewrite assoc).
+        unfold hk.
+        rewrite BinProductPr1Commutes.
+        rewrite BinProductPr2Commutes.
+        exact comm.
+      }
+      set (j := EqualizerIn e d hk hkequalizes).
+      assert (jeq1 : j · (EqualizerArrow e · projb) = h).
+      {
+        rewrite assoc.
+        unfold j.
+        rewrite EqualizerCommutes.
+        unfold hk.
+        apply BinProductPr1Commutes.
+      }
+      assert (jeq2 : j · (EqualizerArrow e · projc) = k).
+      {
+        rewrite assoc.
+        unfold j.
+        rewrite EqualizerCommutes.
+        unfold hk.
+        apply BinProductPr2Commutes.
+      }
+      exists (j,,jeq1,,jeq2).
+      intros [j' eqs].
+      use total2_paths_f.
+      + cbn.
+        apply EqualizerInsEq.
+        apply BinProductArrowsEq.
+        * rewrite assoc'.
+          change (BinProductPr1 C prodbc) with projb.
+          rewrite (pr1 eqs).
+          rewrite assoc'.
+          exact (!jeq1).
+        * rewrite assoc'.
+          change (BinProductPr2 C prodbc) with projc.
+          rewrite assoc'.
+          rewrite (pr2 eqs).
+          exact (!jeq2).
+      + apply proofirrelevance.
+        cbn.
+        apply isapropdirprod.
+        * apply homset_property.
+        * apply homset_property.
+  Defined.
 
-End Exercise_3.
+
+
+PrEnd Exercise_3.
 
 Section Exercise_4.
 (** Functors and natural transformations / monads and adjunctions
