@@ -18,6 +18,7 @@ Require Import UniMath.CategoryTheory.limits.equalizers.
 Require Import UniMath.CategoryTheory.limits.pullbacks.
 Require Import UniMath.CategoryTheory.Adjunctions.Core.
 Require Import UniMath.CategoryTheory.Monads.Monads.
+Require Import UniMath.Combinatorics.StandardFiniteSets.
 
 
 (* NOTE: some of these exercises (or parts of them) are straightforward, while other parts are intended to be quite difficult.  So I don’t recomment aiming to complete them in order — if stuck on a difficult part, move on and come back for another attempt later!
@@ -55,28 +56,107 @@ Section Exercise_1.
 
   Definition nat_category_ob_mor : precategory_ob_mor.
   Proof.
-  Admitted.
+    unfold precategory_ob_mor.
+    exists nat.
+    intros m n.
+    (* Rather than functions {1,…,m}->{1,…,n} we consider functions {0,…,m-1}->{0,…,n-1},
+       so that we can use stnset from the Combinatorics package. *)
+    exact (stnset m → stnset n).
+  Defined.
 
   Definition nat_category_data : precategory_data.
   Proof.
-  Admitted.
+    unfold precategory_data.
+    exists nat_category_ob_mor.
+    split.
+    - intro n. exact (idfun (stnset n)).
+    - intros k l m f g.
+      exact (g ∘ f).
+  Defined.
 
   Definition nat_category_is_precategory : is_precategory nat_category_data.
   Proof.
-  Admitted.
+    apply mk_is_precategory.
+    - intros m n f; apply idpath.
+    - intros m n f; apply idpath.
+    - intros k l m n f g h; apply idpath.
+    - intros k l m n f g h; apply idpath.
+  Defined.
 
   Definition nat_category : category.
   Proof.
-  Admitted.
+    unfold category.
+    exists (mk_precategory nat_category_data nat_category_is_precategory).
+    unfold has_homsets. cbn.
+    intros m n.
+    apply impred_isaset.
+    intro sm.
+    apply isasetstn.
+  Defined.
 
   Definition nat_setcategory : setcategory.
   Proof.
-  Admitted.
+    unfold setcategory.
+    exists nat_category.
+    unfold is_setcategory.
+    unfold object_homtype_hlevel.
+    split.
+    - apply isasetnat.
+    - intros m n f g.
+      cbn in f, g.
+      assert (helper : isaset ((⟦ m ⟧)%stn → (⟦ n ⟧)%stn)).
+      { change isaset with (isofhlevel 2).
+        apply impredfun.
+        apply isasetstn.
+      }
+      apply helper.
+  Defined.
 
   Proposition nat_category_not_univalent : ¬ (is_univalent nat_category).
   Proof.
+    intros [univ_nat homsets].
+    set (equiv22 := univ_nat 2 2).
+    assert (isaprop_id : isaprop (2 = 2)).
+    { apply isasetnat. }
+    set (isaprop_iso := isofhlevelweqf 1 (weqpair idtoiso equiv22) isaprop_id).
+    set (zero := stnel (2,0)).
+    set (one := stnel (2,1)).
+    set (f := @identity nat_category_data 2).
+    set (g := two_rec one zero : (nat_category_data ⟦ 2, 2 ⟧)%Cat).
+    set (fiso := identity_is_iso nat_category 2).
+    assert (giso : is_iso g).
+    {
+      apply (@is_iso_from_is_z_iso nat_category 2 2).
+      exists g.
+      unfold is_inverse_in_precat. split.
+      - apply funextfun.
+        unfold homot.
+        apply two_rec_dep.
+        + apply idpath.
+        + apply idpath.
+      - apply funextfun.
+        unfold homot.
+        apply two_rec_dep.
+        + apply idpath.
+        + apply idpath.
+    }
+    set (f' := mk_iso fiso).
+    set (g' := @mk_iso nat_category 2 2 g giso).
+    set (proofirr_iso := proofirrelevance _ isaprop_iso).
+    set (f'eqg' := proofirr_iso f' g').
+    assert (nonsense : (stnpr 0 : stn 2) = (stnpr 1 : stn 2)).
+    {
+      change (stnpr 0) with (f (stnpr 0)).
+      change (stnpr 1) with (g (stnpr 0)).
+      apply (@eqtohomot _ _ f g).
+      exact (maponpaths pr1 f'eqg').
+    }
+    apply (negpaths0sx 0).
+    apply (maponpaths pr1 nonsense).
+  Defined.
+
     (* One possible argument: [iso 2 2] is not contractible, but [2 = 2] is contractible, so these cannot be equivalent. *)
-  Admitted.
+
 
 End Exercise_1.
 
