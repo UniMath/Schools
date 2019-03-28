@@ -1,10 +1,10 @@
 (** Exercise sheet for lecture 4: Tactics in Coq.
 
-Written by Ralph Matthes.
+Written by Ralph Matthes (CNRS, IRIT, Univ. Toulouse, France).
  *)
 
 (** * Exercise 1
-Formalize the solutions of exercise 1 of Lecture 1.
+Formalize the solutions of exercise 1 of Lecture 1 (of the 2017 UniMath school, given by Andrej Bauer).
 
 [[
 For each of the following types, write down an element of that type, if it has one. If it does not have any elements, you should establish that this is the case. But first think how this can be done in type theory! It ought to be just another construction.
@@ -24,15 +24,15 @@ For the present exercise, this means: state the formula as a lemma, give a proof
 
 More precise instructions and hints:
 
-1. Use ⨿ in place of the + and pay attention to operator precedence.
+1. Use [⨿] in place of the + and pay attention to operator precedence.
 
 2. Write a function that provides different elements for any natural number argument, not just five elements; for extra credits: state correctly that they are different - for a good choice of [A]; for more extra credits: prove that they are different.
 
 3. An auxiliary function may be helpful - better recall the trick.
 
-4. The symbol for Sigma-types is ∑, not Σ.
+4. The symbol for Sigma-types is [∑], not [Σ].
 
-5. Same as 1; and there is need for module UniMath.Foundations.NaturalNumbers, e.g., for Lemma natpluscomm.
+5. Same as 1; and there is need for module [UniMath.Foundations.NaturalNumbers], e.g., for Lemma [natpluscomm].
 
 6.-9. no further particulars
 *)
@@ -44,23 +44,26 @@ Require Import UniMath.Foundations.NaturalNumbers.
 
 
 (** * Exercise 2
-Define two computable strict comparison operators for natural numbers based on the fact that m < n iff
-n - m <> 0 iff (m+1) - n = 0. Prove that the two operators are equal (using function extensionality, i.e., [funextfunStatement] in the UniMath library).
+Define two computable strict comparison operators for natural numbers based on the fact
+that [m < n] iff [n - m <> 0] iff [(m+1) - n = 0]. Prove that the two operators are
+equal (using function extensionality, i.e., [funextfunStatement] in the UniMath library).
 
-It may be helpful to use the definitions of the exercises for lecture 2. The following lemmas on substraction sub in the natural numbers may be useful:
+It may be helpful to use the definitions of the exercises for lecture 2 (of the UniMath
+school 2017). The following lemmas on substraction [sub] in the natural numbers may be
+useful:
 
-a) sub n (S m) = pred (sub n m)
+a) [sub n (S m) = pred (sub n m)]
 
-b) sub 0 n = 0
+b) [sub 0 n = 0]
 
-c) pred (sub 1 n) = 0
+c) [pred (sub 1 n) = 0]
 
-d) sub (S n) (S m) = sub n m
+d) [sub (S n) (S m) = sub n m]
 
 *)
 
 
-(** from exercises to Lecture 2: *)
+(** from exercises to Lecture 2 (of the UniMath school 2017): *)
 Definition ifbool (A : UU) (x y : A) : bool -> A :=
   bool_rect (λ _ : bool, A) x y.
 
