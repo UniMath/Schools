@@ -5,7 +5,7 @@ PARTS =						\
     Part4_Tactics_UniMath			\
     Part5_Set_Level_Mathematics			\
     Part6_Category_Theory			\
-    Part7_UniMath_future
+    Part8_UniMath_future
 
 all ::
 
