@@ -1,6 +1,6 @@
 \documentclass[aspectratio=169]{beamer}
 
-\newcommand{\Pause}{} % {\pause} 
+\newcommand{\Pause}{} % {\pause}
 
 \usepackage{bbold,soul}
 \usepackage{diagrams}
@@ -91,10 +91,19 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Rosetta stone}
+
+  \url{https://github.com/UniMath/UniMath/blob/master/USAGE.md}
+
+  Scroll down to see a notation table.
+
+\end{frame}
+
+\begin{frame}
   \frametitle{\dg{Exercise}s and self-study}
 
   \begin{itemize}
-  \vfill \item 
+  \vfill \item
   There are lots of hidden exercises disguised as claims in these notes.
 
   \vfill
@@ -145,7 +154,7 @@ This lecture is about \emph{\db{general mathematics}} in univalent type theory: 
 \vfill
 
   \db{As a first approximation, it is a \framebox{\dg{mathematical language}} for expressing definitions, theorems and proofs that is
-  \framebox{\dg{invariant under isomorphism:}}} 
+  \framebox{\dg{invariant under isomorphism:}}}
 
 \vfill
 \begin{quote} \em
@@ -166,7 +175,7 @@ If you can say something about the object \m{X}, and \m{Y} is an object \db{isom
 
 \vfill \item Such a language is  \db{intensional Martin-L\"of type theory} (MLTT).
 \vfill \item For example, in MLTT we can't exhibit any property \m{P} of \m{\N} that \m{\N \times \N} hasn't. \grey{(Metatheorem.)}
-\vfill \item In \emph{set theory}, they can be distinguished by the property \m{P(X) \eqq (0 \in X)}. \\[1ex] 
+\vfill \item In \emph{set theory}, they can be distinguished by the property \m{P(X) \eqq (0 \in X)}. \\[1ex]
 
 \grey{(There isn't a global membership relation in MLTT.)} \\[1ex]
 
@@ -209,7 +218,7 @@ If you can say something about the object \m{X}, and \m{Y} is an object \db{isom
   \vfill \item Function types \m{X \to A} also written \m{A^X}.
   \vfill \item Sums \m{A + B} and \m{\Sigma(x:X), A(x)}.
   \vfill \item A large type \m{\U} of small types (universe). \\[1ex] Sometimes an extra large type \m{\V} of large types.
-  \vfill \item An identity type \m{\Id_X(x,y)} for any \m{X : \U} and \m{x,y:X}. 
+  \vfill \item An identity type \m{\Id_X(x,y)} for any \m{X : \U} and \m{x,y:X}.
 \end{enumerate}
 
 \vfill
@@ -223,7 +232,7 @@ If you can say something about the object \m{X}, and \m{Y} is an object \db{isom
 
 %   \begin{enumerate}
 %   \vfill \item Base types \m{\mathbb{0}}, \m{\mathbb{1}},  \m{\mathbb{2}}, \m{\N}.
-%   \vfill \item Cartesian products \m{A \times B} and \m{\Pi(x:X), A(x)}.\\[1ex] 
+%   \vfill \item Cartesian products \m{A \times B} and \m{\Pi(x:X), A(x)}.\\[1ex]
 %   \begin{itemize}
 % \item \grey{Elements of \m{A \times B} are pairs \m{(a,b)} with \m{a:A} and \m{b:B}.} \\[1ex]
 
@@ -233,8 +242,8 @@ If you can say something about the object \m{X}, and \m{Y} is an object \db{isom
 %   \vfill \item Sums \m{A + B} and \m{\Sigma(x:X), A(x)}.\\[1ex]
 %   \begin{itemize}
 %   \item An element of \m{A+B} is either an element of \m{A} or an element of \m{B} with a tag. \\[1ex]
-%   \item 
-% Elements of \m{\Sigma(x:X), A(x)} are pairs \m{(x,a)} with \m{x:X} and \m{a:A(x)}. 
+%   \item
+% Elements of \m{\Sigma(x:X), A(x)} are pairs \m{(x,a)} with \m{x:X} and \m{a:A(x)}.
 %   \end{itemize}
 %   \vfill \item A large type \m{\U} of small types (universe). \\[1ex] Sometimes a extralarge type \m{\V} of large types. \\[1ex]
 %   \vfill \item An identity type \m{\Id_X(x,y)} for any \m{X : \U} and \m{x,y:X}. \\[1ex]
@@ -252,7 +261,7 @@ If you can say something about the object \m{X}, and \m{Y} is an object \db{isom
 
   \begin{enumerate}
 \vfill \item The type \m{\Id_X(x,y)} collects the ways in which the points \m{x,y:X} are identified.
-  \vfill \item For some types the identity type can be defined from the other types. 
+  \vfill \item For some types the identity type can be defined from the other types.
   \vfill \item E.g.\ for the type of natural numbers, it can be constructed by double induction:
   \db{\begin{eqnarray*}
     \Id_\N(0,0) & \eqq & \mathbb{1}, \\
@@ -326,15 +335,15 @@ Given two propositions \grey{(that is, types)} \m{A} and \m{B}, we define
 \begin{enumerate}
 \vfill \item \dg{Conjunction.} \mm{\dr{A \wedge B} \eqq \db{A \times B}}. \\[1ex]
   \begin{quote}
-``A proof of \m{A\wedge B} is a pair \m{(a,b)} consisting of a proof \m{a} of \m{A} and a proof \m{b} of \m{B}.''    
+``A proof of \m{A\wedge B} is a pair \m{(a,b)} consisting of a proof \m{a} of \m{A} and a proof \m{b} of \m{B}.''
   \end{quote}
 \vfill \item \dg{Disjunction.} \mm{\dr{A \vee B} \eqq \db{A + B}}. \\[1ex]
   \begin{quote}
-``A proof of \m{A\vee B} is either a proof of \m{A} or a proof of \m{B}.''    
+``A proof of \m{A\vee B} is either a proof of \m{A} or a proof of \m{B}.''
   \end{quote}
 \vfill \item \dg{Implication.} \mm{\dr{A \to B}} is the function space, which has the same notation. \\[1ex]
   \begin{quote}
-``A proof of \m{A \to B} transforms any proof of \m{A} into a proof of \m{B}.''    
+``A proof of \m{A \to B} transforms any proof of \m{A} into a proof of \m{B}.''
   \end{quote}
 
 \vfill \item \dg{Negation} \mm{\dr{\neg A} \eqq \db{A \to \mathbb{0}}}. \\[1ex]
@@ -379,7 +388,7 @@ Given a family \m{A} of propositions (that is, types) indexed by a type \m{X}, w
     implies  & \m{\to} & \m{\to} & function space \\ \hline
     for all  & \m{\forall} & \m{\Pi} & product of a type family \\ \hline
     for some &  \m{\exists} & \m{\Sigma} & disjoint sum of a type family \\ \hline
-equals & \m{=} & \m{\Id} & identity type \\ \hline 
+equals & \m{=} & \m{\Id} & identity type \\ \hline
     \hline
   \end{tabular}
 
@@ -398,7 +407,7 @@ Curry-Howard logic with equality.
 
 \begin{enumerate}
 \vfill \item
-A point of this type is a function \m{f} that for any \m{n:\N} gives a prime~\m{p > n}. 
+A point of this type is a function \m{f} that for any \m{n:\N} gives a prime~\m{p > n}.
 
 \vfill \item The type \m{n > p} can be defined by induction on \m{n} and \m{p} like we defined the identity type \m{m = n}. \\[1ex]
 
@@ -420,14 +429,14 @@ A point of this type is a function \m{f} that for any \m{n:\N} gives a prime~\m{
   \item Prove that \m{n > p} implies \m{\Sigma(k : \N), p + k + 1 = n} and conversely.
   \item Define \m{\operatorname{isPrime}}.
   \end{enumerate}
-  
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Definition of the identity type (or path type)}
 
   \begin{itemize}
-    \vfill \item 
+    \vfill \item
     Given a type \m{X : \U} and any two points \m{x,y:X}, we have a type \M{\Id_X \, x \, y : \U,} whose
     elements are called \db{paths} from \m{x} to \m{y}.
     \vfill
@@ -444,10 +453,10 @@ A point of this type is a function \m{f} that for any \m{n:\N} gives a prime~\m{
 \begin{frame}
   \frametitle{Definition of the identity type (or path type)}
 
-  Notice that \m{\Id : X \to X \to \U} is a type family and \m{\idp : \Pi(x:X), \Id \, x \, x}. 
-   
+  Notice that \m{\Id : X \to X \to \U} is a type family and \m{\idp : \Pi(x:X), \Id \, x \, x}.
+
   \begin{itemize}
-    \vfill \item \db{Recursion principle}. Given any other type family \m{Id' : X \to X \to \U} together with a function \m{\idp' : \Pi(x:X), \Id' \, x \, x}, we have a function 
+    \vfill \item \db{Recursion principle}. Given any other type family \m{Id' : X \to X \to \U} together with a function \m{\idp' : \Pi(x:X), \Id' \, x \, x}, we have a function
     \M{h : \Pi(x,y:X), \Id\,x\,y \to Id'\,x \, y  }
     with
     \M{h\,x\,x\,(\idp x) \eqq idp' \, x.}
@@ -456,11 +465,11 @@ A point of this type is a function \m{f} that for any \m{n:\N} gives a prime~\m{
     This \db{doesn't} say that \m{\idp \, x} is the only path.
 
 \vfill
-    
+
     What this says is that \m{h} is uniquely determined by its effect on identity paths.
 
 \vfill
-    
+
     \grey{(Compare to the Yoneda Lemma, if you know it, which says that a
     natural transformation of a certain kind is uniquely determined by
     its effect on identity morphisms.)}
@@ -496,7 +505,7 @@ But the recursion principle is not enough to e.g.\ show that
 
 \end{frame}
 
- 
+
  \begin{frame}
   \frametitle{Definition of the identity type (or path type)}
 
@@ -508,7 +517,7 @@ But the recursion principle is not enough to e.g.\ show that
   \end{itemize}
 
   \vfill
-  
+
   This says that to ``prove'' that \m{P} ``holds'' for all paths \m{p}
   between any two points \m{x} and~\m{y}, it suffices to prove the
   ``base case'' \m{b} that it holds for all identity paths.
@@ -527,7 +536,7 @@ But the recursion principle is not enough to e.g.\ show that
 
 \end{frame}
 
- 
+
  \begin{frame}
   \frametitle{Definition of the identity type (or path type)}
 
@@ -547,10 +556,10 @@ Pointwise equal functions are equal:
 \[\dg{\Pi(X:\U), \Pi(A:X \to \U), \Pi(f,g:\Pi(x:X), A(x)),} \dr{(\Pi(x:X), f(x)=g(x))} \to \db{f=g}.\]
 
 \begin{itemize}
-\vfill \item 
+\vfill \item
 Something we don't have in intensional Martin-L\"of type theories.
-\vfill \item 
-We don't have univalence yet, so we assume \db{funext} when needed, for the moment. 
+\vfill \item
+We don't have univalence yet, so we assume \db{funext} when needed, for the moment.
 \end{itemize}
 
 \end{frame}
@@ -563,7 +572,7 @@ Or \emph{propositions}, for short (also known as \emph{h-propositions} or \emph{
 \vfill
 
   \begin{enumerate}
-  \vfill \item A type \m{X} is a \db{proposition} if any two of its elements are equal: 
+  \vfill \item A type \m{X} is a \db{proposition} if any two of its elements are equal:
 \MM{\dr{\isProp(X)} \eqq \db{\Pi(x,y:X), x=y}.}
 
 \vfill
@@ -608,13 +617,13 @@ We also say that \m{X} is a \db{subsingleton}.
 \begin{enumerate}
 \vfill \item Although propositions are subsingletons, they are not necessarily \db{``proof-irrelevant''}.
 \begin{itemize}
-\vfill \item They have \db{information content}. 
+\vfill \item They have \db{information content}.
 \vfill \item The number \m{5} can be extracted from any proof of this proposition.
 \end{itemize}
 
 \vfill \item But for the above \db{type} to really be a \db{proposition}, we additionally need:
   \begin{itemize}
-\vfill \item \db{propositional extensionality} \grey{(any two logically equivalent  
+\vfill \item \db{propositional extensionality} \grey{(any two logically equivalent
 propositions are equal)}.
 \vfill \item Which is not provable in MLTT, but follows from univalence, like \db{funext}.
 \end{itemize}
@@ -631,7 +640,7 @@ Although the type \m{x=y} need not be a subsingleton for \m{x,y:X}, the type
 \M{\Sigma(x:X), x = y}
 is \db{always} a subsingleton for any \m{y:Y}, and in fact even a \db{singleton}, or \db{contractible}:
 \[
-\dr{\isSingleton(A)} \eqq \db{\Sigma(a_0:A), \Pi(a:A), a = a_0}. 
+\dr{\isSingleton(A)} \eqq \db{\Sigma(a_0:A), \Pi(a:A), a = a_0}.
 \]
 \grey{This doesn't require propositional or function extensionality, or anything beyond MLTT.}
 
@@ -662,7 +671,7 @@ Let \m{f:X \to Y} be a function of two types \m{X} and \m{Y}.
 
 \grey{Because of the potential presence, in MLTT, of higher-dimensional types.}
 
-\vfill \item However, the type 
+\vfill \item However, the type
 \[
 \dr{\isEquivalence(f)} \eqq \db{\Pi(y:Y), \isSingleton(\Sigma(x:X), f(x)=y)}
 \]
@@ -684,14 +693,14 @@ Let \m{X} and \m{Y} be types and \m{f:X \to Y}.
    \item Conclude that \m{r(s(\phi)) = \phi} for any \m{\phi :
    \isEquivalence(f)} using the fact that \m{\isProp(\isEquivalence(f))} \grey{(direct)}.
   \end{enumerate}
-  
+
 \end{frame}
 
 \begin{frame}
   \frametitle{\dg{Exercise}}
 
   Define \m{\idtoeq}. You will need to prove that the identity functioni is an equivalence.
-  
+
 \end{frame}
 
 
@@ -705,7 +714,7 @@ Let \m{X} and \m{Y} be types and \m{f:X \to Y}.
 \end{enumerate}
 
 \begin{itemize}
-\vfill \item 
+\vfill \item
 \dg{Theorem of MLTT (Voevodsky).} The type \m{\UA} is a proposition.
 
 \vfill \item
@@ -753,14 +762,14 @@ Let \m{X} and \m{Y} be types and \m{f:X \to Y}.
      Remember that we defined a group to be a \emph{set} together with a binary operation etc., rather than an arbitrary \db{type}.
 
 $\vdots$
-       
+
        \vfill \item[n+1.] Types whose path spaces are all of hlevel \m{n}.
-       
-    
+
+
    \end{enumerate}
 
-   
-   
+
+
  \end{frame}
 
  \begin{frame}
@@ -773,10 +782,10 @@ $\vdots$
 
 
      \vfill \item There is no reason why all types must have a finite hlevel. \\[1ex] Paths between paths between paths between paths \dots can go on forever in a non-trivial way.
-     
-   \vfill \item In the absence of univalence, it is consistent that all types are sets.  
+
+   \vfill \item In the absence of univalence, it is consistent that all types are sets.
    \end{itemize}
-   
+
  \end{frame}
 
 \begin{frame}
@@ -786,7 +795,7 @@ Define the image of a function \m{f:X \to Y} in the usual way, translated to Cur
 \M{\dr{\image f} \eqq \db{\Sigma(y:Y), \Sigma(x:X), f(x)=y}.}
 
 \begin{itemize}
-\vfill \item 
+\vfill \item
 This is the type of points \m{y:Y} for which we have some \m{x:X} with \m{f(x)=y}.
 \vfill \item \dr{Trouble:} \m{\image f \simeq X.} \\[1ex]
 \framebox{This is not what we expect.}
@@ -797,7 +806,7 @@ This is the type of points \m{y:Y} for which we have some \m{x:X} with \m{f(x)=y
 
 \vfill \item \dr{Example.} We don't expect the image of the unique function \m{\mathbb{2} \to \mathbb{1}} to be isomorphic to \m{\mathbb{2}}. \\[1ex]
 
-\grey{We expect the image to be a subtype of \m{\mathbb{1}}.} 
+\grey{We expect the image to be a subtype of \m{\mathbb{1}}.}
 
 %\vfill \item \dr{Can we fix this} in the same way we fixed isomorphism with equivalence?
 
@@ -813,7 +822,7 @@ This is the type of points \m{y:Y} for which we have some \m{x:X} with \m{f(x)=y
   \frametitle{\dg{Exercise}}
 
   Formulate and prove the troublesome claim.
-  
+
 \end{frame}
 
 
@@ -847,7 +856,7 @@ in MLTT.
   \frametitle{Example}
 
   \vfill
-  
+
   \db{\begin{diagram}
 \text{\dg{Not always a proposition}} \qquad & \isIsomorphism f & \rTo & \isEquivalence f & \quad \text{\dg{always proposition}} \\
 &       & \rdTo  & \dEto & \\
@@ -864,9 +873,9 @@ in MLTT.
   \vfill
 
   Let \m{f: \N \to \N} and define \M{\dr{\Sigma^{\min}(n:\N), f\,n = 0} \eqq  \db{\Sigma(n:\N), (f \, n = 0) \times \Pi(m:\N), f\,m=0 \to n \le m}.}
-  
+
   \vfill
-  
+
    \begin{diagram}%[small]
  \text{\dg{Not always a proposition}}  \qquad & \Sigma(n:\N), f\,n = 0 & \rTo & \Sigma^{\min}(n:\N), f\,n = 0 & \quad \text{\dg{a proposition}} \\
  &       & \rdTo  & \dEto & \\
@@ -883,7 +892,7 @@ in MLTT.
   Prove that \m{\Sigma^{\min}(n:\N), f\,n = 0} is the propositional
   truncation of \m{\Sigma(n:\N), (f \, n = 0)} by showing it has the
   right universal property. You will need funext.
-  
+
 \end{frame}
 
 \begin{frame}
@@ -998,8 +1007,8 @@ They imply \m{\Pi(X:\U), \trunc{X} \iff \neg\neg X}.
 
 \vfill
 
-\dg{Theorem of MLTT+$\trunc{-}$}. For any \m{f:\N \to \N}, 
-\M{\trunc{\Sigma(n:\N), f(n)=0} \to \Sigma(n:\N), f(n)=0.} 
+\dg{Theorem of MLTT+$\trunc{-}$}. For any \m{f:\N \to \N},
+\M{\trunc{\Sigma(n:\N), f(n)=0} \to \Sigma(n:\N), f(n)=0.}
 
 \vfill
 
@@ -1017,8 +1026,8 @@ If there is a root of \m{f}, we can find one.
   \frametitle{Correct formulation of unique existence}
 
   \begin{itemize}
-  \vfill \item 
-Not \mm{\db{(\Sigma(x:X), A(x))} \times \dr{(\Pi(x,y:X), A(x) \times A(y) \to x=y)}}. 
+  \vfill \item
+Not \mm{\db{(\Sigma(x:X), A(x))} \times \dr{(\Pi(x,y:X), A(x) \times A(y) \to x=y)}}.
   \vfill \item Instead \m{\isContr(\Sigma(x:X), A(x)).} \\[1ex]
 
   \grey{Especially when formulating universal properties.}
@@ -1092,7 +1101,7 @@ The assumptions are that \m{\isSet{X}} and \m{\isSet{Y(x)}} for all \m{x:X}, and
 A crucial example is Voevodsky's primary notion of \db{equivalence}. \\[1ex]
 \grey{(But we have seen additional examples.)}
     \end{itemize}
-\vfill \item At the moment, it seems to be an art to decide whether  particular mathematical statements should be formulated as giving structure/data or propositions. 
+\vfill \item At the moment, it seems to be an art to decide whether  particular mathematical statements should be formulated as giving structure/data or propositions.
 \vfill \item But the \db{main point} is that \framebox{univalent mathematics allows the distinction.} \\[1ex]
 
 \grey{(A distinction that is obliterated by the axiom of choice.)}
