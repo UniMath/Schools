@@ -7,7 +7,7 @@
 Require Import UniMath.MoreFoundations.All.
 Require Import UniMath.CategoryTheory.Core.Prelude.
 Require Import UniMath.CategoryTheory.Core.Setcategories.
-Require Import UniMath.CategoryTheory.categories.HSET.Core.
+Require Import UniMath.CategoryTheory.categories.HSET.All.
 Require Import UniMath.CategoryTheory.DisplayedCats.Core.
 Require Import UniMath.CategoryTheory.DisplayedCats.Constructions.
 Require Import UniMath.CategoryTheory.limits.graphs.colimits.
@@ -74,6 +74,7 @@ Section Exercise_1.
 End Exercise_1.
 
 Section Exercise_2.
+  Local Open Scope cat.
   (* Exercise 2.1: Define `pointed_disp_cat` with `disp_struct`. *)
   Definition pointed_disp_cat
   : disp_cat SET.
@@ -218,7 +219,8 @@ Section Exercise_2.
     : is_univalent pointed_operation_set.
   Proof.
     apply is_univalent_total_category.
-    - exact is_univalent_HSET.
+    - Search HSET.
+      exact is_univalent_HSET.
     - exact pointed_operation_is_univalent_disp.
   Defined.
 

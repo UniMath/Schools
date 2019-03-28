@@ -6,7 +6,7 @@
 Require Import UniMath.MoreFoundations.All.
 Require Import UniMath.CategoryTheory.Core.Prelude.
 Require Import UniMath.CategoryTheory.Core.Setcategories.
-Require Import UniMath.CategoryTheory.categories.HSET.Core.
+Require Import UniMath.CategoryTheory.categories.HSET.All.
 Require Import UniMath.CategoryTheory.DisplayedCats.Core.
 Require Import UniMath.CategoryTheory.DisplayedCats.Constructions.
 Require Import UniMath.CategoryTheory.limits.graphs.colimits.
@@ -74,7 +74,7 @@ End Exercise_1.
 Section Exercise_2.
   (* Exercise 2.1: Define `pointed_disp_cat` with `disp_struct`. *)
   Definition pointed_disp_cat
-  : disp_cat SET.
+    : disp_cat SET.
   Proof.
   Admitted.
 
@@ -108,13 +108,18 @@ Section Exercise_2.
 
   Definition unit_el
              (X : pointed_operation_set)
-    : carrier X
-    := pr12 X.
+    : carrier X.
+  Proof.
+  Admitted.
+  (* Once defined, the following should type check. *)
+  (* := pr12 X. *)
 
   Definition mul
              (X : pointed_operation_set)
-    : carrier X → carrier X → carrier X
-    := λ x y, pr22 X (x ,, y).
+    : carrier X → carrier X → carrier X.
+  Admitted.
+  (* Once defined, the following should type check. *)
+  (* := λ x y, pr22 X (x ,, y). *)
 
   (* Exercise 2.3: Define the category of monoid displayed category.
      Hint: use `disp_full_sub`.
@@ -132,6 +137,9 @@ Section Exercise_2.
   Definition pointed_is_univalent_disp
     : is_univalent_disp pointed_disp_cat.
   Proof.
+  Admitted.
+  (* Once everything is in place, the following proof should work. *)
+  (*
     apply is_univalent_disp_from_fibers.
     intros X x₁ x₂.
     use isweqimplimpl.
@@ -144,6 +152,7 @@ Section Exercise_2.
       + intros p q r₁ r₂.
         apply X.
   Defined.
+   *)
 
   (* Exercise 2.4: Show that each part gives rise to a displayed univalent category and conclude that the total category is univalent.
      Hint: adapt the proof from the lecture notes.
@@ -175,7 +184,6 @@ Section Exercise_2.
   Definition monoid_is_univalent_disp
     : is_univalent_disp monoid_laws_disp_cat.
   Proof.
-    apply disp_full_sub_univalent.
   Admitted.
 
   Definition monoids_is_univalent
