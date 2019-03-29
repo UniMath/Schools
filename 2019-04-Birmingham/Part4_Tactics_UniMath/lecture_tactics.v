@@ -430,7 +430,7 @@ The command has indeed failed with message:
       exact H2.
 Defined.
 (* [use] is not generally available in Coq but defined in the
-   preamble of the UniMath library.
+   preamble of the UniMath library (more precisely, in [Foundations/Init.v]).
 *)
 
 (** ** a bit more on equational reasoning *)

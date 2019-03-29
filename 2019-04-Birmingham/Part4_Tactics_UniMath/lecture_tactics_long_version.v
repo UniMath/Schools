@@ -897,7 +897,7 @@ Print Ltac simple_rapply.
     arguments. *)
 
 (** This tactic must not be used in UniMath since a "tactic notation"
-    is favoured: [Foundations/Preamble.v] contains the definition
+    is favoured: [Foundations/Init.v] contains the definition
 [[
 Tactic Notation "use" uconstr(p) := simple_rapply p.
 ]]
@@ -929,8 +929,8 @@ Defined.
     number of underscores, [use H] may be a better option.
 *)
 
-(** There is another recommendable tactic notation that is also by
-    Jason Gross:
+(** There is another recommendable tactic notation in [Foundations/Init.v]
+    that is also by Jason Gross:
 [[
 Tactic Notation "transparent" "assert"
                 "(" ident(name) ":" constr(type) ")" :=
