@@ -1,4 +1,4 @@
-(** Exercise sheet for lecture 2: Fundamentals of Coq. 
+(** Exercise sheet for lecture 2: Fundamentals of Coq.
 
 The goal is to replace all of the "..." by suitable Coq code
 satisfying the specification below.
@@ -58,6 +58,9 @@ and rewrite negbool and andbool using this notation. *)
 
 (* Notation "..." := (...) (at level 1). *)
 
+(** Note that we cannot introduce the notation "if b then x else y" as
+this is already used. *)
+
 (* Definition negbool' (b : bool) : bool := ... *)
 
 (* Check that negbool' uses ifbool by disabling printing of notations *)
@@ -90,6 +93,7 @@ Notation "f ̂ n" := (λ x, iter _ x f n) (at level 10).
 Definition sub (m n : nat) : nat := pred ̂ n m.
 
 (** Exercise: define addition using iter and S *)
+
 (* Definition add' (m : nat) : nat → nat := ... *)
 
 (* This should satisfy:

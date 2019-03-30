@@ -1,9 +1,11 @@
 (**
+
 <<
                    Lecture 2: Fundamentals of Coq
       -------------------------------------------------------------
-             Anders Mörtberg (Carnegie Mellon University)
+        Anders Mörtberg (Carnegie Mellon and Stockholm University)
 >>
+
 The Coq proof assistant is a programming language for writing
 proofs: https://coq.inria.fr/
 
@@ -11,14 +13,13 @@ It has been around since 1984 and was initially implemented by Thierry
 Coquand and his PhD supervisor Gérard Huet. The first version, called
 CoC, implemented the Calculus of Constructions as presented in:
 
-"The Calculus of Constructions".
-Thierry Coquand, Gérard Huet,
-Information and Computation (1988). 76(2–3): 95–120.
+"The Calculus of Constructions"
+Thierry Coquand and Gérard Huet
+Information and Computation 76(2–3): 95–120. 1988.
 
 It was later extended to the Calculus of Inductive Constructions and
 the name changed to Coq. These type theories are similar to Martin-Löf
-type theory, but there are some differences that I won't have time to
-get into. As Coq is supposed to be a programming language for
+type theory. As Coq is supposed to be a programming language for
 developing proofs all programs have to be terminating, so it can be
 seen as a "total" programming language.
 
@@ -26,43 +27,47 @@ The Coq system has a very long and detailed reference manual:
 
 https://coq.inria.fr/distrib/current/refman/
 
-However, UniMath is only using a subset of Coq. So there is a lot of
-information that is not relevant for UniMath development in there. The
-fragment of Coq that UniMath uses consists of:
+However, UniMath is only using a small subset of Coq, so there is a
+lot of information that is not relevant for UniMath development in
+there. The fragment of Coq that UniMath uses consists of:
 
 - Pi-types (with judgmental eta)
-- Sigma-types (with judgmental eta/surjective pairing)
-- Some inductive types: natural numbers, booleans, unit, empty
+- Sigma-types (with judgmental eta)
+- The inductive types of natural numbers, booleans, unit and empty
 - Coproduct types
 - A universe UU
 
 The reason we only have one universe is that there is no support for
 universe resizing axioms in Coq yet. Because of this we assume the
 inconsistent rule UU : UU, but we are working on improving this so
-that we can make use of Coq's universe consistency
-checker. Furthermore, the reason UniMath only relies on this subset is
-that everything in UniMath has to be motivated by the model in
-simplicial sets.
+that we can make use of Coq's universe consistency checker.
+Furthermore, the reason UniMath only relies on this subset is that
+everything in UniMath has to be motivated by the model in simplicial
+sets:
 
-In this lecture I will show some things than can be done in UniMath if
-it is viewed as a programming language. In the later lectures we will
-also see how to actually prove properties about definitions and
-programs. The UniMath library can be found at:
+https://arxiv.org/abs/1211.2851
+
+In this lecture I will show some things than can be done in UniMath as
+a programming language. In the later lectures we will also see how to
+prove properties about the programs that we can write in UniMath.
+
+The UniMath library can be found at:
 
 https://github.com/UniMath/UniMath
 
 This whole file is a Coq file and it hence has the file ending ".v" (v
-for vernacular) and can be processed using:
+for "vernacular") and can be processed using:
 
 - emacs with proof-general: https://proofgeneral.github.io/
 
 - Coq IDE
 
 I use emacs as it is also an extremely powerful text editor, but if
-you never saw emacs before it might be quite overwhelming. If so I
-think Coq IDE (interactive development environment) might be easier to
-get started with and it has some features that emacs doesn't have so
-some Coq experts use it as well. But in this talk I will use emacs.
+you never saw emacs before it might be quite overwhelming. An
+alternative that might be easier for newcomers is Coq IDE (interactive
+development environment). It also has some features that emacs doesn't
+have so some Coq experts use it as well, but in this talk I will use
+emacs.
 
 In order to make emacs interact with Coq one should install Proof
 General. This is an extension to emacs that enables it to interact
@@ -74,10 +79,10 @@ The basic keybinding that I use when working in Proof General are:
 <<
 C-c C-n      -- Process one line
 C-c C-u      -- Unprocess a line
-C-c C-ENTER  -- Process the whole buffer until where the cursor is
+C-c C-ENTER  -- Process the whole buffer up until the cursor
 C-c C-b      -- Process the whole file
 C-c C-r      -- Unprocess (retract) the whole file
-C-x C-c      -- Kill Coq process
+C-x C-c      -- Kill the Coq process
 >>
 For more commands see:
 
@@ -118,30 +123,33 @@ Require Import Dir.Filename.
 This will import the file Filename in the directory Dir. This assumes
 that directory Dir is visible to Coq, that is, in the list of
 directories in which Coq looks for files to import. If you are working
-in the UniMath directory this Coq will be able to find all of the
+in the UniMath directory then Coq will be able to find all of the
 files in the UniMath library, but if you are in another directory you
-need to the update your LoadPath by running (where "/path/to/UniMath/"
-is replaced to the path where UniMath is located on your computer):
+need to the update your LoadPath by running
 <<
 Add LoadPath "/path/to/UniMath".
 >>
+(where "/path/to/UniMath/" is replaced to the path where UniMath is
+located on your computer).
 
-Coq has a quite fancy module system which allows you to import and
-export definitions in various complicated ways. We extremely rarely
-use this in UniMath so you can safely ignore it for now. The only
-thing you need to know is that there is an alternative to Require
-Import:
+Coq has a fancy module system which allows you to import and export
+definitions in various complicated ways. We extremely rarely use
+this in UniMath so you can safely ignore it for now. The only thing
+you need to know is that there is an alternative to Require Import:
 <<
 Require Export Dir.Filename.
 >>
-that is used in some files. This will make the file your working on
-import all of the definitions in Dir.Filename and then export them
-again so that any file that imports this file also gets the
+that is used in some files. This will make the file you are working
+on import all of the definitions in Dir.Filename and then export
+them again so that any file that imports this file also gets the
 definitions in Dir.Filename. I personally only use Require Import.
 
 *)
 
+(* Let's import one of the most basic UniMath file: *)
 Require Import UniMath.Foundations.Preamble.
+(* This file contains definition of the inductive types of UniMath,
+makes UU the name for the universe and various other basic things. *)
 
 (** * Definitions, lambda terms *)
 
@@ -200,18 +208,12 @@ Eval compute in andbool true false.
 Eval compute in andbool false true.
 Eval compute in andbool false false.
 
-(** Exercise: define boolean or:
-
-Definition orbool : bool -> bool -> bool :=
-
-*)
-
 (** The natural numbers do no longer come from the Coq standard library (as of 2018) *)
 About nat.
 Print nat.
 
 (** They are defined as Peano numbers, but we can use numerals *)
-Check idfun nat 3.
+Check 3.
 
 (** This type also comes with an induction principle *)
 Check nat_rect.
@@ -236,14 +238,14 @@ Eval compute in nat_rec.
 of Coq are not allowed in UniMath. Instead we write everything using
 recursors. The reason is that everything we write in UniMath has to be
 justified by the simplicial set model and the situation for general
-inductive types with match is unclear. *)
+inductive types with match is not spelled out in detail. *)
 
 (** If you are used to regular programming languages it might seem very
 strange to only program with the recursors, but it's actually not too
-bad and we can do many programs quite directly *)
+bad and we can do many programs quite directly. *)
 
-(** truncated predecessor *)
-Definition pred : nat -> nat := nat_rec nat 0 (fun x _ => x).
+(** Truncated predecessor function *)
+Definition pred : nat -> nat := nat_rec nat 0 (const nat nat).
 
 Eval compute in pred 3.
 
@@ -252,12 +254,6 @@ Definition even : nat -> bool := nat_rec bool true (fun _ b => negbool b).
 
 Eval compute in even 3.
 Eval compute in even 4.
-
-(** Exercise: define a function odd that tests if a number is odd
-
-Definition odd : nat -> bool :=
-
-*)
 
 (** Addition *)
 Definition add (m : nat) : nat -> nat := nat_rec nat m (fun _ y => S y).
@@ -275,42 +271,32 @@ Locate "+".
 (** Coq allows us to write very sophisticated notations, for details
 see: https://coq.inria.fr/refman/syntax-extensions.html *)
 
-(** In UniMath we use a lot of unicode. To input a unicode character
-write \ and then the name of the symbol. For example \alpha gives
-α. To get information about a unicode character, including how to
-write it, put the cursor on top of the symbol and type: M-x
-describe-char
+(** In UniMath we use a lot of unicode symbols. To input a unicode
+symbol type \ and then the name of the symbol. For example \alpha
+gives α. To get information about a unicode character, including
+how to write it, put the cursor on top of the symbol and type:
+M-x describe-char
 
-In fact one can write:
+We can write:
 <<
   λ x, e        instead of   fun x => e
   ∏ (x : A), T  instead of   forall (x : A), T
-  A → B        instead of    A -> B
+  A → B         instead of   A -> B
 >>
 *)
 
-(** Iterate a function many times *)
-Definition iter (A : UU) (a : A) (f : A → A) : nat → A :=
-  nat_rec A a (λ _ y, f y).
+(** Iterate a function n times *)
+Definition iter (A : UU) (a : A) (f : A → A) (n : nat) : A :=
+  nat_rec A a (λ _ y, f y) n.
 
 Notation "f ^ n" := (λ x, iter _ x f n).
 
 Eval compute in (pred ^ 2) 5.
 
-(** Exercise: define a notation "myif b then x else y" for "ifbool _ x y b"
-and rewrite negbool and andbool using this notation.
-
-Note that we cannot introduce the notation "if b then x else y" as
-this is already used.
-
-*)
-
 Definition sub (m n : nat) : nat := (pred ^ n) m.
 
 Eval compute in sub 15 4.
 Eval compute in sub 11 15.
-
-(** Exercise: define addition using iter and S *)
 
 Definition is_zero : nat → bool := nat_rec bool true (λ _ _, false).
 
@@ -326,29 +312,26 @@ Eval compute in 5 == 5.
 Eval compute in 5 == 3.
 Eval compute in 9 == 5.
 
-(** Exercises: define <, >, ≤, ≥ *)
-
 (** Note that I could omit the A from the definition of f ̂ n and just
 replace it by _. The reason is that Coq very often can infer what
 arguments are so that we can omit them. *)
 
 (** For example if I omit nat in *)
 Check idfun _ 3.
-(** Coq will figure it out for us *)
+(** Coq will figure it out for us. *)
 
-(** In fact we can tell Coq to always put _ for an argument by using
-curly braces in the definition: *)
+(** We can tell Coq to always put _ for an argument by using curly
+braces in the definition: *)
 
 Definition idfun'' {A : UU} (a : A) : A := a.
 
 Check idfun'' 3.
 Check idfun'' true.
 
-(** Such an argument is called an "implicit argument" and these are
-very useful in order for us to get definitions that don't take too
-many unnecessary arguments. However it is sometimes necessary to be
-able to give all the arguments explicitly, this is achieved by putting
-an @ in front of the function *)
+(** Such an argument is called an "implicit" and these are very useful
+to get definitions that don't take too many arguments. However, it is
+sometimes necessary to be able to give some of the arguments
+explicitly, this is using "@". *)
 
 Check @idfun'' nat 3.
 
@@ -373,19 +356,18 @@ Check (λ A B C : UU, @coprod_rect A B (λ _, C)).
 Definition coprod_rec {A B C : UU} (f : A → C) (g : B → C) : A ⨿ B → C :=
   @coprod_rect A B (λ _, C) f g.
 
-(** Define integers as a coproduct of nat with itself *)
-(** +1 = inl 1 *)
-(** 0 = inl 0 *)
-(** -1 = inr 0 *)
-(** Note that we get the negative numbers "off-by-one". We could also
-have inl 0 and inr 0 representing zero, but this becomes quite strange
-as we actually want to work with a quotient type where "inl 0 = inr
-0". *)
+(** We can define integers as a coproduct of nat with itself *)
 
 Definition Z : UU := nat ⨿ nat.
 
 Notation "⊹ x" := (inl x) (at level 20).
 Notation "─ x" := (inr x) (at level 40).
+
+(** +1 = inl 1 *)
+(** 0 = inl 0 *)
+(** -1 = inr 0 *)
+(** Note that we get the negative numbers "off-by-one". *)
+
 
 Definition Z1 : Z := ⊹ 1.
 Definition Z0 : Z := ⊹ 0.
@@ -402,8 +384,6 @@ Eval compute in negate Z0.
 Eval compute in negate Z1.
 Eval compute in negate Zn3.
 
-(** Exercise (harder): define addition for Z. *)
-
 (** We also have two more inductive types: *)
 
 (** The unit type with one inhabitant tt *)
@@ -419,7 +399,7 @@ Print empty.
 
 (** Sigma types are called total2 and this is the only example of a
 Record in the whole UniMath library. The reason we use a record is so
-that we can get surjective pairing. *)
+that we can get the eta principle definitionally. *)
 
 About total2.
 Print total2.
@@ -439,18 +419,17 @@ Definition dirprod (X Y : UU) := ∑ x : X, Y.
 
 Notation "A × B" := (dirprod A B) (at level 75, right associativity) : type_scope.
 
-Definition dirprod_pr1 {X Y : UU} : X × Y -> X := pr1.
-Definition dirprod_pr2 {X Y : UU} : X × Y -> Y := pr2.
+Definition dirprod_pr1 {X Y : UU} : X × Y → X := pr1.
+Definition dirprod_pr2 {X Y : UU} : X × Y → Y := pr2.
 
-Definition dirprodf {X Y X' Y' : UU} (f : X -> Y) (f' : X' -> Y')
+Definition dirprodf {X Y X' Y' : UU} (f : X → Y) (f' : X' → Y')
   (xx' : X × X') : Y × Y' := (f (pr1 xx'),,f' (pr2 xx')).
 
 Definition swap {X Y : UU} (xy : X × Y) : Y × X :=
   dirprodf dirprod_pr2 dirprod_pr1 (xy,,xy).
 
 (** We can define the type of even numbers as a Sigma-type: *)
-Definition even_nat : UU :=
-  ∑ (n : nat), ifbool _ unit empty (even n).
+Definition even_nat : UU := ∑ (n : nat), ifbool _ unit empty (even n).
 
 Definition test20 : even_nat := (20,,tt).
 
@@ -500,7 +479,10 @@ Search nat.
 Locate "+".
 
 (** More information about searching can be found in the reference
-manual. *)
+manual:
+
+https://coq.inria.fr/distrib/current/refman/proof-engine/vernacular-commands.html?highlight=search#coq:cmd.search
+*)
 
 (**
 
