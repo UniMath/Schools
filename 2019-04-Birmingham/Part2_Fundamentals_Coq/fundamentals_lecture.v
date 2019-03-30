@@ -208,12 +208,6 @@ Eval compute in andbool true false.
 Eval compute in andbool false true.
 Eval compute in andbool false false.
 
-(** Exercise: define boolean or:
-
-Definition orbool : bool -> bool -> bool :=
-
-*)
-
 (** The natural numbers do no longer come from the Coq standard library (as of 2018) *)
 About nat.
 Print nat.
@@ -261,12 +255,6 @@ Definition even : nat -> bool := nat_rec bool true (fun _ b => negbool b).
 Eval compute in even 3.
 Eval compute in even 4.
 
-(** Exercise: define a function odd that tests if a number is odd
-
-Definition odd : nat -> bool :=
-
-*)
-
 (** Addition *)
 Definition add (m : nat) : nat -> nat := nat_rec nat m (fun _ y => S y).
 
@@ -305,20 +293,10 @@ Notation "f ^ n" := (λ x, iter _ x f n).
 
 Eval compute in (pred ^ 2) 5.
 
-(** Exercise: define a notation "myif b then x else y" for "ifbool _ x y b"
-and rewrite negbool and andbool using this notation.
-
-Note that we cannot introduce the notation "if b then x else y" as
-this is already used.
-
-*)
-
 Definition sub (m n : nat) : nat := (pred ^ n) m.
 
 Eval compute in sub 15 4.
 Eval compute in sub 11 15.
-
-(** Exercise: define addition using iter and S *)
 
 Definition is_zero : nat → bool := nat_rec bool true (λ _ _, false).
 
@@ -333,8 +311,6 @@ Notation "m == n" := (eqnat m n) (at level 30).
 Eval compute in 5 == 5.
 Eval compute in 5 == 3.
 Eval compute in 9 == 5.
-
-(** Exercises: define <, >, ≤, ≥ *)
 
 (** Note that I could omit the A from the definition of f ̂ n and just
 replace it by _. The reason is that Coq very often can infer what
@@ -407,8 +383,6 @@ Definition negate : Z → Z :=
 Eval compute in negate Z0.
 Eval compute in negate Z1.
 Eval compute in negate Zn3.
-
-(** Exercise (harder): define addition for Z. *)
 
 (** We also have two more inductive types: *)
 
