@@ -1,4 +1,4 @@
-(** Solutions to exercise sheet for lecture 2: Fundamentals of Coq. 
+(** Solutions to exercise sheet for lecture 2: Fundamentals of Coq.
 
 Note that these are just suggestions for solutions and many of the
 problems can have different solutions. Once you know how to prove
@@ -47,7 +47,7 @@ Definition even : nat -> bool := nat_rec bool true (fun _ b => negbool b).
 Definition odd : nat -> bool :=
   nat_rec bool false (fun _ b => negbool b).
 
-Eval compute in odd 24.    (* false *)
+Eval compute in odd 24.   (* false *)
 Eval compute in odd 19.   (* true *)
 
 
@@ -172,11 +172,10 @@ Definition Zadd : Z -> Z -> Z :=
                  (λ negm : nat, ─ (S negn + negm))).
 
 (* This should satisfy *)
-Eval compute in Zadd Z0 Z0.   (* ⊹ 0 *)
-Eval compute in Zadd Z1 Z1.   (* ⊹ 2 *)
-Eval compute in Zadd Z1 Zn3.  (* ─ 1 *) (* recall that negative numbers are off-by-one *)
-Eval compute in Zadd Zn3 Z1.  (* ─ 1 *)
-Eval compute in Zadd Zn3 Zn3. (* ─ 5 *)
+Eval compute in Zadd Z0 Z0.              (* ⊹ 0 *)
+Eval compute in Zadd Z1 Z1.              (* ⊹ 2 *)
+Eval compute in Zadd Z1 Zn3.             (* ─ 1 *) (* recall that negative numbers are off-by-one *)
+Eval compute in Zadd Zn3 Z1.             (* ─ 1 *)
+Eval compute in Zadd Zn3 Zn3.            (* ─ 5 *)
 Eval compute in Zadd (Zadd Zn3 Zn3) Zn3. (* ─ 8 *)
-Eval compute in Zadd Z0 (negate (Zn3)). (* ⊹ 3 *)
-
+Eval compute in Zadd Z0 (negate (Zn3)).  (* ⊹ 3 *)
