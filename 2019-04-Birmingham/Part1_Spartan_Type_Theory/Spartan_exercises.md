@@ -6,12 +6,11 @@ you are only beginning to use type theory, you will likely have many questions,
 as even simple notational conventions and basics will be new to you. We
 encourage you to work together with others, and to ask lots of questions!
 
-You should try to solve them the exercises on paper, as well as with Coq (see
+You should try to solve the exercises on paper as well as with Coq (see
 the accompanying file [Spartan_exercises.v](./Spartan_exercises.v)). The paper
-will make you understand the concepts, and Coq will make sure you have got all
-the details right.
+is good for understanding and Coq is good for precision.
 
-## Exercise 1
+### Exercise 1
 
 For each of the following types, write down an element of that type, if it has
 one. If it does not have any elements, you should establish that this is the
@@ -28,13 +27,12 @@ element of `A → empty`.
 8. `B → ∏ (A : Universe) (B → A) → A`, given type `B`
 9. `(∏ (A : Universe) (B → A) → A) → B`, given type `B`
 
-## Exercise 2
+### Exercise 2
 
 1. Using the basic rules for natural numbers, construct addition on natural numbers.
-
 2. State associativity and commutativity of addition in a type-theoretic way.
 
-## Exercise 3
+### Exercise 3
 
 Write down the following types and elements:
 
@@ -45,11 +43,10 @@ Write down the following types and elements:
 4. pairs `(m, n)` of natural numbers such that `m ≤ n`, and `(2, 4)` as an element of
    this type.
 
-## Exercise 4
+### Exercise 4
 
 We say that a dependent type `P : A → Universe` is decidable if there is an element of
 `∏ (x:A), P x + (P x → Empty)`. Which of the following are decidable?
 
 1. `P : bool → Universe`, defined by `P true ≡ unit` and `P false ≡ empty`.
-
 2. `P : nat → Universe`, defined by `P n ≡ Id_nat (n, 42)`.
