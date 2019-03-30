@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Spartan_exercises.html</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+</head>
+
+<body>
+
+<h1>Exercises in Type Theory</h1>
+
+<p>These exercises should help you get familiar with type theory as a language for
+writing down mathematical structures, constructions, statements, and proofs. If
+you are only beginning to use type theory, you will likely have many questions,
+as even simple notational conventions and basics will be new to you. We
+encourage you to work together with others, and to ask lots of questions!</p>
+
+<p>You should try to solve the exercises on paper as well as with Coq (see
+the accompanying file <a href="./Spartan_exercises.v">Spartan_exercises.v</a>). The paper
+is good for understanding and Coq is good for precision.</p>
+
+<h3>Exercise 1</h3>
+
+<p>For each of the following types, write down an element of that type, if it has
+one. If it does not have any elements, you should establish that this is the
+case. Recall the lecture: to show that A has no elements, we construct an
+element of <code>A → empty</code>.</p>
+
+<ol>
+<li><code>A × (B + C) → A × B + A × C</code>, given types <code>A</code>, <code>B</code>, and <code>C</code></li>
+<li><code>(A → A) → (A → A)</code>, given type <code>A</code> (for extra credit, write down <em>five</em> elements of this type)</li>
+<li><code>Id_nat (0, succ 0)</code></li>
+<li><code>∑ (A : Universe) (A → empty) → empty</code></li>
+<li><code>∏ (n : nat), ∑ (m : nat), Id_nat n (2 · m) + Id_nat n (2 · m + 1)</code>, assuming you have got arithmetic.</li>
+<li><code>(∑ (x : A) B × P x) → B × ∑ (x : A) P x</code>, given types <code>A</code>, <code>B</code>, and <code>P : A → Universe</code></li>
+<li><code>B → (B → A) → A</code>, given types <code>A</code> and <code>B</code></li>
+<li><code>B → ∏ (A : Universe) (B → A) → A</code>, given type <code>B</code></li>
+<li><code>(∏ (A : Universe) (B → A) → A) → B</code>, given type <code>B</code></li>
+</ol>
+
+<h3>Exercise 2</h3>
+
+<ol>
+<li>Using the basic rules for natural numbers, construct addition on natural numbers.</li>
+<li>State associativity and commutativity of addition in a type-theoretic way.</li>
+</ol>
+
+<h3>Exercise 3</h3>
+
+<p>Write down the following types and elements:</p>
+
+<ol>
+<li>even natural numbers, and <code>4</code> as an element of this type</li>
+<li>prime numbers, and <code>7</code> as an element of this type</li>
+<li>functions <code>A → nat</code> with a given argument at which they are zero
+(set-theoretically this would be <code>{ (x, f) ∈ A × (A → nat) | f x = 0 }</code>).</li>
+<li>pairs <code>(m, n)</code> of natural numbers such that <code>m ≤ n</code>, and <code>(2, 4)</code> as an element of
+this type.</li>
+</ol>
+
+<h3>Exercise 4</h3>
+
+<p>We say that a dependent type <code>P : A → Universe</code> is decidable if there is an element of
+<code>∏ (x:A), P x + (P x → Empty)</code>. Which of the following are decidable?</p>
+
+<ol>
+<li><code>P : bool → Universe</code>, defined by <code>P true ≡ unit</code> and <code>P false ≡ empty</code>.</li>
+<li><code>P : nat → Universe</code>, defined by <code>P n ≡ Id_nat (n, 42)</code>.</li>
+</ol>
+
+</body>
+</html>
