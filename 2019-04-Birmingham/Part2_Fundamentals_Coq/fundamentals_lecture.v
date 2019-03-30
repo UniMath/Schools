@@ -144,7 +144,7 @@ on import all of the definitions in Dir.Filename and then export
 them again so that any file that imports this file also gets the
 definitions in Dir.Filename. I personally only use Require Import.
 
- *)
+*)
 
 (* Let's import one of the most basic UniMath file: *)
 Require Import UniMath.Foundations.Preamble.
