@@ -1,6 +1,10 @@
 Require Import UniMath.Foundations.PartD.
 
-Axiom fill_me : forall {X : UU}, X. (* Remove this line when you are finished. *)
+(** The following axiom allows us to inhabit any type.
+    It is a way of indicating where you need to fill in
+    your own solutions. Remove it once you're done with
+    all the exercises. *)
+Axiom fill_me : forall {X : UU}, X.
 
 (** Exercise 1.1. A × (B + C) → A × B + A × C, given types A, B, C *)
 
