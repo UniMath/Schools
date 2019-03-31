@@ -170,7 +170,7 @@ Print idfun'.
 (** The constant function that returns its first argument *)
 Definition const (A B : UU) (a : A) (b : B) : A := a.
 
-(** The booleans come from the Coq standard library *)
+(** The booleans are defined in UniMath.Foundations.Preamble *)
 About bool.
 Print bool.
 
@@ -208,7 +208,7 @@ Eval compute in andbool true false.
 Eval compute in andbool false true.
 Eval compute in andbool false false.
 
-(** The natural numbers do no longer come from the Coq standard library (as of 2018) *)
+(** The natural numbers are defined in UniMath.Foundations.Preamble *)
 About nat.
 Print nat.
 
@@ -306,9 +306,9 @@ Eval compute in is_zero 0.
 Definition eqnat (m n : nat) : bool :=
   andbool (is_zero (sub m n)) (is_zero (sub n m)).
 
-Notation "m == n" := (eqnat m n) (at level 30).
+Notation "m == n" := (eqnat m n) (at level 50).
 
-Eval compute in 5 == 5.
+Eval compute in 1 + 1 == 2.
 Eval compute in 5 == 3.
 Eval compute in 9 == 5.
 
@@ -346,14 +346,14 @@ are defined in Foundations. *)
 (** One of these is the coproduct (disjoint union) of types *)
 About coprod.
 Print coprod.
-Check inl.
-Check inr.
-Locate "ii1".
-Locate "ii2".
+Check ii1.
+Check ii2.
+Print inl.
+Print inr.
 
 Check (λ A B C : UU, @coprod_rect A B (λ _, C)).
 
-Definition coprod_rec {A B C : UU} (f : A → C) (g : B → C) : A ⨿ B → C :=
+Definition coprod_rec {A B C : UU} (f : A → C) (g : B → C) : coprod A B → C :=
   @coprod_rect A B (λ _, C) f g.
 
 (** We can define integers as a coproduct of nat with itself *)
@@ -415,7 +415,7 @@ Check pr1.
 Check pr2.
 
 (** In PartA.v we define the direct product as a Sigma type *)
-Definition dirprod (X Y : UU) := ∑ x : X, Y.
+Definition dirprod (X Y : UU) : UU := ∑ x : X, Y.
 
 Notation "A × B" := (dirprod A B) (at level 75, right associativity) : type_scope.
 
@@ -473,7 +473,7 @@ that you don't do something someone else has already done. *)
 Search nat.
 
 (** To search for all lemmas involving the pattern *)
-(* Search _ (_ -> _ <= _). *)
+(* Search _ (_ -> _ -> _). *)
 
 (** To find information about a notation *)
 Locate "+".
