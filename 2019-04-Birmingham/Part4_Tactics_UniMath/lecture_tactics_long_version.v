@@ -102,7 +102,8 @@ Eval compute in mysecondtruthvalue.
 
 (** Here, we see a copy of the definition from the Coq library: *)
 Definition andb (b1 b2:bool) : bool := if b1 then b2 else false.
-
+(** only for illustration purposes - it would be better to define
+    it according to UniMath style *)
 
 Definition mythirdtruthvalue: bool.
 Proof.

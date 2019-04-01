@@ -97,7 +97,8 @@ Eval compute in mysecondtruthvalue.
 
 (** Here, we see a copy of the definition from the Coq library: *)
 Definition andb (b1 b2:bool) : bool := if b1 then b2 else false.
-
+(** only for illustration purposes - it would be better to define
+    it according to UniMath style *)
 
 Definition mythirdtruthvalue: bool.
 Proof.
@@ -485,10 +486,6 @@ Proof.
         argument *)
     apply homoth2.
 Defined.
-(* An alternative for [intermediate_path] with the explicit intermediate
-   term would have been to call the UniMath-specific tactic [etrans] -
-   the term would be constructed during the execution of the tactics
-   that follow in the proof script. *)
 
 Variables v w: A -> B.
 Variables v' w': B → A.
@@ -651,7 +648,6 @@ exists
 use (Ltac notation)
 unfold / unfold in
 intermediate_path (Ltac def.)
-etrans (Ltac def.)
 rewrite / rewrite <-
 assert {} / assert by
 assumption
