@@ -6,7 +6,7 @@ Written by Ralph Matthes (CNRS, IRIT, Univ. Toulouse, France).
 *)
 
 (** * Exercise 1
-Formalize the solutions of exercise 1 of Lecture 1 (of the 2017 UniMath school, given by Andrej Bauer).
+Formalize the solutions of exercise 1 of Lecture 1.
 
 [[
 For each of the following types, write down an element of that type, if it has one. If it does not have any elements, you should establish that this is the case. But first think how this can be done in type theory! It ought to be just another construction.
@@ -15,7 +15,7 @@ For each of the following types, write down an element of that type, if it has o
 2.    (A → A) → (A → A), given type A (for extra credit, write down five elements of this type)
 3.    Id_nat (0, succ 0)
 4.    ∑ (A : Universe) (A → empty) → empty
-5.    ∏ (n : nat), ∑ (m : nat), (n = 2 * m) + (n = 2 * m + 1), assuming you have got arithmetic
+5.    ∏ (n : nat), ∑ (m : nat), Id_nat n (2 * m) + Id_nat n (2 * m + 1), assuming you have got arithmetic
 6.    (∑ (x : A) B × P x) → B × ∑ (x : A) P x, given types A, B, and P : A → Universe
 7.    B → (B → A) → A, given types A and B
 8.    B → ∏ (A : Universe) (B → A) → A, given type B
@@ -66,7 +66,7 @@ Proof.
   - exact (f IH).
 Defined.
 
-(** of course, the iterator of lecture 2 (of the UniMath school 2017) could be used here *)
+(** of course, the iterator of lecture 2 could be used here *)
 
 Lemma Exo1_2_bonus (n1 n2: nat): ¬ (n1 = n2) -> ¬ (Exo1_2 nat n1 = Exo1_2 nat n2).
 Proof.
@@ -181,8 +181,8 @@ Define two computable strict comparison operators for natural numbers based on t
 that [m < n] iff [n - m <> 0] iff [(m+1) - n = 0]. Prove that the two operators are
 equal (using function extensionality, i.e., [funextfunStatement] in the UniMath library).
 
-It may be helpful to use the definitions of the exercises for lecture 2 (of the UniMath
-school 2017). The following lemmas on substraction [sub] in the natural numbers may be
+It may be helpful to use the definitions of the exercises for lecture 2.
+The following lemmas on substraction [sub] in the natural numbers may be
 useful:
 
 a) [sub n (S m) = pred (sub n m)]
@@ -196,7 +196,7 @@ d) [sub (S n) (S m) = sub n m]
 *)
 
 
-(** from exercises to Lecture 2 (of the UniMath school 2017): *)
+(** from exercises to Lecture 2: *)
 Definition ifbool (A : UU) (x y : A) : bool -> A :=
   bool_rect (λ _ : bool, A) x y.
 
