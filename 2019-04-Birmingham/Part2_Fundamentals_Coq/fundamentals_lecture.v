@@ -358,7 +358,7 @@ Definition coprod_rec {A B C : UU} (f : A → C) (g : B → C) : coprod A B → 
 
 (** We can define integers as a coproduct of nat with itself *)
 
-Definition Z : UU := nat ⨿ nat.
+Definition Z : UU := coprod nat nat.
 
 Notation "⊹ x" := (inl x) (at level 20).
 Notation "─ x" := (inr x) (at level 40).
