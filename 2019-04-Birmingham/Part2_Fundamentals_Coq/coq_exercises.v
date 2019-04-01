@@ -105,7 +105,7 @@ Definition is_zero : nat -> bool := nat_rec bool true (fun _ _ => false).
 Definition eqnat (m n : nat) : bool :=
   andbool (is_zero (sub m n)) (is_zero (sub n m)).
 
-Notation "m == n" := (eqnat m n) (at level 30).
+Notation "m == n" := (eqnat m n) (at level 50).
 
 (** Exercises: define <, >, ≤, ≥  *)
 
@@ -155,7 +155,7 @@ Eval compute in (4 ≥ 3). (* true *)
 Definition coprod_rec {A B C : UU} (f : A → C) (g : B → C) : A ⨿ B → C :=
   @coprod_rect A B (λ _, C) f g.
 
-Definition Z : UU := nat ⨿ nat.
+Definition Z : UU := coprod nat nat.
 
 Notation "⊹ x" := (inl x) (at level 20).
 Notation "─ x" := (inr x) (at level 40).
