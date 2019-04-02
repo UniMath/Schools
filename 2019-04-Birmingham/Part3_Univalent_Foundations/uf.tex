@@ -513,7 +513,7 @@ But the recursion principle is not enough to e.g.\ show that
   \item \db{Induction principle}. If \m{P : \Pi(x,y), x=y \to \U} is any type family and \m{b : \Pi(x:X), P\,x\,x\,(\idp x)} is any function, then we have a function
     \M{h : \Pi(x,y:X), \Pi(p:x=y), P\,x\,y\, p}
     with
-    \M{h \, x \, x\, (\idp x) = P \, x \, x\, (b\, x).}
+    \M{h \, x \, x\, (\idp x) = b\, x.}
   \end{itemize}
 
   \vfill
