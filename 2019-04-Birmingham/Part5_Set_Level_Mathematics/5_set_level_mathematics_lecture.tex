@@ -1,47 +1,11 @@
-% http://www2.informatik.uni-freiburg.de/~frank/latex-kurs/latex-kurs-3/farben/Extra-Farben.pdf
-
-\documentclass[xcolor=dvipsnames]{beamer}
+\documentclass{beamer}
 \usetheme{Pittsburgh}
-\useinnertheme{circles}
-\setbeamertemplate{enumerate items}[default]
 \usecolortheme{rose}
 \setbeamertemplate{navigation symbols}{}
-
-% \usefonttheme[butsansserifmath]{serif}
-
-\setbeamertemplate{blocks}[rounded][shadow=false]
-
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{verbatim}
-\usepackage{csquotes}
-\usepackage{graphicx}
-
-% \usepackage[charter,expert]{mathdesign}
-\usepackage[scaled=.96,osf]{XCharter} % matches the size used in math
-\linespread{1.04}
+\setbeamertemplate{blocks}[rounded]
 
 \usepackage{xspace}
-
-\RequirePackage{xcolor}
 \usepackage{tikz-cd}
-
-\newcommand{\plan}[1]{\textcolor{red}{#1}}
-
-\definecolor{dkblue}{rgb}{0,0.1,0.5}
-\definecolor{lightblue}{rgb}{0,0.5,0.5}
-\definecolor{dkgreen}{rgb}{0,0.4,0}
-\definecolor{dk2green}{rgb}{0.4,0,0}
-\definecolor{dkviolet}{rgb}{0.6,0,0.8}
-
-\newenvironment<>{goalblock}[1]{%
-  \setbeamercolor{block title}{bg=Goldenrod!50!white}
-  \begin{block}#2{#1}}{\end{block}}
-
-% https://tex.stackexchange.com/questions/50747/options-for-appearance-of-links-in-hyperref
-\hypersetup{
-  colorlinks=true
-}
 
 \title{Set-level mathematics}
 \author{Joj Ahrens}
@@ -49,34 +13,11 @@
 
 \newcommand{\fat}[1]{\textbf{#1}}
 \newcommand{\constfont}[1]{\ensuremath{\mathsf{#1}}}
-\newcommand{\source}{\constfont{source}}
-\newcommand{\target}{\constfont{target}}
-\renewcommand{\C}{\ensuremath{\mathcal{C}}}
-\newcommand{\D}{\ensuremath{\mathcal{D}}}
-\newcommand{\CC}{\ensuremath{\hat{\mathcal{C}}}}
-\newcommand{\Set}{\constfont{Set}}
+\newcommand{\C}{\ensuremath{\mathcal{C}}}
 \newcommand{\Grp}{\constfont{Grp}}
-\newcommand{\Rng}{\constfont{Rng}}
-\newcommand{\ot}{\ensuremath{\leftarrow}}
-\newcommand{\toiso}{\xrightarrow{\sim}}
-\newcommand{\otiso}{\xleftarrow{\sim}}
-\newcommand{\isIso}[1]{\ensuremath{\constfont{isiso}({#1})}}
-\newcommand{\Iso}[2]{\ensuremath{\constfont{iso}({#1},{#2})}}
-\newcommand{\sm}[2]{\ensuremath{\sum_{#1}{#2}}}
-\newcommand{\isUniv}[1]{\ensuremath{\constfont{isUniv}({#1})}}
-\newcommand{\idtoeq}{\constfont{idtoequiv}}
-\newcommand{\eqtoid}{\constfont{equivtoid}}
-\newcommand{\Path}{\constfont{Path}}
-\newcommand{\Equiv}{\constfont{Equiv}}
-\renewcommand{\U}{\mathcal{U}}
+\newcommand{\U}{\mathcal{U}}
 \newcommand{\Nat}{\constfont{Nat}}
 \newcommand{\Bool}{\constfont{Bool}}
-\newcommand{\Suc}{\constfont{Suc}}
-\newcommand{\entails}{\ensuremath{ \enspace \vdash \enspace }}
-\newcommand{\defined}{\ensuremath{\enspace\stackrel{\text{def}}{=}\enspace }}
-\newcommand{\iso}{\constfont{iso}}
-\newcommand{\comp}{\ensuremath{(\circ)}}
-\newcommand{\RC}[1]{\ensuremath{\constfont{RC}({#1})}}
 \newcommand{\GrpStructure}{\constfont{GrpStructure}}
 \newcommand{\hProp}{\constfont{hProp}}
 \newcommand{\hSet}{\constfont{hSet}}
@@ -90,15 +31,9 @@
 \newcommand{\isInjective}{\constfont{isInjective}}
 
 %%% Transport (covariant) %%%
-\newcommand{\trans}[2]{\ensuremath{{#1}_{*}\mathopen{}\left({#2}\right)\mathclose{}}\xspace}
-\let\Trans\trans
-\newcommand{\transf}[1]{\ensuremath{{#1}_{*}}\xspace} % Without argument
 \newcommand{\transfib}[3]{\ensuremath{\mathsf{transport}^{#1}(#2,#3)\xspace}}
 \newcommand{\Transfib}[3]{\ensuremath{\mathsf{transport}^{#1}\Big(#2,\, #3\Big)\xspace}}
-\newcommand{\transfibf}[1]{\ensuremath{\mathsf{transport}^{#1}\xspace}}
 \newcommand{\id}[3][]{\ensuremath{#2 =_{#1} #3}\xspace}
-
-\newcommand{\spread}{\addtolength{\itemsep}{10pt}}
 
 \newcommand{\outlinetitle}{Outline}
 
@@ -480,17 +415,17 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Group isomorphisms}
+  \frametitle{Group isomorphisms}
 
-The type of groups is
-     \[ \Grp := \sm{X : \hSet} \GrpStructure(X) \]
+  The type of groups is
+  \[ \Grp := \sum_{X : \hSet}\GrpStructure(X) \]
 
- \begin{block}{A \fat{group isomorphism $G \to G'$} is }
- \begin{itemize}
-  \item a bijective function on the underlying sets $X \to X'$
-  \item compatible with the group structures $S$ and $S'$ on $X$ and $X'$.
- \end{itemize}
- \end{block}
+  \begin{block}{A \fat{group isomorphism $G \to G'$} is }
+    \begin{itemize}
+    \item a bijective function on the underlying sets $X \to X'$
+    \item compatible with the group structures $S$ and $S'$ on $X$ and $X'$.
+    \end{itemize}
+  \end{block}
 
 \end{frame}
 
@@ -498,32 +433,19 @@ The type of groups is
 \begin{frame}
  \frametitle{Identity is isomorphism for groups}
  \begin{align*}
-     \id{G}{G'} \enspace & \simeq  \enspace \id{(X,S)}{(X',S')} \\
-                          & \simeq \enspace \sum_{p : \id{X}{X'}} \id{\transfib{\GrpStructure}{p}{S}}{S'} \\
-                          & \simeq \enspace \sum_{p : \id{X}{X'}} (\id{\transfib{Y \mapsto (Y \times Y \to Y)}{p}{m}}{m'})  \\
-                                                                              &  \hspace{1.5cm} \times(\id{\transfib{Y \mapsto (Y \to Y)}{p}{i}}{i'}) \\
-                                                                               & \hspace{1.5cm}  \times(\id{\transfib{Y \mapsto (1 \to Y)}{p}{e}}{e'}) \\
-                          & \simeq \enspace \sum_{f : \eqv{X}{X'}} \bigl(\id{f \circ m \circ (f^{-1} \times f^{-1})}{m'}\bigr)  \\
-                                   &             \hspace{1.5cm}                            \times \bigl(\id{f \circ i \circ f^{-1}}{i'}\bigr) \\
-									       & \hspace{1.5cm}  \times(\id{f \circ e}{e'}) \\
-                          & \simeq \enspace  (G \cong G')
+   \id{G}{G'} \enspace
+   & \simeq  \enspace \id{(X,S)}{(X',S')} \\
+   & \simeq \enspace \sum_{p : \id{X}{X'}} \id{\transfib{\GrpStructure}{p}{S}}{S'} \\
+   & \simeq \enspace \sum_{p : \id{X}{X'}} (\id{\transfib{Y \mapsto (Y \times Y \to Y)}{p}{m}}{m'})  \\
+   &  \hspace{1.5cm} \times(\id{\transfib{Y \mapsto (Y \to Y)}{p}{i}}{i'}) \\
+   & \hspace{1.5cm}  \times(\id{\transfib{Y \mapsto (1 \to Y)}{p}{e}}{e'}) \\
+   & \simeq \enspace \sum_{f : \eqv{X}{X'}} \bigl(\id{f \circ m \circ (f^{-1} \times f^{-1})}{m'}\bigr)  \\
+   &             \hspace{1.5cm}                            \times \bigl(\id{f \circ i \circ f^{-1}}{i'}\bigr) \\
+   & \hspace{1.5cm}  \times(\id{f \circ e}{e'}) \\
+   & \simeq \enspace  (G \cong G')
  \end{align*}
 
 
 
 \end{frame}
-
-
-% \section{Exercises}
-% \begin{frame}
-%  \frametitle{Exercises}
-%  \begin{itemize}
-%   \item Show that booleans are a set.
-%   \item Show that natural numbers are a set.
-%   \item Do parts of the construction of set-level quotients.
-%  \end{itemize}
-%
-% \end{frame}
-
-
 \end{document}
