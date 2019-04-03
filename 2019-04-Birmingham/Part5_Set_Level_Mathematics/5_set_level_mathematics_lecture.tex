@@ -1,50 +1,30 @@
-
-
 % http://www2.informatik.uni-freiburg.de/~frank/latex-kurs/latex-kurs-3/farben/Extra-Farben.pdf
 
-
-\documentclass[
-% serif,
-% mathsans,
-%  handout,
-xcolor=dvipsnames,
-]
-{beamer}
-% \usetheme[height=1cm]{Rochester}
-% \usetheme{Malmoe}
+\documentclass[xcolor=dvipsnames]{beamer}
 \usetheme{Pittsburgh}
 \useinnertheme{circles}
 \setbeamertemplate{enumerate items}[default]
-% \useoutertheme[compress,subsection=false]{miniframes}
 \usecolortheme{rose}
 \setbeamertemplate{navigation symbols}{}
 
-\usefonttheme[butsansserifmath]{serif}
+% \usefonttheme[butsansserifmath]{serif}
 
 \setbeamertemplate{blocks}[rounded][shadow=false]
 
-% \usetheme{default}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{verbatim}
 \usepackage{csquotes}
 \usepackage{graphicx}
 
-% \usepackage{amsmath, amsthm}
-% \usepackage{amssymb}
-
-
-% \usepackage[bitstream-charter]{mathdesign}
-\usepackage[charter,expert]{mathdesign}
-\usepackage[scaled=.96,osf]{XCharter}% matches the size used in math
- \linespread{1.04}
+% \usepackage[charter,expert]{mathdesign}
+\usepackage[scaled=.96,osf]{XCharter} % matches the size used in math
+\linespread{1.04}
 
 \usepackage{xspace}
 
 \RequirePackage{xcolor}
-\RequirePackage[color,all,2cell]{xy}\SelectTips{cm}{12}\SilentMatrices\UseAllTwocells  % commutative diagrams
-
-\usepackage{tikz}\usetikzlibrary{decorations.pathmorphing,arrows,decorations.text}
+\usepackage{tikz-cd}
 
 \newcommand{\plan}[1]{\textcolor{red}{#1}}
 
@@ -56,72 +36,39 @@ xcolor=dvipsnames,
 
 \newenvironment<>{goalblock}[1]{%
   \setbeamercolor{block title}{bg=Goldenrod!50!white}
-%   \setbeamercolor{block body}{fg=black,bg=cyan!25!white}%
   \begin{block}#2{#1}}{\end{block}}
 
 % https://tex.stackexchange.com/questions/50747/options-for-appearance-of-links-in-hyperref
 \hypersetup{
-colorlinks=true
+  colorlinks=true
 }
 
-
-%
-% \usepackage{listings}
-% \newcommand{\sss}{\ttfamily\bfseries\small}
-% \def\lstlanguagefiles{defManSSR.tex}\lstset{language=SSR}
-
-
-
-
 \title{Set-level mathematics}
-\author{Joj Ahrens}% \inst{1} \\~\\joint work with K.\ Kapulkin\inst{2} and M.\ Shulman\inst{3}}
-% \date{2011--09--11}
-% \date{Sept 11, 2011}
-% \institute{CIMI, Université Paul Sabatier} % \\\inst{2} University of Western Ontario  \inst{3} University of San Diego}
-\date{}
-
-% \setbeamertemplate{footline}
-% {%
-%   \leavevmode%
-%   \hbox{\begin{beamercolorbox}[wd=.3\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
-%     \usebeamerfont{author in head/foot}\insertshortauthor
-%   \end{beamercolorbox}%
-%   \begin{beamercolorbox}[wd=.7\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
-%     \usebeamerfont{title in head/foot}\insertshorttitle\hfill\insertframenumber/\inserttotalframenumber
-%   \end{beamercolorbox}}%
-%   \vskip0pt%
-% }
-
-
+\author{Joj Ahrens}
+\date{UniMath School, Birmingham, UK, April 2019}
 
 \newcommand{\fat}[1]{\textbf{#1}}
 \newcommand{\constfont}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\source}{\constfont{source}}
 \newcommand{\target}{\constfont{target}}
-% \newcommand{\id}{\constfont{id}}
-\newcommand{\C}{\ensuremath{\mathcal{C}}}
+\renewcommand{\C}{\ensuremath{\mathcal{C}}}
 \newcommand{\D}{\ensuremath{\mathcal{D}}}
 \newcommand{\CC}{\ensuremath{\hat{\mathcal{C}}}}
 \newcommand{\Set}{\constfont{Set}}
 \newcommand{\Grp}{\constfont{Grp}}
 \newcommand{\Rng}{\constfont{Rng}}
 \newcommand{\ot}{\ensuremath{\leftarrow}}
-% \def\xiso#1{\mathrel{\mathrlap{\smash{\xto[\smash{\raisebox{1.3mm}{$\scriptstyle\sim$}}]{#1}}}\hphantom{\xto{#1}}}}
-% \def\toiso{\xto{\smash{\raisebox{-.5mm}{$\scriptstyle\sim$}}}}
 \newcommand{\toiso}{\xrightarrow{\sim}}
 \newcommand{\otiso}{\xleftarrow{\sim}}
-% \newcommand{\blank}{\mathord{\hspace{1pt}\text{--}\hspace{1pt}}}
 \newcommand{\isIso}[1]{\ensuremath{\constfont{isiso}({#1})}}
 \newcommand{\Iso}[2]{\ensuremath{\constfont{iso}({#1},{#2})}}
 \newcommand{\sm}[2]{\ensuremath{\sum_{#1}{#2}}}
 \newcommand{\isUniv}[1]{\ensuremath{\constfont{isUniv}({#1})}}
 \newcommand{\idtoeq}{\constfont{idtoequiv}}
 \newcommand{\eqtoid}{\constfont{equivtoid}}
-% \newcommand{\idtoiso}{\constfont{idtoiso}}
 \newcommand{\Path}{\constfont{Path}}
-% \newcommand{\refl}[2][]{\constfont{refl}_{#1}({#2})}
 \newcommand{\Equiv}{\constfont{Equiv}}
-\newcommand{\U}{\constfont{U}}
+\renewcommand{\U}{\mathcal{U}}
 \newcommand{\Nat}{\constfont{Nat}}
 \newcommand{\Bool}{\constfont{Bool}}
 \newcommand{\Suc}{\constfont{Suc}}
@@ -136,30 +83,22 @@ colorlinks=true
 \newcommand{\isofhlevel}{\constfont{isofhlevel}}
 \newcommand{\iscontr}{\constfont{iscontr}}
 \newcommand{\isaprop}{\constfont{isaprop}}
+\newcommand{\isaset}{\constfont{isaset}}
 \newcommand{\eqv}[2]{\ensuremath{#1 \simeq #2}\xspace}
-
-
+\newcommand{\carrier}{\constfont{carrier}}
+\newcommand{\incl}{\constfont{incl}}
+\newcommand{\isInjective}{\constfont{isInjective}}
 
 %%% Transport (covariant) %%%
 \newcommand{\trans}[2]{\ensuremath{{#1}_{*}\mathopen{}\left({#2}\right)\mathclose{}}\xspace}
 \let\Trans\trans
-%\newcommand{\Trans}[2]{\ensuremath{{#1}_{*}\left({#2}\right)}\xspace}
 \newcommand{\transf}[1]{\ensuremath{{#1}_{*}}\xspace} % Without argument
-%\newcommand{\transport}[2]{\ensuremath{\mathsf{transport}_{*} \: {#2}\xspace}}
 \newcommand{\transfib}[3]{\ensuremath{\mathsf{transport}^{#1}(#2,#3)\xspace}}
 \newcommand{\Transfib}[3]{\ensuremath{\mathsf{transport}^{#1}\Big(#2,\, #3\Big)\xspace}}
 \newcommand{\transfibf}[1]{\ensuremath{\mathsf{transport}^{#1}\xspace}}
 \newcommand{\id}[3][]{\ensuremath{#2 =_{#1} #3}\xspace}
 
-
-
-% \newcommand{\jdeq}{\equiv}      % An equality judgment
-
-% \renewcommand{\leadsto}{=}
-
-
 \newcommand{\spread}{\addtolength{\itemsep}{10pt}}
-
 
 \newcommand{\outlinetitle}{Outline}
 
@@ -181,10 +120,6 @@ colorlinks=true
 \newtheorem{exercise}{Exercise}
 
 \begin{document}
-
-
-
-
 \begin{frame}
  \titlepage
 \end{frame}
@@ -194,23 +129,57 @@ colorlinks=true
  \tableofcontents
 \end{frame}
 
-
-\section{Reminder: H-Levels}
+\section{Sets in UniMath}
 
 \begin{frame}
- \frametitle{Definition of H-Levels}
+ \frametitle{Definition of set}
+ % Recall from Martin's talk
+   \begin{align*}
+    \iscontr(X) &:= \sum_{x:X}\prod_{y:X}x=y
+    \\ \isaprop(X) &:= \prod_{x,y: X}x=y
+    \\ \isaset(X) &:= \prod_{x,y: X}\isaprop(x=y)
+   \end{align*}
+
+   \begin{block}{}
+      A \fat{set} is a type whose path types are all \emph{propositions}.
+   \end{block}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Definition of h-Levels}
    \begin{align*}
        \isofhlevel(n,X) &: \Nat \to \U \to \hProp
     \\ \isofhlevel(0,X) &:= \iscontr(X)
     \\ \isofhlevel(S(n),X) &:= \prod_{x,x': X}\isofhlevel(n,x=x')
    \end{align*}
 
-   \begin{definition}
+   \pause
+   \begin{exercise}
+     \[\left(\prod_{X:\U}\isaprop(X)\right)=\isofhlevel(1,X)\]
+   \end{exercise}
+
+   \pause
+   \begin{block}{Hence:}
       A \fat{set} is a type of hlevel 2.
-   \end{definition}
+   \end{block}
+\end{frame}
 
-      Under the intended semantics, this means that for any two parallel paths in a \emph{set}, the space of homotopies between them is contractible. This condition is equivalent to being homotopy equivalent to a discrete space.
+\begin{frame}
+  \frametitle{Topological intuition}
+  Recall:
+  \begin{itemize}
+  \item Each type $X$ is to be a thought of a \emph{space}
+  \item For two points $a,b:X$, the type $a=_Xb$ is the \emph{space of paths} from $a$ to $b$
+  \end{itemize}
 
+  \begin{fact}[from topology]
+    A (``nice'') space all of whose path spaces are contractible is (homotopy-)equivalent to a discrete space.
+  \end{fact}
+
+  \pause
+  \begin{center}
+  {\tiny This can be made more precise using the \emph{model in simplicial sets}.}
+\end{center}
 \end{frame}
 
 \begin{frame}
@@ -224,7 +193,7 @@ colorlinks=true
    \end{itemize}
 
    \begin{itemize}
-    \item $A$ is a set if it is a property
+    \item Any property is a set
    \end{itemize}
 
    \begin{exercise}
@@ -237,8 +206,18 @@ colorlinks=true
 
    \end{exercise}
 
-
 \end{frame}
+
+\begin{frame}
+  \frametitle{What are sets good for?}
+
+  \begin{itemize}
+  \item Most ``traditional'' mathematics can be done in UniMath with sets (groups, rings, topological spaces, etc.) \pause
+  \item Categories or the type of \emph{all} groups (rings, etc.) have h-level 3. \pause
+  \item Higher category theory and synthetic homotopy theory require higher types.
+  \end{itemize}
+\end{frame}
+
 
 
 \section{How to show that something is (not) a set?}
@@ -266,9 +245,11 @@ colorlinks=true
    If a type $X$ has decidable equality, then it is a set.
   \end{theorem}
 
-
-
   In the problem session, we will show that $\Bool$ and $\Nat$ are sets.
+  \pause
+  \begin{block}{Note}
+    Hedberg's theorem is \emph{hard}. There is also an easier proof that $\Bool$ and $\Nat$ are sets.
+  \end{block}
 
 \end{frame}
 
@@ -278,13 +259,10 @@ colorlinks=true
     Great question! It depends:
 
     \begin{itemize}
-     \item In ``spartan'' type theory some types cannot be shown to be sets.
-     \item In univalent type theory some types can shown not to be sets.
+     \item In ``spartan'' type theory some types can't be shown to be sets.
+     \item Assuming univalence, some types can be shown not to be sets.
     \end{itemize}
   \end{block}
-
-  From now on, we consider \fat{univalent type theory}.
-
 \end{frame}
 
 
@@ -319,65 +297,19 @@ colorlinks=true
 
 \end{frame}
 
+\section{Subsets and quotients}
+
 \begin{frame}
  \frametitle{Sets and propositions}
 
- It is often useful for types representing ``properties'' to be propositions (as we'll see later).
+ Types representing properties of sets are usually propositions. \pause
 
- Properties involving equality are usually propositions when the types involved are \emph{sets}, but in general care is needed:
- given $f : X \to Y$,
- \[   \constfont{isInjective}(f) := \prod_{x, x' : X} f(x) = f(x') \to x = x' \]
- is not a proposition in general, but it is if $X$ and $Y$ are sets.
+ \begin{example}
+   Given $f : X \to Y$,
+   \[   \constfont{isInjective}(f) := \prod_{x, x' : X} f(x) = f(x') \to x = x' \]
+   is not a proposition in general, but it is if $X$ and $Y$ are sets.
+ \end{example}
 \end{frame}
-
-
-\section{Set-level quotient}
-
-
-% \begin{frame}
-%  \frametitle{Reminder: quotient}
-%
-%     Given set $X$ and relation $R$ on $X$, the \fat{quotient}
-%        \[ X \xrightarrow{p} X/R \] is defined as
-%     the unique pair $(X/R, p)$ such that any \fat{compatible} map $f$ factorizes via $p$:
-%     \[
-%       \begin{xy}
-% 	\xymatrix@!=5em{
-% 	             X \ar[d]_{p} \ar[rd]^{f} & \\
-% 	             X/R \ar[r]_{\exists !~ f'} &  Y
-% 	    }
-%       \end{xy}
-%     \]
-%
-%     that is,
-%
-%       \[  \left\{f : X \to Y \enspace | \enspace \constfont{iscompatible}(f) \right\} \quad \cong \quad X/R \to Y \]
-% %     \[  \sum_{f : X \to Y}\constfont{iscompatible}(f) \quad \simeq \quad X/R \to Y \]
-%
-% \end{frame}
-
-\begin{frame}
-\frametitle{Set-level quotient}
-
-    Given type $X$ and relation $R$ on $X$, the \fat{quotient}
-       \[ X \xrightarrow{p} X/R \] is defined as
-    the unique pair $(X/R, p)$ such that any compatible map $f$ \fat{into a set $Y$} factors via $p$:
-    \[
-      \begin{xy}
-	\xymatrix@!=3em{
-	             X \ar[d]_{p} \ar[rd]^{f} & \\
-	             X/R \ar[r]_{\exists !~ f'} &  Y
-	    }
-      \end{xy}
-    \]
-    that is,
-
-%       \[  \left\{f : X \to Y \enspace | \enspace \constfont{iscompatible}(f) \right\} \quad \cong \quad X/R \to Y \]
-     \[  \sum_{f : X \to Y}\constfont{iscompatible}(f) \quad \simeq \quad X/R \to Y \]
-     (more precisely, the map given by precomposition with $p$ should be an equivalence).
-
-\end{frame}
-
 
 \begin{frame}
  \frametitle{Predicates on types}
@@ -385,27 +317,55 @@ colorlinks=true
     A \fat{subtype $A$} on a type $X$ is a map
     \[ A : X \to \hProp_U \]
   \begin{exercise}
-   Show that the type of subtypes of $X$ is a set.
+   Show that the type of subtypes of any type $X$ is a set.
   \end{exercise}
-
+  \pause
   The \fat{carrier} of a subtype $A$ is the type of elements satisfying $A$:
-  \[ \constfont{carrier}(A) := \sum_{x:X}A(x) \]
-
+  \[ \carrier(A) := \sum_{x:X}A(x) \]
 \end{frame}
 
+\begin{frame}
+ \frametitle{Predicates and injections}
+
+ There is a canonical map $\incl_A:\carrier(A)\to{}X$\pause, namely
+ \[pr1:\sum_{x:X}A(X)\to{}X\]
+
+ \begin{exercise}
+   \[\isaset(X)\to\isInjective(\incl_A)\]
+ \end{exercise}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Predicates and injections}
+
+ Conversely, given a map $f:A\to{}X$, we can form the function $\chi_f:X\to\U$ given by
+ \[
+   \chi_f(x):\equiv\sum_{a:A} f(a)=x
+ \]\pause
+
+ \begin{exercise}
+   \[
+     \isaset(X)\to\isInjective(f)\to\prod_{x:X}\isaprop(\chi_f(x))
+   \]
+ \end{exercise}\pause
+ \begin{block}{Non-exercise}
+   $\xi_f$ and $\incl_A$ establish an isomorphism between $X\to\hProp_\U$ and
+   $\constfont{injections}(X):\equiv\sum_{A:\U}\isaset(A)\times\sum_{f:A\to{}X}\isInjective(f)$
+ \end{block}
+\end{frame}
 
 \begin{frame}
  \frametitle{Relations on a type}
 
   A \fat{binary relation $R$} on a type $X$ is a map
-  \[ R : X \to X \to \hProp_U \]
+  \[ R : X \to X \to \hProp_U \]\pause
 
   \begin{exercise}
    Show that the type of binary relations on $X$ is a set.
-  \end{exercise}
+  \end{exercise}\pause
 
   Properties of such relations are defined as usual, e.g.,
-  \[ \constfont{reflexive}(R) := \prod_{x : X} R(x)(x) \]
+  \[ \constfont{reflexive}(R) := \prod_{x : X} R(x)(x) \]\pause
 
   \begin{exercise}
    Formulate the properties of being symmetric, transitive, an equivalence relation.
@@ -414,18 +374,34 @@ colorlinks=true
 \end{frame}
 
 \begin{frame}
+  \frametitle{Set-level quotient}
+  Given a set $X$ and relation $R$ on $X$, the \fat{quotient}
+  \[ X \xrightarrow{p} X/R \]
+  is defined by the property that any compatible map $f$ \fat{into a set $Y$} factors uniquely through $p$:
+  \[
+    \begin{tikzcd}[ampersand replacement=\&]
+      X\ar[d, "p"']\ar[rd, "f"] \& \\
+      X/R \ar[r, "\exists !~ f'"', dashed] \& Y
+    \end{tikzcd}
+  \]
+  \begin{exercise}
+    Formulate this condition precisely. % Since I couldn't fit it onto this slide.
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
   \frametitle{The quotient set}
-  To define the quotient $X/R$ of a set by an equivalence relation, we proceed as usual in set theory.
+  We can define the quotient $X/R$ of a set by an equivalence relation as the set of equivalence classes.\pause
 
   First we define for a subtype $A:X\to\hProp_U$
   \[
     \begin{split}
     \constfont{iseqclass}(A) :=
-    &\left\lVert\constfont{carrier}(A)\right\rVert\\
+    &\left\lVert\carrier(A)\right\rVert\\
     \times&\prod_{x,y:A} R x y \to A x \to A y\\
     \times&\prod_{x,y:A} A x \to A y \to R x y
     \end{split}
-  \]
+  \]\pause
 
   Then we define
   \[
@@ -436,36 +412,35 @@ colorlinks=true
 \section{Set-level mathematics}
 
 \begin{frame}
- \frametitle{Reminder: paths between pairs}
+ \frametitle{Paths between pairs}
 
   Given $B : A \to \U$ and $a,a' : A$ and $b : B(a)$ and $b' : B(a')$,
     \[ (a,b) = (a',b') \quad \simeq \quad \sum_{p : a = a'} \Transfib{B}{p}{b} = b' \]
   If $B(x)$ is a proposition for any $x:A$, then this simplifies to
-  \[ (a,b) = (a',b') \quad \simeq \quad a = a' \]
+  \[ (a,b) = (a',b') \quad \simeq \quad a = a' \]\pause
 
   \begin{exercise}
     Why?
   \end{exercise}
 \end{frame}
 
+\begin{frame}
+ \frametitle{Example: natural numbers}
 
-% \begin{frame}
-%  \frametitle{Natural numbers and their properties}
-%
-%   An \fat{even natural number} is
-%   \begin{description}
-%    \item [set-theoretically] a natural number that is even
-%    \item [type-theoretically] a pair $(n,p)$ of a natural number $n : \Nat$ and a proof $p$ of its evenness
-%   \end{description}
-%
-%     When comparing two even natural numbers, we want to compare them as numbers:
-%
-%     \[  (n, p) = (n',p') \quad \simeq \quad n = n' \]
-%
-%     The type $\constfont{iseven}(n)$ hence should be a proposition.
-%
-% \end{frame}
+  An \fat{even natural number} is a pair consisting of a natural number and a proof of its evenness.
+  \[
+    \constfont{iseven}(n):\equiv\sum_{k:\Nat}k+k=n\quad\quad\quad
+    \constfont{evennat}:\equiv\sum_{n:\Nat}\constfont{iseven}(n)
+  \]\pause
 
+  When comparing two even natural numbers, we want to compare them as numbers:
+  \[  (n, p) = (n',p') \quad \simeq \quad n = n' \]\pause
+  The type $\constfont{iseven}(n)$ hence should be a proposition.\pause
+  \begin{exercise}
+    It is!
+  \end{exercise}
+
+\end{frame}
 
 \begin{frame}
  \frametitle{Groups}
