@@ -2,6 +2,7 @@
 
 Require Export UniMath.Foundations.Propositions.
 
+Axiom fill_me : forall {X : UU}, X. (* Remove this line when you are finished. *)
 
 (** * The type of sets i.e. of types of h-level 2 in [UU] *)
 
@@ -11,7 +12,6 @@ Definition pr1hSet : hSet -> UU := @pr1 UU (λ X : UU, isaset X).
 Coercion pr1hSet: hSet >-> UU.
 
 Definition setproperty (X : hSet) := pr2 X.
-
 
 (** * Applications of Hedberg's theorem *)
 
@@ -25,13 +25,13 @@ Definition bool_to_type : bool -> UU
 (** Show that there is no path from [true] to [false]. *)
 Theorem no_path_from_true_to_false : true != false.
 Proof.
-  intro X. apply (transportf bool_to_type X tt).
+  apply fill_me.
 Defined.
 
 (** Show that there is no path from [false] to [true]. *)
 Theorem no_path_from_false_to_true : false != true.
 Proof.
-  intro X. apply (transportb bool_to_type X tt).
+  apply fill_me.
 Defined.
 
 (** Construct decidable equality on [bool]. *)
@@ -40,27 +40,19 @@ Proof.
   unfold isdeceq. intros x' x. induction x.
   - induction x'.
     + unfold decidable.
-      apply ii1.
-      apply idpath.
-    + apply ii2.
-      exact no_path_from_false_to_true.
+      apply fill_me.
+    + apply fill_me.
   - induction x'.
-    + apply ii2.
-      exact no_path_from_true_to_false.
-    + apply ii1.
-      apply idpath.
+    + apply fill_me.
+    + apply fill_me.
 Defined.
 
 Theorem isaset_bool : isaset bool.
 Proof.
-  apply isasetifdeceq.
-  apply isdeceqbool.
+  apply fill_me.
 Defined.
 
-
-
 (** * [nat] is a set *)
-(* FILL IN THE PROOFS IN THIS SECTION *)
 
 (** Define a map from [nat] to [UU] that maps
     [0] to the singleton type and
@@ -71,11 +63,13 @@ Definition nat_to_type : nat -> UU
 
 Lemma no_path_from_zero_to_successor (x : nat) : 0 != S x.
 Proof.
-Admitted.
+  apply fill_me.
+Defined.
 
 Lemma no_path_from_successor_to_zero (x : nat) : S x != 0.
 Proof.
-Admitted.
+  apply fill_me.
+Defined.
 
 (** Define a predecessor function on [nat]:
     [0] is mapped to [0]
@@ -86,25 +80,26 @@ Definition predecessor : nat -> nat
 
 Lemma invmaponpathsS (n m : nat) : S n = S m -> n = m.
 Proof.
-Admitted.
+  apply fill_me.
+Defined.
 
 (** The following constant will be useful for the next lemma. *)
 Check @negf.
 
 Lemma noeqinjS (x x' : nat) : x != x' -> S x != S x'.
 Proof.
-Admitted.
+  apply fill_me.
+Defined.
 
 Theorem isdeceqnat : isdeceq nat.
 Proof.
-Admitted.
+  apply fill_me.
+Defined.
 
 Lemma isasetnat : isaset nat.
 Proof.
-  apply isasetifdeceq.
-  apply isdeceqnat.
+  apply fill_me.
 Defined.
-
 
 (** * Functions in sets *)
 
@@ -117,55 +112,18 @@ Check impred.
 Lemma isaprop_is_injective {X Y : hSet} (f : X -> Y)
   : isaprop (is_injective f).
 Proof.
-  (* FILL IN THIS PROOF *)
-Admitted.
-(** Question: does the above proof need both X and Y to be sets? *)
-
-Print isincl.
-
-Theorem isinclbetweensets {X Y : hSet} (f : X -> Y)
-  : is_injective f -> isincl f.
-Proof.
-  intro f_inj.
-  unfold isincl. unfold isofhlevelf.
-  intro y.
-  apply invproofirrelevance.
-  intros x x'.
-  induction x as [x p].
-  induction x' as [x' p'].
-  use subtypeEquality.
-  - intro foo. apply setproperty.
-  - cbn. apply f_inj.
-    apply (p @ !p').
+  apply fill_me.
 Defined.
 (** Question: does the above proof need both X and Y to be sets? *)
-
-
-
-
-(** ** Surjections to sets are epimorphisms  *)
-
-Theorem surjection_is_epi_to_sets {X Y Z : UU} (f : X -> Y) (g1 g2 : Y -> Z)
-        (is1 : issurjective f) (is2 : isaset Z)
-        (isf : ∏ x : X, g1 (f x) = g2 (f x))
-  : ∏ y : Y, g1 y = g2 y.
-Proof.
-  intro y.
-  apply (@squash_to_prop _ _ (is1 y)).
-  (* FILL THESE IN *)
-  - admit.
-  - admit.
-Admitted.
-
 
 (** * The universe is not a set *)
 (** The next result requires univalence *)
 
 Require Import UniMath.Foundations.UnivalenceAxiom.
 
-
 Module universe_is_not_a_set.
 
+  (* We will show that bool has a weak equivalence besides the identity. *)
 
   Lemma isweq_negb : isweq negb.
   Proof.
@@ -177,13 +135,17 @@ Module universe_is_not_a_set.
 
   Definition weq_negb : bool ≃ bool := weqpair negb isweq_negb.
 
+  (* Show that negb is not equal to the identity.
+     It suffices, using toforallpaths, to show that they differ on some element. *)
+  Check toforallpaths.
+
   Lemma no_path_weq_negb_idweq : weq_negb != idweq bool.
   Proof.
-    intro H.
-    set (H':= toforallpaths _ _ _ (maponpaths pr1 H) true).
-    cbn in H'.
-    exact (no_path_from_false_to_true H').
+    apply fill_me.
   Defined.
+
+  (* Using Univalence, we can show that if the universe were a set, then
+     negb would have to be equal to the identity. *)
 
   Definition isaset_UU_gives_path_weq_negb_idweq
     : isaset UU → weq_negb = idweq bool.
@@ -197,10 +159,10 @@ Module universe_is_not_a_set.
 
   Definition not_isaset_UU : ¬ isaset UU.
   Proof.
-  Admitted.
+    apply fill_me.
+  Defined.
 
 End universe_is_not_a_set.
-
 
 (** * Relations *)
 
@@ -210,11 +172,8 @@ Definition hrel (X : UU) : UU := X -> X -> hProp.
 
 Definition isrefl {X : UU} (R : hrel X) : UU
   := ∏ x : X, R x x.
-
-(* FILL IN THE DEFINITIONS OF istrans AND issymm *)
-(* Definition istrans {X : UU} (R : hrel X) : UU := *)
-(* Definition issymm {X : UU} (R : hrel X) : UU := *)
-Variables istrans issymm: forall {X: UU}, hrel X -> UU. (* to be deleted *)
+Definition istrans {X : UU} (R : hrel X) : UU := fill_me.
+Definition issymm {X : UU} (R : hrel X) : UU := fill_me.
 
 Definition ispreorder {X : UU} (R : hrel X) : UU := istrans R × isrefl R.
 
@@ -226,8 +185,6 @@ Definition iseqrelconstr {X : UU} {R : hrel X}
            (symm0 : issymm R)
   : iseqrel R
   := dirprodpair (dirprodpair trans0 refl0) symm0.
-
-
 
 (** ** Eqivalence relations *)
 
@@ -247,7 +204,6 @@ Definition eqreltrans {X : UU} (R : eqrel X) : istrans R := pr1 (pr1 (pr2 R)).
 Definition eqrelrefl {X : UU} (R : eqrel X) : isrefl R := pr2 (pr1 (pr2 R)).
 Definition eqrelsymm {X : UU} (R : eqrel X) : issymm R := pr2 (pr2 R).
 
-
 (** * The type of subtypes of a given type *)
 
 Definition hsubtype (X : UU) : UU := X -> hProp.
@@ -259,9 +215,8 @@ Check isasethProp.
 
 Lemma isasethsubtype (X : UU) : isaset (hsubtype X).
 Proof.
-  (* FILL THIS IN *)
-Admitted.
-
+  apply fill_me.
+Defined.
 
 (** ** A subtype with paths between any two elements is an [hProp]. *)
 
@@ -283,7 +238,6 @@ Proof.
   simpl.
   apply (is x0 x0' is0 is0').
 Defined.
-
 
 (** ** Equivalence classes with respect to a given relation *)
 
@@ -312,15 +266,13 @@ Definition eqax2 {X : UU} {R : hrel X} {A : hsubtype X}
   : iseqclass R A -> ∏ x1 x2 : X, A x1 -> A x2 -> R x1 x2
   := λ is : iseqclass R A, pr2 (pr2 is).
 
-
 Lemma isapropiseqclass {X : UU} (R : hrel X) (A : hsubtype X)
   : isaprop (iseqclass R A).
 Proof.
   apply isofhleveldirprod.
   - apply propproperty.
-  - (* FILL IN THE REST *)
-Admitted.
-
+  - apply fill_me.
+Defined.
 
 (** ** Setquotient defined in terms of equivalence classes *)
 
@@ -337,14 +289,12 @@ Definition pr1setquot {X : UU} (R : hrel X)
   := @pr1 _ (λ A : _, iseqclass R A).
 Coercion pr1setquot : setquot >-> hsubtype.
 
-
 Lemma isinclpr1setquot {X : UU} (R : hrel X) : isincl (pr1setquot R).
 Proof.
   apply isinclpr1.
   intro x0.
   apply isapropiseqclass.
 Defined.
-
 
 Definition setquottouu0 {X : UU} (R : hrel X) (a : setquot R)
   := carrier (pr1 a).
@@ -366,12 +316,9 @@ Proof.
   split.
   - exact (hinhpr (tpair _ x (rax x))).
   - split; intros x1 x2 X1 X2.
-Admitted.
-(* continue with proper definition of istrans in place:
-    + exact (tax x x1 x2 X2 X1).
-    + exact (tax x1 x x2 (sax x x1 X1) X2).
+    + exact fill_me.
+    + exact fill_me.
 Defined.
-*)
 
 Lemma setquotl0 {X : UU} (R : eqrel X) (c : setquot R) (x : c) :
   setquotpr R (pr1 x) = c.
@@ -381,12 +328,9 @@ Proof.
   Unset Printing Coercions.
   apply funextsec; intro x0.
   apply hPropUnivalence; intro r.
-Admitted.
-(* continue with definitions in place
-  - exact (eqax1 (pr2 c) (pr1 x) x0 r (pr2 x)).
-  - exact (eqax2 (pr2 c) (pr1 x) x0 (pr2 x) r).
+  - exact fill_me.
+  - exact fill_me.
 Defined.
-*)
 
 Theorem issurjsetquotpr {X : UU} (R : eqrel X) : issurjective (setquotpr R).
 Proof.
@@ -408,15 +352,11 @@ Proof.
   Unset Printing Coercions.
   simpl. apply funextsec.
   intro x0. apply hPropUnivalence.
-Admitted.
-(* continue with definitions in place
-  - intro r0. apply (eqreltrans R _ _ _ (eqrelsymm R _ _ r) r0).
-  - intro x0'. apply (eqreltrans R _ _ _ r x0').
+  - intro r0. exact fill_me.
+  - intro x0'. exact fill_me.
 Defined.
-*)
 
 (** *** Universal property of [seqtquot R] for functions to sets satisfying compatibility condition [iscomprelfun] *)
-
 
 Definition iscomprelfun {X Y : UU} (R : hrel X) (f : X -> Y) : UU
   := ∏ x x' : X, R x x' -> f x = f x'.
@@ -447,24 +387,19 @@ Proof.
   - unfold carrier. apply prtoimage.
 Defined.
 
-
 (** Note : the axioms rax, sax and trans are not used in the proof of
   setquotuniv. If we consider a relation which is not an equivalence relation
   then setquot will still be the set of subsets which are equivalence classes.
   Now however such subsets need not to cover all of the type. In fact their set
   can be empty. Nevertheless setquotuniv will apply. *)
 
-
 Theorem setquotunivcomm {X : UU} (R : eqrel X) (Y : hSet) (f : X -> Y)
         (is : iscomprelfun R f) :
   ∏ x : X, setquotuniv R Y f is (setquotpr R x) = f x.
 Proof.
   intros.
-Admitted.
-(* continue with definitions in place
-apply idpath.
+  apply idpath.
 Defined.
-*)
 
 Lemma setquotpr_eq_eqrel {X : UU} (R : eqrel X) (x x' : X)
   : setquotpr R x = setquotpr R x' → R x x'.
@@ -472,12 +407,9 @@ Proof.
   intro e.
   set (e' := maponpaths (pr1setquot R) e). simpl in e'.
   set (e'' := maponpaths (λ f : _, f x') e'). simpl in e''.
-Admitted.
-(* continue with definitions in place
   rewrite e''.
   apply eqrelrefl.
 Defined.
-*)
 
 Theorem weqpathsinsetquot {X : UU} (R : eqrel X) (x x' : X) :
   R x x' ≃ setquotpr R x = setquotpr R x'.
@@ -488,13 +420,10 @@ Proof.
   - intro e.
     set (e' := maponpaths (pr1setquot R) e). simpl in e'.
     set (e'' := maponpaths (λ f : _, f x') e'). simpl in e''.
-Admitted.
-(* continue with definitions in place
     rewrite e''.
     apply eqrelrefl.
   - apply propproperty.
   - apply isasetsetquot.
 Defined.
-*)
 
 (* End of file *)
