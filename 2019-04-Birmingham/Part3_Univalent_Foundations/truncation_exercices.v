@@ -73,8 +73,8 @@ Definition image {A B : UU} (f : A → B) :
   ∑ (y : B), ∃ (x : A), f x = y.
 
 (* Prove that the (univalent) image of partiy is equivalent to Bool. *)
-Theorem image_parity_equiv_bool {A B : UU} (f : A → B) :
-  image f ≃ bool.
+Theorem image_parity_equiv_bool :
+  image parity ≃ bool.
 Proof.
   apply insert_solution_here.
 Defined.
