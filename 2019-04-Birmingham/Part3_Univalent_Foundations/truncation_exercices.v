@@ -64,7 +64,7 @@ Definition flip (k : nat) := nat_rect (fun _ => nat) 1 (fun _ _ => 0) k.
 
 Definition parity (n : nat) := nat_rect (fun _ => nat) 0 (fun _ b => flip b) n.
 
-(* The CH-image of the parity map is N according to the above, but it should be equivalent to bool.
+(* The CH-image of the parity map is nat according to the above, but it should be equivalent to bool.
    We have a very strange definition of surjectivity, which we now rectify by defining a univalent
    notion of image in which we replace ∑ with ∃. *)
 Require Import UniMath.Foundations.Propositions.
