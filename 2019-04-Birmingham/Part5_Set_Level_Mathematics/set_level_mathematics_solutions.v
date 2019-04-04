@@ -49,6 +49,8 @@ Proof.
       apply idpath.
 Defined.
 
+Check isasetifdeceq.
+
 Theorem isaset_bool : isaset bool.
 Proof.
   apply isasetifdeceq.
@@ -239,6 +241,7 @@ Definition hsubtype (X : UU) : UU := X -> hProp.
 Definition carrier {X : UU} (A : hsubtype X) : UU := ∑ x : X, A x.
 
 Check isasethProp.
+Check (impred 2).
 
 Lemma isasethsubtype (X : UU) : isaset (hsubtype X).
 Proof.
