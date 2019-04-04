@@ -1,0 +1,451 @@
+\documentclass{beamer}
+\usetheme{Pittsburgh}
+\usecolortheme{rose}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded]
+
+\usepackage{xspace}
+\usepackage{tikz-cd}
+
+\title{Set-level mathematics}
+\author{Joj Ahrens}
+\date{UniMath School, Birmingham, UK, April 2019}
+
+\newcommand{\fat}[1]{\textbf{#1}}
+\newcommand{\constfont}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\C}{\ensuremath{\mathcal{C}}}
+\newcommand{\Grp}{\constfont{Grp}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\Nat}{\constfont{Nat}}
+\newcommand{\Bool}{\constfont{Bool}}
+\newcommand{\GrpStructure}{\constfont{GrpStructure}}
+\newcommand{\hProp}{\constfont{hProp}}
+\newcommand{\hSet}{\constfont{hSet}}
+\newcommand{\isofhlevel}{\constfont{isofhlevel}}
+\newcommand{\iscontr}{\constfont{iscontr}}
+\newcommand{\isaprop}{\constfont{isaprop}}
+\newcommand{\isaset}{\constfont{isaset}}
+\newcommand{\eqv}[2]{\ensuremath{#1 \simeq #2}\xspace}
+\newcommand{\carrier}{\constfont{carrier}}
+\newcommand{\incl}{\constfont{incl}}
+\newcommand{\isInjective}{\constfont{isInjective}}
+
+%%% Transport (covariant) %%%
+\newcommand{\transfib}[3]{\ensuremath{\mathsf{transport}^{#1}(#2,#3)\xspace}}
+\newcommand{\Transfib}[3]{\ensuremath{\mathsf{transport}^{#1}\Big(#2,\, #3\Big)\xspace}}
+\newcommand{\id}[3][]{\ensuremath{#2 =_{#1} #3}\xspace}
+
+\newcommand{\outlinetitle}{Outline}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{\outlinetitle}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{\outlinetitle}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}
+
+\begin{document}
+\begin{frame}
+ \titlepage
+\end{frame}
+
+\begin{frame}
+ \frametitle{\outlinetitle}
+ \tableofcontents
+\end{frame}
+
+\section{Sets in UniMath}
+
+\begin{frame}
+ \frametitle{Definition of set}
+ % Recall from Martin's talk
+   \begin{align*}
+    \iscontr(X) &:= \sum_{x:X}\prod_{y:X}x=y
+    \\ \isaprop(X) &:= \prod_{x,y: X}x=y
+    \\ \isaset(X) &:= \prod_{x,y: X}\isaprop(x=y)
+   \end{align*}
+
+   \begin{block}{}
+      A \fat{set} is a type whose path types are all \emph{propositions}.
+   \end{block}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Definition of h-Levels}
+   \begin{align*}
+       \isofhlevel(n,X) &: \Nat \to \U \to \hProp
+    \\ \isofhlevel(0,X) &:= \iscontr(X)
+    \\ \isofhlevel(S(n),X) &:= \prod_{x,x': X}\isofhlevel(n,x=x')
+   \end{align*}
+
+   \pause
+   \begin{exercise}
+     \[\left(\prod_{X:\U}\isaprop(X)\right)=\isofhlevel(1,X)\]
+   \end{exercise}
+
+   \pause
+   \begin{block}{Hence:}
+      A \fat{set} is a type of hlevel 2.
+   \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Topological intuition}
+  Recall:
+  \begin{itemize}
+  \item Each type $X$ is to be a thought of a \emph{space}
+  \item For two points $a,b:X$, the type $a=_Xb$ is the \emph{space of paths} from $a$ to $b$
+  \end{itemize}
+
+  \begin{fact}[from topology]
+    A (``nice'') space all of whose path spaces are contractible is (homotopy-)equivalent to a discrete space.
+  \end{fact}
+
+  \pause
+  \begin{center}
+  {\tiny This can be made more precise using the \emph{model in simplicial sets}.}
+\end{center}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Closure properties}
+
+   \begin{itemize}
+    \item $\sum_{x:A}B(x)$ is a set if $A$ and all $B(x)$ are
+    \item $A \times B$ is a set if $A$ and $B$ are
+    \item $\prod_{x:A}B(x)$ is a set if all $B(x)$ are
+    \item $A \to B$ is a set if $B$ is
+   \end{itemize}
+
+   \begin{itemize}
+    \item Any property is a set
+   \end{itemize}
+
+   \begin{exercise}
+          Do you know
+
+     \begin{itemize}
+      \item a type that is a set?
+      \item a type for which you don't know (yet) whether it is a set?
+     \end{itemize}
+
+   \end{exercise}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{What are sets good for?}
+
+  \begin{itemize}
+  \item Most ``traditional'' mathematics can be done in UniMath with sets (groups, rings, topological spaces, etc.) \pause
+  \item Categories or the type of \emph{all} groups (rings, etc.) have h-level 3. \pause
+  \item Higher category theory and synthetic homotopy theory require higher types.
+  \end{itemize}
+\end{frame}
+
+
+
+\section{How to show that something is (not) a set?}
+
+\begin{frame}
+ \frametitle{Decidable equality}
+
+    \begin{definition}
+     A type $X$ is \fat{decidable} if we can write a term of type
+     \[     X + \neg X \]
+    \end{definition}
+
+    \begin{definition}
+     A type $X$ has \fat{decidable path-equality} if we can write a term of type
+     \[  \prod_{x, x' : A} (x = x') + \neg(x=x') \]
+     (that is, if all its paths types are decidable)
+    \end{definition}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hedberg's theorem}
+
+  \begin{theorem}
+   If a type $X$ has decidable equality, then it is a set.
+  \end{theorem}
+
+  In the problem session, we will show that $\Bool$ and $\Nat$ are sets.
+  \pause
+  \begin{block}{Note}
+    Hedberg's theorem is \emph{hard}. There is also an easier proof that $\Bool$ and $\Nat$ are sets.
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+ \frametitle{Are all types sets?}
+  \begin{block}{Is there a type that is not a set?}
+    Great question! It depends:
+
+    \begin{itemize}
+     \item In ``spartan'' type theory some types can't be shown to be sets.
+     \item Assuming univalence, some types can be shown not to be sets.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+\begin{frame}
+ \frametitle{Another set}
+
+  \begin{theorem}
+    The type
+     \[  \hProp_\U := \sum_{X : \U} \isaprop(X) \]
+    is a set.
+  \end{theorem}
+
+  The proof relies on the univalence axiom for the unviverse $\U$.
+
+
+  \begin{exercise}
+    How would you generalize the above statement to any h-level?
+    How would you attempt proving it?
+  \end{exercise}
+
+\end{frame}
+
+\begin{frame}
+ \frametitle{Types that are \fat{not} sets}
+
+  \begin{exercise}
+     Let $\U$ be a univalent universe that contains the type $\Bool$.
+     Why is $\U$ not a set?
+  \end{exercise}
+
+  Which property of $\Bool$ does the proof of the above result exploit?
+
+\end{frame}
+
+\section{Subsets and quotients}
+
+\begin{frame}
+ \frametitle{Sets and propositions}
+
+ Types representing properties of sets are usually propositions. \pause
+
+ \begin{example}
+   Given $f : X \to Y$,
+   \[   \constfont{isInjective}(f) := \prod_{x, x' : X} f(x) = f(x') \to x = x' \]
+   is not a proposition in general, but it is if $X$ and $Y$ are sets.
+ \end{example}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Predicates on types}
+
+    A \fat{subtype $A$} on a type $X$ is a map
+    \[ A : X \to \hProp_U \]
+  \begin{exercise}
+   Show that the type of subtypes of any type $X$ is a set.
+  \end{exercise}
+  \pause
+  The \fat{carrier} of a subtype $A$ is the type of elements satisfying $A$:
+  \[ \carrier(A) := \sum_{x:X}A(x) \]
+\end{frame}
+
+\begin{frame}
+ \frametitle{Predicates and injections}
+
+ There is a canonical map $\incl_A:\carrier(A)\to{}X$\pause, namely
+ \[pr1:\sum_{x:X}A(X)\to{}X\]
+
+ \begin{exercise}
+   \[\isaset(X)\to\isInjective(\incl_A)\]
+ \end{exercise}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Predicates and injections}
+
+ Conversely, given a map $f:A\to{}X$, we can form the function $\chi_f:X\to\U$ given by
+ \[
+   \chi_f(x):\equiv\sum_{a:A} f(a)=x
+ \]\pause
+
+ \begin{exercise}
+   \[
+     \isaset(X)\to\isInjective(f)\to\prod_{x:X}\isaprop(\chi_f(x))
+   \]
+ \end{exercise}\pause
+ \begin{block}{Non-exercise}
+   $\xi_f$ and $\incl_A$ establish an isomorphism between $X\to\hProp_\U$ and
+   $\constfont{injections}(X):\equiv\sum_{A:\U}\isaset(A)\times\sum_{f:A\to{}X}\isInjective(f)$
+ \end{block}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Relations on a type}
+
+  A \fat{binary relation $R$} on a type $X$ is a map
+  \[ R : X \to X \to \hProp_U \]\pause
+
+  \begin{exercise}
+   Show that the type of binary relations on $X$ is a set.
+  \end{exercise}\pause
+
+  Properties of such relations are defined as usual, e.g.,
+  \[ \constfont{reflexive}(R) := \prod_{x : X} R(x)(x) \]\pause
+
+  \begin{exercise}
+   Formulate the properties of being symmetric, transitive, an equivalence relation.
+  \end{exercise}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Set-level quotient}
+  Given a set $X$ and relation $R$ on $X$, the \fat{quotient}
+  \[ X \xrightarrow{p} X/R \]
+  is defined by the property that any compatible map $f$ \fat{into a set $Y$} factors uniquely through $p$:
+  \[
+    \begin{tikzcd}[ampersand replacement=\&]
+      X\ar[d, "p"']\ar[rd, "f"] \& \\
+      X/R \ar[r, "\exists !~ f'"', dashed] \& Y
+    \end{tikzcd}
+  \]
+  \begin{exercise}
+    Formulate this condition precisely. % Since I couldn't fit it onto this slide.
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The quotient set}
+  We can define the quotient $X/R$ of a set by an equivalence relation as the set of equivalence classes.\pause
+
+  First we define for a subtype $A:X\to\hProp_U$
+  \[
+    \begin{split}
+    \constfont{iseqclass}(A) :=
+    &\left\lVert\carrier(A)\right\rVert\\
+    \times&\prod_{x,y:A} R x y \to A x \to A y\\
+    \times&\prod_{x,y:A} A x \to A y \to R x y
+    \end{split}
+  \]\pause
+
+  Then we define
+  \[
+    X/R := \sum_{A:X\to\hProp_U}\constfont{iseqclass}(A)
+  \]
+\end{frame}
+
+\section{Set-level mathematics}
+
+\begin{frame}
+ \frametitle{Paths between pairs}
+
+  Given $B : A \to \U$ and $a,a' : A$ and $b : B(a)$ and $b' : B(a')$,
+    \[ (a,b) = (a',b') \quad \simeq \quad \sum_{p : a = a'} \Transfib{B}{p}{b} = b' \]
+  If $B(x)$ is a proposition for any $x:A$, then this simplifies to
+  \[ (a,b) = (a',b') \quad \simeq \quad a = a' \]\pause
+
+  \begin{exercise}
+    Why?
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Example: natural numbers}
+
+  An \fat{even natural number} is a pair consisting of a natural number and a proof of its evenness.
+  \[
+    \constfont{iseven}(n):\equiv\sum_{k:\Nat}k+k=n\quad\quad\quad
+    \constfont{evennat}:\equiv\sum_{n:\Nat}\constfont{iseven}(n)
+  \]\pause
+
+  When comparing two even natural numbers, we want to compare them as numbers:
+  \[  (n, p) = (n',p') \quad \simeq \quad n = n' \]\pause
+  The type $\constfont{iseven}(n)$ hence should be a proposition.\pause
+  \begin{exercise}
+    It is!
+  \end{exercise}
+
+\end{frame}
+
+\begin{frame}
+ \frametitle{Groups}
+
+    Traditionally (in set theory), a group is a quadruple $(G,m, e, i)$ of
+      \begin{itemize}
+       \item a set $G$
+       \item a multiplication $m : G\times G \to G$
+       \item a unit $e \in G$
+       \item an inverse $i : G \to G$
+      \end{itemize}
+     subject to the usual axioms.
+
+\end{frame}
+
+\begin{frame}
+ \frametitle{Groups in type theory}
+
+    In type theory, a group is a (dependent) pair $(data, proof)$ where
+      \begin{itemize}
+       \item $data$ is a quadruple $(G,m,e,i)$ as above
+       \item $p$ is a proof that these satisfy the usual axioms.
+      \end{itemize}
+
+      \pause
+      We want to regard two groups $(data, proof)$ and $(data', proof')$ as being the same if $data$ is the same as $data'$.
+
+      \pause
+      This requires that the type encoding the group axioms be a \emph{proposition}.
+
+      \pause
+      This is in turn guaranteed as long as the underlying type $G$ is required to be a \emph{set}.
+
+      \begin{exercise}
+        Why?
+      \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Group isomorphisms}
+
+  The type of groups is
+  \[ \Grp := \sum_{X : \hSet}\GrpStructure(X) \]
+
+  \begin{block}{A \fat{group isomorphism $G \to G'$} is }
+    \begin{itemize}
+    \item a bijective function on the underlying sets $X \to X'$
+    \item compatible with the group structures $S$ and $S'$ on $X$ and $X'$.
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+
+\begin{frame}
+ \frametitle{Identity is isomorphism for groups}
+ \begin{align*}
+   \id{G}{G'} \enspace
+   & \simeq  \enspace \id{(X,S)}{(X',S')} \\
+   & \simeq \enspace \sum_{p : \id{X}{X'}} \id{\transfib{\GrpStructure}{p}{S}}{S'} \\
+   & \simeq \enspace \sum_{p : \id{X}{X'}} (\id{\transfib{Y \mapsto (Y \times Y \to Y)}{p}{m}}{m'})  \\
+   &  \hspace{1.5cm} \times(\id{\transfib{Y \mapsto (Y \to Y)}{p}{i}}{i'}) \\
+   & \hspace{1.5cm}  \times(\id{\transfib{Y \mapsto (1 \to Y)}{p}{e}}{e'}) \\
+   & \simeq \enspace \sum_{f : \eqv{X}{X'}} \bigl(\id{f \circ m \circ (f^{-1} \times f^{-1})}{m'}\bigr)  \\
+   &             \hspace{1.5cm}                            \times \bigl(\id{f \circ i \circ f^{-1}}{i'}\bigr) \\
+   & \hspace{1.5cm}  \times(\id{f \circ e}{e'}) \\
+   & \simeq \enspace  (G \cong G')
+ \end{align*}
+
+
+
+\end{frame}
+\end{document}
