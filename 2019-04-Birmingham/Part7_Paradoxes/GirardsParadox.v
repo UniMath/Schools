@@ -162,13 +162,13 @@ Defined.
 
 (** We now come to the part where you make the universe explode. **)
 
-(* Exercise: prove that wf_type_of_wf_types is greater than itself with repsec to wf_type_lt. *)
+(* Exercise: prove that wf_type_of_wf_types is greater than itself with respect to wf_type_lt. *)
 Proposition uh_oh : urel wf_type_of_wf_types wf_type_of_wf_types wf_type_of_wf_types.
 Proof.
   exact fill_me.
 Defined.
 
-(* Exercise: prove that ever wf_type is irreflexive by producing an infinite descending chain. *)
+(* Exercise: prove that every wf_type is irreflexive by producing an infinite descending chain. *)
 Proposition irref (w : wf_type) : ∏ (x : uset w), (urel w) x x → empty.
 Proof.
   exact fill_me.
