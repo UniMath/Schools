@@ -81,8 +81,8 @@ C-x C-c      -- Kill Coq process
 >>
 For more commands see:
 
-https://proofgeneral.github.io/doc/userman/ProofGeneral_3/#Script-processing-commands
-https://proofgeneral.github.io/doc/userman/ProofGeneral_12/#Coq_002dspecific-commands
+https://proofgeneral.github.io/doc/master/userman/Basic-Script-Management/#Script-processing-commands
+https://proofgeneral.github.io/doc/master/userman/Coq-Proof-General/#Coq_002dspecific-commands
 
 Here C = CTRL and M = ALT on a standard emacs setup, so "C-c C-n"
 means "press c while holding CTRL and then press n while still holding
