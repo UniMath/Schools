@@ -1,4 +1,4 @@
-Lectures and problem sheets for the School on Univalent Mathematics 2017
+Lectures and problem sheets for the School on Univalent Mathematics 2019
 ========================================================================
 
 
