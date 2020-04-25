@@ -157,7 +157,7 @@ Proof.
   intros x x'.
   induction x as [x p].
   induction x' as [x' p'].
-  use subtypeEquality.
+  use subtypePath.
   - intro foo. apply setproperty.
   - cbn. apply f_inj.
     apply (p @ !p').
@@ -198,7 +198,7 @@ Module universe_is_not_a_set.
     - intro x; induction x; apply idpath.
   Defined.
 
-  Definition weq_negb : bool ≃ bool := weqpair negb isweq_negb.
+  Definition weq_negb : bool ≃ bool := make_weq negb isweq_negb.
 
   Lemma no_path_weq_negb_idweq : weq_negb != idweq bool.
   Proof.
@@ -213,7 +213,7 @@ Module universe_is_not_a_set.
   Proof.
     intro H.
     set (H':= H bool bool).
-    set (T:= invmaponpathsweq (invweq (weqpair _ (univalenceAxiom bool bool)))).
+    set (T:= invmaponpathsweq (invweq (make_weq _ (univalenceAxiom bool bool)))).
     apply T.
     apply H'.
   Defined.
@@ -248,7 +248,7 @@ Definition iseqrelconstr {X : UU} {R : hrel X}
            (refl0 : isrefl R)
            (symm0 : issymm R)
   : iseqrel R
-  := dirprodpair (dirprodpair trans0 refl0) symm0.
+  := make_dirprod (make_dirprod trans0 refl0) symm0.
 
 
 
@@ -261,7 +261,7 @@ Definition eqrelpair {X : UU} (R : hrel X) (is : iseqrel R)
   := tpair (λ R : hrel X, iseqrel R) R is.
 Definition eqrelconstr {X : UU} (R : hrel X)
            (is1 : istrans R) (is2 : isrefl R) (is3 : issymm R) : eqrel X
-  := eqrelpair R (dirprodpair (dirprodpair is1 is2) is3).
+  := eqrelpair R (make_dirprod (make_dirprod is1 is2) is3).
 
 Definition pr1eqrel (X : UU) : eqrel X -> (X -> (X -> hProp)) := @pr1 _ _.
 Coercion pr1eqrel : eqrel >-> Funclass.
@@ -323,7 +323,7 @@ Definition iseqclassconstr {X : UU} (R : hrel X) {A : hsubtype X}
            (ax1 : ∏ x1 x2 : X, R x1 x2 -> A x1 -> A x2)
            (ax2 : ∏ x1 x2 : X, A x1 ->  A x2 -> R x1 x2)
   : iseqclass R A
-  := dirprodpair ax0 (dirprodpair ax1 ax2).
+  := make_dirprod ax0 (make_dirprod ax1 ax2).
 
 Definition eqax0 {X : UU} {R : hrel X} {A : hsubtype X}
   : iseqclass R A -> ishinh (carrier A)
@@ -461,7 +461,7 @@ Lemma isapropimeqclass {X : UU} (R : hrel X) (Y : hSet) (f : X -> Y)
 Proof.
   apply isapropsubtype.
   intros y1 y2. simpl.
-  apply (@hinhuniv2 _ _ (hProppair (y1 = y2) (pr2 Y y1 y2))).
+  apply (@hinhuniv2 _ _ (make_hProp (y1 = y2) (pr2 Y y1 y2))).
   intros x1 x2. simpl.
   destruct c as [ A iseq ].
   destruct x1 as [ x1 is1 ]. destruct x2 as [ x2 is2 ].
