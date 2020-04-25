@@ -48,11 +48,11 @@ Proof.
   induction H123 as [H1 H23].
   induction H23 as [H2 | H3].
   - apply ii1.
-    apply dirprodpair.
+    apply make_dirprod.
     + exact H1.
     + exact H2.
   - apply ii2.
-    apply dirprodpair.
+    apply make_dirprod.
     + exact H1.
     + exact H3.
 Defined.
@@ -147,7 +147,7 @@ Proof.
   intro H.
   induction H as [x H12].
   induction H12 as [H1 H2].
-  apply dirprodpair.
+  apply make_dirprod.
   - exact H1.
   - exists x.
     exact H2.

@@ -41,7 +41,7 @@ Section Exercise_0.
   Proof.
     intros a b.
     induction H as [univ homsets].
-    apply (isofhlevelweqb 2 (weqpair idtoiso (univ a b))).
+    apply (isofhlevelweqb 2 (make_weq idtoiso (univ a b))).
     unfold iso.
     apply isofhleveltotal2.
     - apply homsets.
@@ -82,7 +82,7 @@ Section Exercise_1.
 
   Definition nat_category_is_precategory : is_precategory nat_category_data.
   Proof.
-    apply mk_is_precategory.
+    apply make_is_precategory.
     - intros m n f; apply idpath.
     - intros m n f; apply idpath.
     - intros k l m n f g h; apply idpath.
@@ -92,7 +92,7 @@ Section Exercise_1.
   Definition nat_category : category.
   Proof.
     unfold category.
-    exists (mk_precategory nat_category_data nat_category_is_precategory).
+    exists (make_precategory nat_category_data nat_category_is_precategory).
     unfold has_homsets. cbn.
     intros m n.
     apply impred_isaset.
@@ -124,7 +124,7 @@ Section Exercise_1.
     set (equiv22 := univ_nat 2 2).
     assert (isaprop_id : isaprop (2 = 2)).
     { apply isasetnat. }
-    set (isaprop_iso := isofhlevelweqf 1 (weqpair idtoiso equiv22) isaprop_id).
+    set (isaprop_iso := isofhlevelweqf 1 (make_weq idtoiso equiv22) isaprop_id).
     set (zero := stnel (2,0)).
     set (one := stnel (2,1)).
     set (f := @identity nat_category_data 2).
@@ -146,8 +146,8 @@ Section Exercise_1.
         + apply idpath.
         + apply idpath.
     }
-    set (f' := mk_iso fiso).
-    set (g' := @mk_iso nat_category 2 2 g giso).
+    set (f' := make_iso _ fiso).
+    set (g' := @make_iso nat_category 2 2 g giso).
     set (proofirr_iso := proofirrelevance _ isaprop_iso).
     set (f'eqg' := proofirr_iso f' g').
     assert (nonsense : stnel (2,0) = stnel (2,1)).
@@ -413,14 +413,14 @@ Section Exercise_3.
     set (projb := BinProductPr1 C prodbc).
     set (projc := BinProductPr2 C prodbc).
     set (e := Eqs btimesc a (projb · f) (projc · g)).
-    use mk_Pullback.
+    use make_Pullback.
     - exact e.
     - exact (EqualizerArrow e · projb).
     - exact (EqualizerArrow e · projc).
     - rewrite assoc'.
       rewrite assoc'.
       apply EqualizerEqAr.
-    - use mk_isPullback.
+    - use make_isPullback.
       intros d h k comm.
       set (hk := BinProductArrow C prodbc h k).
       assert (hkequalizes : hk · (projb · f) = hk · (projc · g)).
