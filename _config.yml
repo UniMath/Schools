@@ -1,2 +1,3 @@
-theme: jekyll-theme-cayman
+theme: jekyll-theme-minimal
 exclude: UniMath
+title: UniMath School Materials (2019)
