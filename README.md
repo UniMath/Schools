@@ -19,8 +19,8 @@
 - [Exercises](2019-04-Birmingham/Part3_Univalent_Foundations/truncation_exercices.v)
 
 ## Lecture 4: *Tactics* by [Ralph Matthes](https://www.irit.fr/~/Ralph.Matthes/)
-- [Lecture](Schools/2019-04-Birmingham/Part4_Tactics_UniMath/lecture_tactics.v) (short version)
-- [Lecture](Schools/2019-04-Birmingham/Part4_Tactics_UniMath/lecture_tactics_long_version.v) (long version)
+- [Lecture](2019-04-Birmingham/Part4_Tactics_UniMath/lecture_tactics.v) (short version)
+- [Lecture](2019-04-Birmingham/Part4_Tactics_UniMath/lecture_tactics_long_version.v) (long version)
 - [Exercises](2019-04-Birmingham/Part4_Tactics_UniMath/exercises_tactics.v)
 - [Advanced exercises](2019-04-Birmingham/Part4_Tactics_UniMath/weq_exercises.v)
 - [Solutions](2019-04-Birmingham/Part4_Tactics_UniMath/exercises_tactics_with_solutions.v)
