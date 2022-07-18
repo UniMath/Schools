@@ -17,7 +17,7 @@
 - [Exercises](2022-07-Cortona/4_Tactics-UniMath/exercises_tactics.v)
 - [Advanced exercises](2022-07-Cortona/4_Tactics-UniMath/weq_exercises.v)
 - [Solutions](2022-07-Cortona/4_Tactics-UniMath/exercises_tactics_with_solutions.v)
-- [Advanced solutions](2022-07-Cortona/4_Tactics-UniMath/weq_exercises_with_solutions.v)- [Lecture](2022-07-Cortona/4_Tactics-UniMath/)
+- [Advanced solutions](2022-07-Cortona/4_Tactics-UniMath/weq_exercises_with_solutions.v)
 
 
 
