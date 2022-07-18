@@ -20,10 +20,10 @@
 - [Advanced solutions](2022-07-Cortona/4_Tactics-UniMath/weq_exercises_with_solutions.v)
 
 ### Lecture 6: Univalent Category Theory (by [Niels van der Weide](https://nmvdw.github.io))
-- [Lecture](2022-07-Cortona/6_CategoryTheory/lecture.pdf)
-- [Code](2022-07-Cortona/6_CategoryTheory/category_theory.v)
-- [Exercises](2022-07-Cortona/6_CategoryTheory/category_theory_exercises.v)
-- [Exercises with solutions](2022-07-Cortona/6_CategoryTheory/category_theory_solutions.v)
+- [Lecture](2022-07-Cortona/6_Category_Theory/lecture.pdf)
+- [Code](2022-07-Cortona/6_Category_Theory/category_theory.v)
+- [Exercises](2022-07-Cortona/6_Category_Theory/category_theory_exercises.v)
+- [Exercises with solutions](2022-07-Cortona/6_Category_Theory/category_theory_solutions.v)
 
 
 
