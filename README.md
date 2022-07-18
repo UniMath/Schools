@@ -9,8 +9,15 @@
 ### Lecture 2: Fundamentals of Coq (by Marco Maggesi)
 - [Lecture](2022-07-Cortona/2_Fundamentals-Coq/)
 
-### Lecture 4: Tactics in UniMath (by Ralph Matthes)
-- [Lecture](2022-07-Cortona/4_Tactics-UniMath/)
+### Lecture 4: Tactics in UniMath (by [Ralph Matthes](https://www.irit.fr/~/Ralph.Matthes/)
+- [Lecture](2022-07-Cortona/4_Tactics_UniMath/lecture_tactics.html) (HTML for easier reading)
+- [Lecture](2022-07-Cortona/4_Tactics_UniMath/lecture_tactics.v) (Coq file presented in class)
+- [Extended Lecture](2022-07-Cortona/4_Tactics_UniMath/lecture_tactics_long_version.html) (HTML)
+- [Extended Lecture](2022-07-Cortona/4_Tactics_UniMath/lecture_tactics_long_version.v) (Coq file)
+- [Exercises](2022-07-Cortona/4_Tactics_UniMath/exercises_tactics.v)
+- [Advanced exercises](2022-07-Cortona/4_Tactics_UniMath/weq_exercises.v)
+- [Solutions](2022-07-Cortona/4_Tactics_UniMath/exercises_tactics_with_solutions.v)
+- [Advanced solutions](2022-07-Cortona/4_Tactics_UniMath/weq_exercises_with_solutions.v)- [Lecture](2022-07-Cortona/4_Tactics-UniMath/)
 
 
 
