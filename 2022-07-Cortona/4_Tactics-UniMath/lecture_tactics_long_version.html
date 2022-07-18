@@ -1,0 +1,1942 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>lecture_tactics_long_version</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library lecture_tactics_long_version</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a id="lab1"></a><h1 class="section">Lecture 4: Tactics in UniMath</h1>
+ by Ralph Matthes, IRIT, Université de Toulouse, CNRS, Toulouse INP, UT3, Toulouse, France 
+<div class="paragraph"> </div>
+
+ My employer is the CNRS, my lab is the IRIT, but the above affiliation is obligatory for
+    any scientific production I release.
+
+<div class="paragraph"> </div>
+
+ This is the extended version of a presentation at the
+    UniMath school 2022 in Cortona, meant for self-study
+    and for exploring the UniMath library.
+
+<div class="paragraph"> </div>
+
+    The material is based on the extended version of the
+    presentation at the UniMath schools 2017 and 2019 in 
+    Birmingham, but updated to fit with the changes in (the
+    practice of) UniMath.
+
+<div class="paragraph"> </div>
+
+    Works with current UniMath (as of July 15, 2022, but also the Coq platform of April '22).
+
+<div class="paragraph"> </div>
+
+ Compiles with the command
+<br/>
+<span class="inlinecode"><span class="id" title="var">coqc</span> -<span class="id" title="keyword">type</span>-<span class="id" title="tactic">in</span>-<span class="id" title="keyword">type</span> <span class="id" title="var">lecture_tactics_long_version.v</span>
+<div class="paragraph"> </div>
+
+</span>when Coq is set up according to the instructions for this school and the associated coqc executable
+has priority in the path. However, you do not need to compile this file. The option is crucial, and
+also your own developments will need the Coq options configured through the installation instructions,
+most notably the present one. 
+<div class="paragraph"> </div>
+
+ Can be transformed into HTML documentation with the command
+<br/>
+<span class="inlinecode"><span class="id" title="var">coqdoc</span> -<span class="id" title="var">utf8</span> <span class="id" title="var">lecture_tactics_long_version.v</span>
+<div class="paragraph"> </div>
+
+</span>    (If internal links in the generated lecture_tactics_long_version.html are desired,
+     compilation with coqc is needed.)
+
+<div class="paragraph"> </div>
+
+ In Coq, one can define concepts by directly giving well-typed
+    terms (see Part 2), but one can also be helped in the construction by the
+    interactive mode.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Preamble</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab2"></a><h2 class="section">define a concept interactively:</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Locate</span> <span class="id" title="var">bool</span>. </div>
+
+<div class="doc">
+a separate definition - <span class="inlinecode"><span class="id" title="var">Init.Datatypes.bool</span></span> is in the Coq library,
+                  not available for UniMath 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="myfirsttruthvalue" class="idref" href="#myfirsttruthvalue"><span class="id" title="definition">myfirsttruthvalue</span></a>: <span class="id" title="inductive">bool</span>.<br/>
+</div>
+
+<div class="doc">
+only the identifier and its type given, not the definiens 
+<div class="paragraph"> </div>
+
+ This opens the interactive mode.
+
+<div class="paragraph"> </div>
+
+      The <a href="https://github.com/UniMath/UniMath/tree/master/UniMath/README.md#unimath-coding-style">UniMath
+      style guide</a> asks us to start what follows with <span class="inlinecode"><span class="id" title="keyword">Proof</span>.</span> in a separate line.
+      In vanilla Coq, this would be optional (it is anyway a "nop"). 
+</div>
+<div class="code">
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+Now we still have to give the term, but we are in interactive mode.  If you want to see everything in the currently loaded part of the UniMath library
+      that *involves* booleans, then do 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Search</span> <span class="id" title="inductive">bool</span>.<br/>
+</div>
+
+<div class="doc">
+If you only want to find library elements that *yield* booleans, then try 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Search</span><span class="id" title="var">Pattern</span> <span class="id" title="inductive">bool</span>.<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="var">true</span></span> does not take an argument, and it is already a term we can take as definiens. 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="constructor">true</span>.<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="tactic">exact</span></span> is a tactic which takes the term as argument and informs Coq in the proof mode to
+      finish the current goal with that term. 
+<div class="paragraph"> </div>
+
+ We see in the response buffer: "No more subgoals."
+      Hence, there is nothing more to do, except for leaving the proof mode properly. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="keyword">Defined</span>.</span> instructs Coq to complete the whole interactive construction of a term,
+    verify it and to associate it with the given identifer, here <span class="inlinecode"><span class="id" title="var">myfirsttruthvalue</span></span>.
+    This may go wrong for different reasons, including implementation errors of the Coq
+    system - that will not affect trustworthiness of the library. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Search</span> <span class="id" title="inductive">bool</span>.<br/>
+</div>
+
+<div class="doc">
+The new definition appears at the beginning of the list. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#myfirsttruthvalue"><span class="id" title="definition">myfirsttruthvalue</span></a>. </div>
+
+<div class="doc">
+or just point to the identifier and hit the
+                              key combination mentioned in Part 2 
+<div class="paragraph"> </div>
+
+ <span class="inlinecode"><span class="id" title="var">myfirsttruthvalue</span></span> <span class="inlinecode"><span class="id" title="var">relies</span></span> <span class="inlinecode"><span class="id" title="var">on</span></span> <span class="inlinecode"><span class="id" title="var">an</span></span> <span class="inlinecode"><span class="id" title="var">unsafe</span></span> <span class="inlinecode"><span class="id" title="var">universe</span></span> <span class="inlinecode"><span class="id" title="var">hierarchy</span></span> is output to indicate
+    that we are using Coq with option <span class="inlinecode">-<span class="id" title="keyword">type</span>-<span class="id" title="tactic">in</span>-<span class="id" title="keyword">type</span></span>. 
+<div class="paragraph"> </div>
+
+<a id="lab3"></a><h3 class="section">a more compelling example</h3>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="mysecondtruthvalue" class="idref" href="#mysecondtruthvalue"><span class="id" title="definition">mysecondtruthvalue</span></a>: <span class="id" title="inductive">bool</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Search</span> <span class="id" title="inductive">bool</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">negb</span>.<br/>
+</div>
+
+<div class="doc">
+applies the function <span class="inlinecode"><span class="id" title="var">negb</span></span> to obtain the required boolean,
+      thus the system has to ask for its argument 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <a class="idref" href="lecture_tactics_long_version.html#myfirsttruthvalue"><span class="id" title="definition">myfirsttruthvalue</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#mysecondtruthvalue"><span class="id" title="definition">mysecondtruthvalue</span></a>.<br/>
+</div>
+
+<div class="doc">
+<br/>
+<span class="inlinecode"><span class="id" title="var">mysecondtruthvalue</span> = <span class="id" title="var">negb</span> <span class="id" title="var">myfirsttruthvalue</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="var">bool</span>
+<div class="paragraph"> </div>
+
+</span>
+<div class="paragraph"> </div>
+
+ the definition is "as is", evaluation can be done subsequently: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> <a class="idref" href="lecture_tactics_long_version.html#mysecondtruthvalue"><span class="id" title="definition">mysecondtruthvalue</span></a>.<br/>
+</div>
+
+<div class="doc">
+<br/>
+<span class="inlinecode">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="id" title="var">false</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="var">bool</span>
+<div class="paragraph"> </div>
+
+</span>
+<div class="paragraph"> </div>
+
+ Again, not much has been gained by the interactive mode. 
+<div class="paragraph"> </div>
+
+ Here, we see a copy of the definition from the Coq library: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="andb" class="idref" href="#andb"><span class="id" title="definition">andb</span></a> (<a id="b1:1" class="idref" href="#b1:1"><span class="id" title="binder">b1</span></a> <a id="b2:2" class="idref" href="#b2:2"><span class="id" title="binder">b2</span></a>: <span class="id" title="inductive">bool</span>) : <span class="id" title="inductive">bool</span> := <span class="id" title="keyword">if</span> <a class="idref" href="lecture_tactics_long_version.html#b1:1"><span class="id" title="variable">b1</span></a> <span class="id" title="keyword">then</span> <a class="idref" href="lecture_tactics_long_version.html#b2:2"><span class="id" title="variable">b2</span></a> <span class="id" title="keyword">else</span> <span class="id" title="constructor">false</span>.<br/>
+</div>
+
+<div class="doc">
+only for illustration purposes - it would be better to define
+    it according to UniMath style 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="mythirdtruthvalue" class="idref" href="#mythirdtruthvalue"><span class="id" title="definition">mythirdtruthvalue</span></a>: <span class="id" title="inductive">bool</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Search</span> <span class="id" title="inductive">bool</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="lecture_tactics_long_version.html#andb"><span class="id" title="definition">andb</span></a>.<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="tactic">apply</span></span> <span class="inlinecode"><span class="id" title="var">andb</span>.</span> applies the function <span class="inlinecode"><span class="id" title="var">andb</span></span> to obtain the required boolean,
+      thus the system has to ask for its TWO arguments, one by one. 
+<div class="paragraph"> </div>
+
+ This follows the proof pattern of "backward chaining" that tries to
+      attack goals instead of building up evidence. In the course of action,
+      more goals can be generated. The proof effort is over when no more
+      goal remains. 
+<div class="paragraph"> </div>
+
+ UniMath coding style asks you to use proof structuring syntax,
+      while vanilla Coq would allow you to write formally verified
+      "spaghetti code". 
+<div class="paragraph"> </div>
+
+ We tell Coq that we start working on the first subgoal. 
+</div>
+<div class="code">
+&nbsp;&nbsp;-<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+only the "focused" subgoal is now on display 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="lecture_tactics_long_version.html#andb"><span class="id" title="definition">andb</span></a>.<br/>
+</div>
+
+<div class="doc">
+this again spawns two subgoals 
+<div class="paragraph"> </div>
+
+ we tell Coq that we start working on the first subgoal 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+normally, one would not leave the "bullet symbol" isolated in a line 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <a class="idref" href="lecture_tactics_long_version.html#mysecondtruthvalue"><span class="id" title="definition">mysecondtruthvalue</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="lecture_tactics_long_version.html#myfirsttruthvalue"><span class="id" title="definition">myfirsttruthvalue</span></a>.<br/>
+</div>
+
+<div class="doc">
+The response buffer signals:
+<br/>
+<span class="inlinecode"><span class="id" title="var">There</span> <span class="id" title="var">are</span> <span class="id" title="var">unfocused</span> <span class="id" title="keyword">goals</span>.
+<div class="paragraph"> </div>
+
+</span>          ProofGeneral would give more precise instructions as how to proceed.
+          But we know what we are doing...
+       
+</div>
+<div class="code">
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="constructor">true</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The usual "UniMath bullet order" is -, +, *, --, ++, **, ---, +++, ***,
+    and so on (all the ones shown are being used).
+
+<div class="paragraph"> </div>
+
+    Coq does not impose any order, so one can start with, e.g., *****,
+    if need be for the sake of experimenting with a proof.
+
+<div class="paragraph"> </div>
+
+    Reuse of bullets even on one branch is possible by enclosing subproofs
+    in curly braces {}.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#mythirdtruthvalue"><span class="id" title="definition">mythirdtruthvalue</span></a>.<br/>
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> <a class="idref" href="lecture_tactics_long_version.html#mythirdtruthvalue"><span class="id" title="definition">mythirdtruthvalue</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+You only saw the tactics <span class="inlinecode"><span class="id" title="tactic">exact</span></span> and <span class="inlinecode"><span class="id" title="tactic">apply</span></span> at work, and there was no context. 
+<div class="paragraph"> </div>
+
+<a id="lab4"></a><h2 class="section">doing Curry-Howard logic</h2>
+
+<div class="paragraph"> </div>
+
+ Interactive mode is more wide-spread when it comes to carrying out proofs
+    (the command <span class="inlinecode"><span class="id" title="keyword">Proof</span>.</span> is reminiscent of that). 
+<div class="paragraph"> </div>
+
+ Disclaimer: this section has a logical flavour, but the "connectives"
+    are not confined to the world of propositional or predicate logic.
+    In particular, there is no reference to the sort Prop of Coq.
+    Prop is not used at all in UniMath!
+
+<div class="paragraph"> </div>
+
+    On first reading, it is useful to focus on the logical meaning. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Locate</span> "-&gt;". </div>
+
+<div class="doc">
+non-dependent product, can be seen as implication 
+</div>
+<div class="code">
+<span class="id" title="keyword">Locate</span> "∅".<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="inductive">empty</span>. </div>
+
+<div class="doc">
+an inductive type that has no constructor 
+</div>
+<div class="code">
+<span class="id" title="keyword">Locate</span> "¬". </div>
+
+<div class="doc">
+we need to refer to the UniMath library more explicitly 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartA</span>.<br/>
+</div>
+
+<div class="doc">
+Do not write the import statements in the middle of a vernacular file.
+    Here, it is done to show the order of appearance, but this is only for
+    reasons of pedagogy.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Locate</span> "¬".<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">neg</span>.<br/>
+</div>
+
+<div class="doc">
+Negation is not a native concept; it is reduced to implication,
+    as is usual in constructive logic. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Locate</span> "×".<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">dirprod</span>. </div>
+
+<div class="doc">
+non-dependent sum, can be seen as conjunction 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="combinatorS" class="idref" href="#combinatorS"><span class="id" title="definition">combinatorS</span></a> (<a id="A:3" class="idref" href="#A:3"><span class="id" title="binder">A</span></a> <a id="B:4" class="idref" href="#B:4"><span class="id" title="binder">B</span></a> <a id="C:5" class="idref" href="#C:5"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>): <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:3"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#B:4"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:5"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:3"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:4"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#A:3"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:5"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+how to infer an implication? 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">Hyp123</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">Hyp1</span> := <span class="id" title="projection">pr1</span> <span class="id" title="var">Hyp123</span>).<br/>
+</div>
+
+<div class="doc">
+This is already a bit of "forward chaining" which is a fact-building process. 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">Hyp23</span> := <span class="id" title="projection">pr2</span> <span class="id" title="var">Hyp123</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">Hyp23</span>.<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="var">cbn</span></span> simplifies a goal, and <span class="inlinecode"><span class="id" title="var">cbn</span></span> <span class="inlinecode"><span class="id" title="tactic">in</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span> does this for hypothesis <span class="inlinecode"><span class="id" title="var">H</span></span>;
+      note that <span class="inlinecode"><span class="id" title="tactic">simpl</span></span> has the same high-level description but should better
+      be avoided in new developments.  
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">Hyp2</span> := <span class="id" title="projection">pr1</span> <span class="id" title="var">Hyp23</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">Hyp3</span> := <span class="id" title="projection">pr2</span> <span class="id" title="var">Hyp23</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">Hyp3</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp1</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="constructor">tpair</span>. </div>
+
+<div class="doc">
+could be done with <span class="inlinecode"><span class="id" title="tactic">split</span>.</span> as well 
+</div>
+<div class="code">
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>. </div>
+
+<div class="doc">
+instruct Coq to look into the current context 
+<div class="paragraph"> </div>
+
+ this could be done with <span class="inlinecode"><span class="id" title="tactic">exact</span></span> <span class="inlinecode"><span class="id" title="var">Hyp3</span>.</span> as well 
+</div>
+<div class="code">
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS"><span class="id" title="definition">combinatorS</span></a>.<br/>
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS"><span class="id" title="definition">combinatorS</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a id="combinatorS_intro_pattern" class="idref" href="#combinatorS_intro_pattern"><span class="id" title="definition">combinatorS_intro_pattern</span></a> (<a id="A:6" class="idref" href="#A:6"><span class="id" title="binder">A</span></a> <a id="B:7" class="idref" href="#B:7"><span class="id" title="binder">B</span></a> <a id="C:8" class="idref" href="#C:8"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:6"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#B:7"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:8"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:6"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:7"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#A:6"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:8"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> [<span class="id" title="var">Hyp1</span> [<span class="id" title="var">Hyp2</span> <span class="id" title="var">Hyp3</span>]]. </div>
+
+<div class="doc">
+deconstruct the hypothesis at the time of introduction;
+                                 notice that <span class="inlinecode">×</span> associates to the right;
+                                 <span class="inlinecode"><span class="id" title="tactic">intros</span></span> can also introduce multiple hypotheses, see below 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp1</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_intro_pattern"><span class="id" title="definition">combinatorS_intro_pattern</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+the two definitions are even convertible: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_intro_pattern"><span class="id" title="definition">combinatorS_intro_pattern</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Lemma</span> <a id="combinatorS_intro_pattern_is_the_same" class="idref" href="#combinatorS_intro_pattern_is_the_same"><span class="id" title="lemma">combinatorS_intro_pattern_is_the_same</span></a>:<br/>
+&nbsp;&nbsp;<a class="idref" href="lecture_tactics_long_version.html#combinatorS"><span class="id" title="definition">combinatorS</span></a> <span class="id" title="notation">=</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_intro_pattern"><span class="id" title="definition">combinatorS_intro_pattern</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+In late 2017, <span class="inlinecode"><span class="id" title="var">combinatorS_intro_pattern</span></span> would have contained <span class="inlinecode"><span class="id" title="keyword">match</span></span> constructs,
+    but now, the introduction patterns use less overhead when possible. The UniMath
+    style guide still does not want them to be used with square brackets. 
+<div class="paragraph"> </div>
+
+ another style to make life easier: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a id="combinatorS_destruct" class="idref" href="#combinatorS_destruct"><span class="id" title="definition">combinatorS_destruct</span></a> (<a id="A:9" class="idref" href="#A:9"><span class="id" title="binder">A</span></a> <a id="B:10" class="idref" href="#B:10"><span class="id" title="binder">B</span></a> <a id="C:11" class="idref" href="#C:11"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:9"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#B:10"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:11"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:9"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:10"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#A:9"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:11"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">Hyp123</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">Hyp123</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">Hyp1</span> <span class="id" title="var">Hyp23</span>]. </div>
+
+<div class="doc">
+deconstruct the hypothesis when needed 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp1</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">Hyp23</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">Hyp2</span> <span class="id" title="var">Hyp3</span>]. </div>
+
+<div class="doc">
+deconstruct the hypothesis when needed 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_destruct"><span class="id" title="definition">combinatorS_destruct</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Again, the definition is definitionally equal to the first one: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_destruct"><span class="id" title="definition">combinatorS_destruct</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Lemma</span> <a id="combinatorS_destruct_is_the_same" class="idref" href="#combinatorS_destruct_is_the_same"><span class="id" title="lemma">combinatorS_destruct_is_the_same</span></a>: <a class="idref" href="lecture_tactics_long_version.html#combinatorS"><span class="id" title="definition">combinatorS</span></a> <span class="id" title="notation">=</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_destruct"><span class="id" title="definition">combinatorS_destruct</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+In late 2017, <span class="inlinecode"><span class="id" title="var">combinatorS_destruct</span></span> would also have contained <span class="inlinecode"><span class="id" title="keyword">match</span></span> constructs,
+    which is why <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> is forbidden in the UniMath style guide. Now, this is fine
+    in our example. 
+<div class="paragraph"> </div>
+
+ The (hitherto) preferred idiom: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_induction" class="idref" href="#combinatorS_induction"><span class="id" title="definition">combinatorS_induction</span></a> (<a id="A:12" class="idref" href="#A:12"><span class="id" title="binder">A</span></a> <a id="B:13" class="idref" href="#B:13"><span class="id" title="binder">B</span></a> <a id="C:14" class="idref" href="#C:14"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>): <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:12"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#B:13"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:14"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:12"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:13"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#A:12"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:14"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">Hyp123</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">Hyp123</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">Hyp1</span> <span class="id" title="var">Hyp23</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp1</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">Hyp23</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">Hyp2</span> <span class="id" title="var">Hyp3</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_induction"><span class="id" title="definition">combinatorS_induction</span></a>.<br/>
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_induction"><span class="id" title="definition">combinatorS_induction</span></a>.<br/>
+</div>
+
+<div class="doc">
+the comfort for the user does not change the normal form of the constructed proof 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_curried" class="idref" href="#combinatorS_curried"><span class="id" title="definition">combinatorS_curried</span></a> (<a id="A:15" class="idref" href="#A:15"><span class="id" title="binder">A</span></a> <a id="B:16" class="idref" href="#B:16"><span class="id" title="binder">B</span></a> <a id="C:17" class="idref" href="#C:17"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>): <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:15"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:16"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:17"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:15"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:16"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#A:15"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:17"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+use <span class="inlinecode"><span class="id" title="tactic">intro</span></span> three times or rather <span class="inlinecode"><span class="id" title="tactic">intros</span></span> once; reasonable coding style
+      gives names to all hypotheses that are not already present
+      in the goal formula, see also the next definition 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H1</span> <span class="id" title="var">H2</span> <span class="id" title="var">H3</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">H1</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">set</span> (<span class="id" title="var">proofofB</span> := <span class="id" title="var">H2</span> <span class="id" title="var">H3</span>).<br/>
+</div>
+
+<div class="doc">
+set up abbreviations that can make use of the current context;
+        will be considered as an extra element of the context: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_curried"><span class="id" title="definition">combinatorS_curried</span></a>.<br/>
+</div>
+
+<div class="doc">
+We see that <span class="inlinecode"><span class="id" title="tactic">set</span></span> gives rise to <span class="inlinecode"><span class="id" title="keyword">let</span></span>-expressions that are known
+    from functional programming languages, in other words: the use of
+    <span class="inlinecode"><span class="id" title="tactic">set</span></span> is not a "macro" facility to ease typing. 
+<div class="paragraph"> </div>
+
+ <span class="inlinecode"><span class="id" title="keyword">let</span></span>-bindings disappear when computing the normal form of a term: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_curried"><span class="id" title="definition">combinatorS_curried</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="tactic">set</span></span> can only be used if the term of the desired type is provided,
+    but we can also work interactively as follows: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_curried_with_assert" class="idref" href="#combinatorS_curried_with_assert"><span class="id" title="definition">combinatorS_curried_with_assert</span></a> (<a id="A:18" class="idref" href="#A:18"><span class="id" title="binder">A</span></a> <a id="B:19" class="idref" href="#B:19"><span class="id" title="binder">B</span></a> <a id="C:20" class="idref" href="#C:20"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:18"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:19"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:20"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:18"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:19"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#A:18"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:20"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H1</span> <span class="id" title="var">H2</span> <span class="id" title="var">H3</span>.<br/>
+</div>
+
+<div class="doc">
+we can momentarily forget about our goal and build up knowledge: 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">proofofB</span> : <span class="id" title="var">B</span>).<br/>
+</div>
+
+<div class="doc">
+the current goal <span class="inlinecode"><span class="id" title="var">C</span></span> becomes the second sub-goal, and the new current goal is <span class="inlinecode"><span class="id" title="var">B</span></span> 
+<div class="paragraph"> </div>
+
+ It is not wise to handle this situation by "bullets" since many assertions
+      can appear in a linearly thought argument. It would pretend a tree structure
+      although it would rather be a comb. The proof of the assertion should
+      be packaged by enclosing it in curly braces like so: 
+</div>
+<div class="code">
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="var">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;</div>
+
+<div class="doc">
+Now, <span class="inlinecode"><span class="id" title="var">proofofB</span></span> is in the context with type <span class="inlinecode"><span class="id" title="var">B</span></span>. 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">H1</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+the wildcard <span class="inlinecode">?</span> for <span class="inlinecode"><span class="id" title="tactic">intros</span></span> 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_curried_variant" class="idref" href="#combinatorS_curried_variant"><span class="id" title="definition">combinatorS_curried_variant</span></a> (<a id="A:21" class="idref" href="#A:21"><span class="id" title="binder">A</span></a> <a id="B:22" class="idref" href="#B:22"><span class="id" title="binder">B</span></a> <a id="C:23" class="idref" href="#C:23"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:21"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:22"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:23"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:21"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:22"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="keyword">∀</span> <a id="H7:24" class="idref" href="#H7:24"><span class="id" title="binder">H7</span></a>: <a class="idref" href="lecture_tactics_long_version.html#A:21"><span class="id" title="variable">A</span></a>, <a class="idref" href="lecture_tactics_long_version.html#C:23"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H1</span> <span class="id" title="var">H2</span> ?.<br/>
+</div>
+
+<div class="doc">
+a question mark instructs Coq to use the corresponding identifier
+    from the goal formula 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">H1</span> <span class="id" title="var">H7</span> (<span class="id" title="var">H2</span> <span class="id" title="var">H7</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+</div>
+
+<div class="doc">
+the wildcard <span class="inlinecode"><span class="id" title="var">_</span></span> for <span class="inlinecode"><span class="id" title="tactic">intros</span></span> forgets the respective hypothesis 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Locate</span> "⨿". </div>
+
+<div class="doc">
+this symbol is typed as \amalg when the recommended extension
+                packages for VSCode are loaded 
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="inductive">coprod</span>. </div>
+
+<div class="doc">
+defined in UniMath preamble as inductive type,
+  can be seen as disjunction 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Locate</span> "∏".<br/>
+
+<br/>
+<span class="id" title="keyword">Locate</span> "=". </div>
+
+<div class="doc">
+the identity type of UniMath 
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="inductive">paths</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A word of warning for those who read "Coq in a Hurry": <span class="inlinecode"><span class="id" title="keyword">SearchRewrite</span></span>
+    does not find equations w.r.t. this notion, only w.r.t. Coq's built-in
+    propositional equality. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Search</span><span class="id" title="var">Pattern</span> (<span class="id" title="inductive">paths</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+</div>
+
+<div class="doc">
+Among the search results is <span class="inlinecode"><span class="id" title="var">pathsinv0r</span></span> that has <span class="inlinecode"><span class="id" title="var">idpath</span></span> in its conclusion. 
+</div>
+<div class="code">
+<span class="id" title="keyword">SearchRewrite</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+</div>
+
+<div class="doc">
+No result! 
+<div class="paragraph"> </div>
+
+<a id="lab5"></a><h3 class="section">How to decompose formulas</h3>
+
+<div class="paragraph"> </div>
+
+ In "Coq in a Hurry", Yves Bertot gives recipes for decomposing the usual logical
+    connectives. Crucially, one has to distinguish between decomposition of the goal
+    or decomposition of a hypothesis in the context.
+
+<div class="paragraph"> </div>
+
+    Here, we do it alike.
+
+<div class="paragraph"> </div>
+
+<a id="lab6"></a><h4 class="section">Decomposition of goal formulas:</h4>
+
+
+<div class="paragraph"> </div>
+
+    A1,...,An -&gt; B: tactic <span class="inlinecode"><span class="id" title="tactic">intro</span></span> or <span class="inlinecode"><span class="id" title="tactic">intros</span></span>
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode">¬</span> <span class="inlinecode"><span class="id" title="var">A</span></span>: idem (negation is defined through implication)
+
+<div class="paragraph"> </div>
+
+    Π-type: idem (implication is a special case of product)
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode">×</span>: <span class="inlinecode"><span class="id" title="tactic">apply</span></span> <span class="inlinecode"><span class="id" title="var">dirprodpair</span></span>, less specifically <span class="inlinecode"><span class="id" title="tactic">apply</span></span> <span class="inlinecode"><span class="id" title="var">tpair</span></span> or <span class="inlinecode"><span class="id" title="tactic">split</span></span>
+
+<div class="paragraph"> </div>
+
+    Σ-type: <span class="inlinecode"><span class="id" title="var">use</span></span> <span class="inlinecode"><span class="id" title="var">tpair</span></span> or <span class="inlinecode"><span class="id" title="tactic">∃</span></span> or <span class="inlinecode"><span class="id" title="tactic">split</span></span> <span class="inlinecode"><span class="id" title="keyword">with</span></span>, see explanations below
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="var">A</span></span> <span class="inlinecode">⨿</span> <span class="inlinecode"><span class="id" title="var">B</span></span>: <span class="inlinecode"><span class="id" title="tactic">apply</span></span> <span class="inlinecode"><span class="id" title="var">ii1</span></span> or <span class="inlinecode"><span class="id" title="tactic">apply</span></span> <span class="inlinecode"><span class="id" title="var">ii2</span></span>, but this constitutes a choice
+             of which way to go
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="var">A</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">B</span></span>: <span class="inlinecode"><span class="id" title="tactic">apply</span></span> <span class="inlinecode"><span class="id" title="var">idpath</span></span>, however this only works when the expressions
+             are convertible
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="var">nat</span></span>: <span class="inlinecode"><span class="id" title="tactic">exact</span></span> <span class="inlinecode">1000</span>, for example (a logical reading is not
+         useful for this type); beware that UniMath knows only 27 numerals,
+         <span class="inlinecode"><span class="id" title="keyword">Goal</span></span> <span class="inlinecode"><span class="id" title="var">nat</span>.</span> <span class="inlinecode"><span class="id" title="var">Fail</span></span> <span class="inlinecode"><span class="id" title="tactic">exact</span></span> <span class="inlinecode">2022.</span> leads to
+<br/>
+<span class="inlinecode"><span class="id" title="var">The</span> <span class="id" title="var">command</span> <span class="id" title="var">has</span> <span class="id" title="var">indeed</span> <span class="id" title="var">failed</span> <span class="id" title="keyword">with</span> <span class="id" title="var">message</span>: <span class="id" title="var">No</span> <span class="id" title="var">interpretation</span> <span class="id" title="keyword">for</span> <span class="id" title="var">number</span> "2022".
+<div class="paragraph"> </div>
+
+</span>
+<div class="paragraph"> </div>
+
+<a id="lab7"></a><h4 class="section">Decomposition of formula of hypothesis <span class="inlinecode"><span class="id" title="var">H</span></span>:</h4>
+
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode">∅</span>: <span class="inlinecode"><span class="id" title="tactic">induction</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span>
+
+<div class="paragraph"> </div>
+
+         This terminates a goal. (It corresponds to ex falso quodlibet.)
+
+<div class="paragraph"> </div>
+
+         There is naturally no recipe for getting rid of <span class="inlinecode">∅</span> in the conclusion.
+         But <span class="inlinecode"><span class="id" title="tactic">apply</span></span> <span class="inlinecode"><span class="id" title="var">fromempty</span></span> allows to replace any goal by <span class="inlinecode">∅</span>.
+
+<div class="paragraph"> </div>
+
+    A1,...,An -&gt; B: <span class="inlinecode"><span class="id" title="tactic">apply</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span>, but the formula has to fit with the goal
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode">×</span>: <span class="inlinecode"><span class="id" title="tactic">induction</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span> <span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode">[<span class="id" title="var">H1</span></span> <span class="inlinecode"><span class="id" title="var">H2</span>]</span>
+
+<div class="paragraph"> </div>
+
+         As seen above, this introduces names of hypotheses for the two components.
+
+<div class="paragraph"> </div>
+
+    Σ-type: idem, but rather more asymmetric as <span class="inlinecode"><span class="id" title="tactic">induction</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span> <span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode">[<span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">H'</span>]</span>
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="var">A</span></span> <span class="inlinecode">⨿</span> <span class="inlinecode"><span class="id" title="var">B</span></span>: <span class="inlinecode"><span class="id" title="tactic">induction</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span> <span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode">[<span class="id" title="var">H1</span></span> <span class="inlinecode">|</span> <span class="inlinecode"><span class="id" title="var">H2</span>]</span>
+
+<div class="paragraph"> </div>
+
+              This introduces names for the hypotheses in the two branches.
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="var">A</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">B</span></span>: <span class="inlinecode"><span class="id" title="tactic">induction</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span>
+
+<div class="paragraph"> </div>
+
+             The supposedly equal <span class="inlinecode"><span class="id" title="var">A</span></span> and <span class="inlinecode"><span class="id" title="var">B</span></span> become the same <span class="inlinecode"><span class="id" title="var">A</span></span> in the goal.
+
+<div class="paragraph"> </div>
+
+             This is the least intuitive rule for the non-expert in type theory.
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="var">nat</span></span>: <span class="inlinecode"><span class="id" title="tactic">induction</span></span> <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode">[</span> <span class="inlinecode">|</span> <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode"><span class="id" title="var">IH</span>]</span>
+
+<div class="paragraph"> </div>
+
+           Here, we assume that the hypothesis has the name <span class="inlinecode"><span class="id" title="var">n</span></span> which
+           is more idiomatic than <span class="inlinecode"><span class="id" title="var">H</span></span>, and there is no extra name in
+           the base case, while in the step case, the preceding number
+           is now given the name <span class="inlinecode"><span class="id" title="var">n</span></span> and the induction hypothesis is
+           named <span class="inlinecode"><span class="id" title="var">IH</span></span>.
+
+<div class="paragraph"> </div>
+
+<a id="lab8"></a><h2 class="section">Handling unfinished proofs</h2>
+
+<div class="paragraph"> </div>
+
+ In the middle of a proof effort - not in the UniMath library - you can use
+    <span class="inlinecode"><span class="id" title="var">admit</span></span> to abandon the current goal. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Lemma</span> <a id="badex1" class="idref" href="#badex1"><span class="id" title="lemma">badex1</span></a> (<a id="A:25" class="idref" href="#A:25"><span class="id" title="binder">A</span></a>: <span class="id" title="definition">UU</span>): <span class="id" title="notation">∅</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:25"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#A:25"><span class="id" title="variable">A</span></a><span class="id" title="notation">)</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- </div>
+
+<div class="doc">
+seems difficult in the current context 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">admit</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+we continue with decent proof work: 
+</div>
+<div class="code">
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This is strictly forbidden to commit to UniMath! <span class="inlinecode"><span class="id" title="var">admit</span></span> allows to pursue the other goals,
+    while <span class="inlinecode"><span class="id" title="var">Admitted</span>.</span> makes the lemma available for further proofs. A warning is shown that
+    <span class="inlinecode"><span class="id" title="var">badex1</span></span> has been assumed as axiom. 
+<div class="paragraph"> </div>
+
+ An alternative to interrupt work on a proof: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a id="badex2" class="idref" href="#badex2"><span class="id" title="lemma">badex2</span></a> (<a id="A:26" class="idref" href="#A:26"><span class="id" title="binder">A</span></a>: <span class="id" title="definition">UU</span>): <span class="id" title="notation">∅</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:26"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#A:26"><span class="id" title="variable">A</span></a><span class="id" title="notation">)</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;-<br/>
+<span class="id" title="keyword">Abort</span>.<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="var">badex2</span></span> is not in the symbol table. 
+<div class="paragraph"> </div>
+
+ <span class="inlinecode"><span class="id" title="keyword">Abort</span>.</span> is a way of documenting a problem with proving a result.
+    At least, Coq can check the partial proof up to the <span class="inlinecode"><span class="id" title="keyword">Abort</span>.</span> command. 
+<div class="paragraph"> </div>
+
+<a id="lab9"></a><h2 class="section">Working with holes in proofs</h2>
+
+<div class="paragraph"> </div>
+
+ Our previous proofs were particularly clear because the goal formulas
+    and all hypotheses were fully given by the system.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">pathscomp0</span>.<br/>
+</div>
+
+<div class="doc">
+This is the UniMath proof of transitivity of equality. 
+<div class="paragraph"> </div>
+
+ The salient feature of transitivity is that the intermediate
+    expression cannot be deduced from the equation to be proven. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a id="badex3" class="idref" href="#badex3"><span class="id" title="lemma">badex3</span></a> (<a id="A:27" class="idref" href="#A:27"><span class="id" title="binder">A</span></a> <a id="B:28" class="idref" href="#B:28"><span class="id" title="binder">B</span></a> <a id="C:29" class="idref" href="#C:29"><span class="id" title="binder">C</span></a> <a id="D:30" class="idref" href="#D:30"><span class="id" title="binder">D</span></a>: <span class="id" title="definition">UU</span>) : <span class="id" title="notation">(</span><span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:27"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#B:28"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#C:29"><span class="id" title="variable">C</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#D:30"><span class="id" title="variable">D</span></a><span class="id" title="notation">)</span><span class="id" title="notation">)</span> <span class="id" title="notation">=</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:27"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#B:28"><span class="id" title="variable">B</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#C:29"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#D:30"><span class="id" title="variable">D</span></a><span class="id" title="notation">)</span>.<br/>
+</div>
+
+<div class="doc">
+Notice that the outermost parentheses are needed here. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">Fail</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">pathscomp0</span>.<br/>
+</div>
+
+<div class="doc">
+<br/>
+<span class="inlinecode"><span class="id" title="var">The</span> <span class="id" title="var">command</span> <span class="id" title="var">has</span> <span class="id" title="var">indeed</span> <span class="id" title="var">failed</span> <span class="id" title="keyword">with</span> <span class="id" title="var">message</span>:<br/>
+<span class="id" title="var">Cannot</span> <span class="id" title="var">infer</span> <span class="id" title="var">the</span> <span class="id" title="var">implicit</span> <span class="id" title="var">parameter</span> <span class="id" title="var">b</span> <span class="id" title="keyword">of</span> <span class="id" title="var">pathscomp0</span> <span class="id" title="var">whose</span> <span class="id" title="keyword">type</span> <span class="id" title="keyword">is</span><br/>
+"Type" <span class="id" title="tactic">in</span> <span class="id" title="var">environment</span>:<br/>
+<span class="id" title="var">A</span>, <span class="id" title="var">B</span>, <span class="id" title="var">C</span>, <span class="id" title="var">D</span> : <span class="id" title="var">UU</span>
+<div class="paragraph"> </div>
+
+</span>
+<div class="paragraph"> </div>
+
+<span class="inlinecode"><span class="id" title="var">Fail</span></span> announces failure and therefore allows to continue with
+the interpretation of the vernacular file.
+
+<div class="paragraph"> </div>
+
+We need to help Coq with the argument <span class="inlinecode"><span class="id" title="var">b</span></span> to <span class="inlinecode"><span class="id" title="var">pathscomp0</span></span>.
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">pathscomp0</span> (<span class="id" title="var">b</span> := <span class="id" title="var">A</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><span class="id" title="var">B</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><span class="id" title="var">C</span> <span class="id" title="notation">×</span> <span class="id" title="var">D</span><span class="id" title="notation">))</span>)).<br/>
+&nbsp;&nbsp;- </div>
+
+<div class="doc">
+is this not just associativity with third argument <span class="inlinecode"><span class="id" title="var">C</span></span> <span class="inlinecode">×</span> <span class="inlinecode"><span class="id" title="var">D</span></span>? 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">SearchPattern</span> (<span class="id" title="var">_</span> <span class="id" title="notation">×</span> <span class="id" title="var">_</span> <span class="id" title="notation">=</span>  <span class="id" title="var">_</span> <span class="id" title="notation">×</span> <span class="id" title="var">_</span>).<br/>
+</div>
+
+<div class="doc">
+Nothing for our equation - we can only hope for weak equivalence ≃. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Abort</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Search</span><span class="id" title="var">Pattern</span>(<span class="id" title="var">_</span> <span class="id" title="notation">≃</span> <span class="id" title="var">_</span>).<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">weqcomp</span>.<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">weqdirprodasstor</span>.<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">weqdirprodasstol</span>.<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">weqdirprodf</span>.<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">idweq</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="assocex" class="idref" href="#assocex"><span class="id" title="lemma">assocex</span></a> (<a id="A:31" class="idref" href="#A:31"><span class="id" title="binder">A</span></a> <a id="B:32" class="idref" href="#B:32"><span class="id" title="binder">B</span></a> <a id="C:33" class="idref" href="#C:33"><span class="id" title="binder">C</span></a> <a id="D:34" class="idref" href="#D:34"><span class="id" title="binder">D</span></a>: <span class="id" title="definition">UU</span>) : <span class="id" title="notation">(</span><span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:31"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#B:32"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#C:33"><span class="id" title="variable">C</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#D:34"><span class="id" title="variable">D</span></a><span class="id" title="notation">)</span><span class="id" title="notation">)</span> <span class="id" title="notation">≃</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:31"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#B:32"><span class="id" title="variable">B</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#C:33"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#D:34"><span class="id" title="variable">D</span></a><span class="id" title="notation">)</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">Fail</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">weqcomp</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">weqcomp</span>.<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="tactic">eapply</span></span> generates "existential variables" for the expressions
+    it cannot infer from applying a lemma.
+
+<div class="paragraph"> </div>
+
+    The further proof will narrow on those variables and finally
+    make them disappear - otherwise, the proof is not considered
+    completed.
+ 
+</div>
+<div class="code">
+&nbsp;&nbsp;- </div>
+
+<div class="doc">
+We recall that on this side, only associativity was missing. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">weqdirprodasstor</span>.<br/>
+&nbsp;&nbsp;- </div>
+
+<div class="doc">
+The subgoal is now fully given. 
+<div class="paragraph"> </div>
+
+ The missing link is associativity, but only on the
+        right-hand side of the top <span class="inlinecode">×</span> symbol. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">weqdirprodf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">idweq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">weqdirprodasstol</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Warning: tactic <span class="inlinecode"><span class="id" title="tactic">exact</span></span> does not work if there are existential
+    variables in the goal, but <span class="inlinecode"><span class="id" title="tactic">eexact</span></span> can then be tried. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="sumex" class="idref" href="#sumex"><span class="id" title="lemma">sumex</span></a> (<a id="A:35" class="idref" href="#A:35"><span class="id" title="binder">A</span></a>: <span class="id" title="definition">UU</span>) (<a id="P:36" class="idref" href="#P:36"><span class="id" title="binder">P</span></a> <a id="Q:37" class="idref" href="#Q:37"><span class="id" title="binder">Q</span></a>: <a class="idref" href="lecture_tactics_long_version.html#A:35"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">∑</span> <a id="x:38" class="idref" href="#x:38"><span class="id" title="binder">x</span></a>: <a class="idref" href="lecture_tactics_long_version.html#A:35"><span class="id" title="variable">A</span></a><span class="id" title="notation">,</span> <a class="idref" href="lecture_tactics_long_version.html#P:36"><span class="id" title="variable">P</span></a> <a class="idref" href="lecture_tactics_long_version.html#x:38"><span class="id" title="variable">x</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#Q:37"><span class="id" title="variable">Q</span></a> <a class="idref" href="lecture_tactics_long_version.html#x:38"><span class="id" title="variable">x</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="notation">(</span><span class="id" title="notation">∑</span> <a id="x:39" class="idref" href="#x:39"><span class="id" title="binder">x</span></a>: <a class="idref" href="lecture_tactics_long_version.html#A:35"><span class="id" title="variable">A</span></a><span class="id" title="notation">,</span> <a class="idref" href="lecture_tactics_long_version.html#P:36"><span class="id" title="variable">P</span></a> <a class="idref" href="lecture_tactics_long_version.html#x:39"><span class="id" title="variable">x</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">∑</span> <a id="x:40" class="idref" href="#x:40"><span class="id" title="binder">x</span></a>:<a class="idref" href="lecture_tactics_long_version.html#A:35"><span class="id" title="variable">A</span></a><span class="id" title="notation">,</span> <a class="idref" href="lecture_tactics_long_version.html#Q:37"><span class="id" title="variable">Q</span></a> <a class="idref" href="lecture_tactics_long_version.html#x:40"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+</div>
+
+<div class="doc">
+decompose the implication: 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">H</span>.<br/>
+</div>
+
+<div class="doc">
+decompose the Σ-type: 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">H</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">x</span> <span class="id" title="var">H'</span>].<br/>
+</div>
+
+<div class="doc">
+decompose the pair: 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">H'</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">H1</span> <span class="id" title="var">H2</span>].<br/>
+</div>
+
+<div class="doc">
+decompose the pair in the goal 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">Fail</span> <span class="id" title="tactic">split</span>.<br/>
+</div>
+
+<div class="doc">
+<br/>
+<span class="inlinecode"><span class="id" title="var">The</span> <span class="id" title="var">command</span> <span class="id" title="var">has</span> <span class="id" title="var">indeed</span> <span class="id" title="var">failed</span> <span class="id" title="keyword">with</span> <span class="id" title="var">message</span>:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">Unable</span> <span class="id" title="var">to</span> <span class="id" title="var">find</span> <span class="id" title="var">an</span> <span class="id" title="var">instance</span> <span class="id" title="keyword">for</span> <span class="id" title="var">the</span> <span class="id" title="var">variable</span> <span class="id" title="var">pr1</span>.
+<div class="paragraph"> </div>
+
+</span>     
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">Fail</span> (<span class="id" title="tactic">apply</span> <span class="id" title="constructor">tpair</span>).<br/>
+</div>
+
+<div class="doc">
+A simple way out, by providing the first component: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span> <span class="id" title="keyword">with</span> <span class="id" title="var">x</span>. </div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="tactic">∃</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> does the same 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- </div>
+
+<div class="doc">
+or use <span class="inlinecode"><span class="id" title="tactic">eapply</span></span> and create an existential variable: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">Fail</span> <span class="id" title="tactic">assumption</span>. </div>
+
+<div class="doc">
+the assumption <span class="inlinecode"><span class="id" title="var">H2</span></span> does not agree with the goal 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eexact</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+</div>
+
+<div class="doc">
+Notice that <span class="inlinecode"><span class="id" title="tactic">eapply</span></span> <span class="inlinecode"><span class="id" title="var">tpair</span></span> is not used in the UniMath library,
+    since <span class="inlinecode"><span class="id" title="var">use</span></span> <span class="inlinecode"><span class="id" title="var">tpair</span></span> normally comes in handier, see below. 
+<div class="paragraph"> </div>
+
+<a id="lab10"></a><h3 class="section">Warning on existential variables</h3>
+ It may happen that the process of instantiating existential variables
+    is not completed when all goals have been treated.
+ 
+<div class="paragraph"> </div>
+
+ an example adapted from one by Arnaud Spiwack, ~2007 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">About</span> <span class="id" title="inductive">unit</span>. </div>
+
+<div class="doc">
+from the UniMath preamble 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a id="P" class="idref" href="#P"><span class="id" title="definition">P</span></a> (<a id="x:41" class="idref" href="#x:41"><span class="id" title="binder">x</span></a>:<span class="id" title="inductive">nat</span>) := <span class="id" title="inductive">unit</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="uninstex" class="idref" href="#uninstex"><span class="id" title="lemma">uninstex</span></a>: <span class="id" title="inductive">unit</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> ((<span class="id" title="keyword">fun</span> <a id="x:43" class="idref" href="#x:43"><span class="id" title="binder">x</span></a>:<a class="idref" href="lecture_tactics_long_version.html#P"><span class="id" title="definition">P</span></a> <span class="id" title="var">_</span> ⇒ <span class="id" title="var">_</span>) <span class="id" title="var">_</span>).<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="tactic">refine</span></span> is like <span class="inlinecode"><span class="id" title="tactic">exact</span></span>, but one can leave holes with the wildcard "_".
+      This tactic should hardly be needed since most uses in UniMath
+      can be replaced by a use of the "tactic" <span class="inlinecode"><span class="id" title="var">use</span></span>, see further down
+      on this tactic notation for an Ltac definition.
+
+<div class="paragraph"> </div>
+
+      Still, <span class="inlinecode"><span class="id" title="tactic">refine</span></span> can come to rescue in difficult situations,
+      in particular during proof development. Its simpler variant
+      <span class="inlinecode"><span class="id" title="tactic">simple</span></span> <span class="inlinecode"><span class="id" title="tactic">refine</span></span> is captured by the <span class="inlinecode"><span class="id" title="var">use</span></span> "tactic".
+
+</div>
+<div class="code">
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="constructor">tt</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="constructor">tt</span>.<br/>
+</div>
+
+<div class="doc">
+Now, Coq presents a subgoal that pops up from the "shelved goals".
+
+<div class="paragraph"> </div>
+
+       Still, no more "-" bullets can be used.
+
+<div class="paragraph"> </div>
+
+<span class="inlinecode">[</span> <span class="inlinecode">-</span>
+<span class="inlinecode"><span class="id" title="var">Error</span>:</span> <span class="inlinecode"><span class="id" title="var">Wrong</span></span> <span class="inlinecode"><span class="id" title="var">bullet</span></span> <span class="inlinecode">-</span> <span class="inlinecode">:</span> <span class="inlinecode"><span class="id" title="var">No</span></span> <span class="inlinecode"><span class="id" title="var">more</span></span> <span class="inlinecode"><span class="id" title="var">subgoals</span>.</span>
+<span class="inlinecode">]</span>
+     
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Show</span> <span class="id" title="var">Existentials</span>.<br/>
+</div>
+
+<div class="doc">
+a natural number is still being asked for 
+</div>
+<div class="code">
+<span class="id" title="var">Unshelve</span>.<br/>
+</div>
+
+<div class="doc">
+Like this, we can focus on the remaining goal. 
+</div>
+<div class="code">
+<span class="id" title="tactic">exact</span> 0.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+one can also name the existential variables in <span class="inlinecode"><span class="id" title="tactic">refine</span></span>: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a id="uninstexnamed" class="idref" href="#uninstexnamed"><span class="id" title="lemma">uninstexnamed</span></a>: <span class="id" title="inductive">unit</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> ((<span class="id" title="keyword">fun</span> <a id="x:45" class="idref" href="#x:45"><span class="id" title="binder">x</span></a>:<a class="idref" href="lecture_tactics_long_version.html#P"><span class="id" title="definition">P</span></a> ?[<span class="id" title="var">n</span>] ⇒ <span class="id" title="var">_</span>) <span class="id" title="var">_</span>). </div>
+
+<div class="doc">
+give a name to the existential variable 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="constructor">tt</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="constructor">tt</span>.<br/>
+<span class="id" title="keyword">Show</span> <span class="id" title="var">Existentials</span>.<br/>
+<span class="id" title="var">Unshelve</span>.<br/>
+<span class="id" title="tactic">instantiate</span> (<span class="id" title="var">n</span> := 0). </div>
+
+<div class="doc">
+more symbols to type but better to grasp 
+</div>
+<div class="code">
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab11"></a><h2 class="section">a bit more on equational reasoning</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="homot" class="idref" href="#homot"><span class="id" title="section">homot</span></a>.<br/>
+</div>
+
+<div class="doc">
+A section allows to introduce local variables/parameters
+    that will be bound outside of the section. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Locate</span> "~".<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">homot</span>. </div>
+
+<div class="doc">
+this is just pointwise equality 
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">idfun</span>. </div>
+
+<div class="doc">
+the identity function 
+</div>
+<div class="code">
+<span class="id" title="keyword">Locate</span> "∘". </div>
+
+<div class="doc">
+exchanges the arguments of <span class="inlinecode"><span class="id" title="var">funcomp</span></span> 
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="definition">funcomp</span>.<br/>
+</div>
+
+<div class="doc">
+plain function composition in diagrammatic order, i.e.,
+    first the first argument, then the second argument;
+    the second argument may even have a dependent type 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Context</span> (<a id="A:46" class="idref" href="#A:46"><span class="id" title="binder">A</span></a> <a id="B:47" class="idref" href="#B:47"><span class="id" title="binder">B</span></a>: <span class="id" title="definition">UU</span>).<br/>
+</div>
+
+<div class="doc">
+makes good sense in a section, can be put in curly braces to indicate
+    they will be implicit arguments for every construction in the section 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="interestingstatement" class="idref" href="#interestingstatement"><span class="id" title="definition">interestingstatement</span></a> : <span class="id" title="definition">UU</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><a id="v:48" class="idref" href="#v:48"><span class="id" title="binder">v</span></a> <a id="w:49" class="idref" href="#w:49"><span class="id" title="binder">w</span></a> : <a class="idref" href="lecture_tactics_long_version.html#homot.A"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#homot.B"><span class="id" title="variable">B</span></a>) (<a id="v':50" class="idref" href="#v':50"><span class="id" title="binder">v'</span></a> <a id="w':51" class="idref" href="#w':51"><span class="id" title="binder">w'</span></a> : <a class="idref" href="lecture_tactics_long_version.html#homot.B"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#homot.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;<a class="idref" href="lecture_tactics_long_version.html#w:49"><span class="id" title="variable">w</span></a> <span class="id" title="notation">∘</span> <a class="idref" href="lecture_tactics_long_version.html#w':51"><span class="id" title="variable">w'</span></a> <span class="id" title="notation">~</span> <span class="id" title="definition">idfun</span> <a class="idref" href="lecture_tactics_long_version.html#homot.B"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#v':50"><span class="id" title="variable">v'</span></a> <span class="id" title="notation">∘</span> <a class="idref" href="lecture_tactics_long_version.html#v:48"><span class="id" title="variable">v</span></a> <span class="id" title="notation">~</span> <span class="id" title="definition">idfun</span> <a class="idref" href="lecture_tactics_long_version.html#homot.A"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#v':50"><span class="id" title="variable">v'</span></a> <span class="id" title="notation">~</span> <a class="idref" href="lecture_tactics_long_version.html#w':51"><span class="id" title="variable">w'</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#v:48"><span class="id" title="variable">v</span></a> <span class="id" title="notation">~</span> <a class="idref" href="lecture_tactics_long_version.html#w:49"><span class="id" title="variable">w</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Check</span> (<span class="id" title="definition">isinjinvmap'</span>: <a class="idref" href="lecture_tactics_long_version.html#interestingstatement"><span class="id" title="definition">interestingstatement</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="ourisinjinvmap'" class="idref" href="#ourisinjinvmap'"><span class="id" title="lemma">ourisinjinvmap'</span></a>: <a class="idref" href="lecture_tactics_long_version.html#interestingstatement"><span class="id" title="definition">interestingstatement</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>. </div>
+
+<div class="doc">
+is a nop since the formula structure is not analyzed 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="lecture_tactics_long_version.html#interestingstatement"><span class="id" title="definition">interestingstatement</span></a>. </div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="tactic">unfold</span></span> unfolds a definition 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ? ? ? ? <span class="id" title="var">homoth1</span> <span class="id" title="var">homoth2</span> <span class="id" title="var">hyp</span> <span class="id" title="var">a</span>.<br/>
+</div>
+
+<div class="doc">
+the extra element <span class="inlinecode"><span class="id" title="var">a</span></span> triggers Coq to unfold the formula further;
+      <span class="inlinecode"><span class="id" title="tactic">unfold</span></span> <span class="inlinecode"><span class="id" title="var">interestingstatement</span></span> was there only for illustration! 
+<div class="paragraph"> </div>
+
+ we want to use transitivity that is expressed by <span class="inlinecode"><span class="id" title="var">pathscomp0</span></span> and
+      instruct Coq to take a specific intermediate term 
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Ltac</span> <span class="id" title="var">intermediate_path</span>. </div>
+
+<div class="doc">
+not telling because implicit arg. is not shown 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="var">intermediate_path</span> (<span class="id" title="var">w</span> (<span class="id" title="var">w'</span> (<span class="id" title="var">v</span> <span class="id" title="var">a</span>))).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>. </div>
+
+<div class="doc">
+apply symmetry of equality 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">homot</span> <span class="id" title="tactic">in</span> <span class="id" title="var">homoth1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">funcomp</span> <span class="id" title="tactic">in</span> <span class="id" title="var">homoth1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">idfun</span> <span class="id" title="tactic">in</span> <span class="id" title="var">homoth1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">homoth1</span>. </div>
+
+<div class="doc">
+all the <span class="inlinecode"><span class="id" title="tactic">unfold</span></span> were only for illustration! 
+</div>
+<div class="code">
+&nbsp;&nbsp;-<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Print</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">homot</span> <span class="id" title="tactic">in</span> <span class="id" title="var">hyp</span>.<br/>
+</div>
+
+<div class="doc">
+we use the equation in <span class="inlinecode"><span class="id" title="var">hyp</span></span> from right to left, i.e., backwards: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">hyp</span>.<br/>
+</div>
+
+<div class="doc">
+remark: for a forward rewrite, use <span class="inlinecode"><span class="id" title="tactic">rewrite</span></span> without directional
+        argument  beautify the current goal: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">change</span> (<span class="id" title="notation">(</span><span class="id" title="var">v'</span> <span class="id" title="notation">∘</span> <span class="id" title="var">v</span><span class="id" title="notation">)</span> <span class="id" title="notation">a</span> <span class="id" title="notation">=</span> <span class="id" title="definition">idfun</span> <a class="idref" href="lecture_tactics_long_version.html#homot.A"><span class="id" title="variable">A</span></a> <span class="id" title="var">a</span>).<br/>
+</div>
+
+<div class="doc">
+just for illustration of <span class="inlinecode"><span class="id" title="tactic">change</span></span> that allows to replace the goal
+        by a convertible expression; also works for hypotheses, e.g.: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">change</span> (<span class="id" title="var">v'</span> <span class="id" title="notation">~</span> <span class="id" title="var">w'</span>) <span class="id" title="tactic">in</span> <span class="id" title="var">hyp</span>.<br/>
+</div>
+
+<div class="doc">
+since <span class="inlinecode"><span class="id" title="var">hyp</span></span> was no longer necessary, we should rather have deleted it: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">clear</span> <span class="id" title="var">hyp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">homoth2</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> (<a id="v:52" class="idref" href="#v:52"><span class="id" title="binder">v</span></a> <a id="w:53" class="idref" href="#w:53"><span class="id" title="binder">w</span></a>: <a class="idref" href="lecture_tactics_long_version.html#homot.A"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#homot.B"><span class="id" title="variable">B</span></a>) (<a id="v':54" class="idref" href="#v':54"><span class="id" title="binder">v'</span></a> <a id="w':55" class="idref" href="#w':55"><span class="id" title="binder">w'</span></a>: <a class="idref" href="lecture_tactics_long_version.html#homot.B"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#homot.A"><span class="id" title="variable">A</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> (<a class="idref" href="lecture_tactics_long_version.html#ourisinjinvmap'"><span class="id" title="lemma">ourisinjinvmap'</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.v"><span class="id" title="variable">v</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.w"><span class="id" title="variable">w</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.w'"><span class="id" title="variable">w'</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Opaque</span> <a class="idref" href="lecture_tactics_long_version.html#ourisinjinvmap'"><span class="id" title="lemma">ourisinjinvmap'</span></a>.<br/>
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> (<a class="idref" href="lecture_tactics_long_version.html#ourisinjinvmap'"><span class="id" title="lemma">ourisinjinvmap'</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.v"><span class="id" title="variable">v</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.w"><span class="id" title="variable">w</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.w'"><span class="id" title="variable">w'</span></a>).<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="keyword">Opaque</span></span> made the definition opaque in the sense that the identifier
+    is still in the symbol table, together with its type, but that it does
+    not evaluate to anything but itself.
+
+<div class="paragraph"> </div>
+
+    If inhabitants of a type are irrelevant (for example if it is known
+    that there is at most one inhabitant, and if one therefore is not interested
+    in computing with that inhabitant), then opaqueness is an asset to make
+    the subsequent proof process lighter.
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="keyword">Opaque</span></span> can be undone with <span class="inlinecode"><span class="id" title="keyword">Transparent</span></span>:
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Transparent</span> <a class="idref" href="lecture_tactics_long_version.html#ourisinjinvmap'"><span class="id" title="lemma">ourisinjinvmap'</span></a>.<br/>
+<span class="id" title="keyword">Eval</span> <span class="id" title="tactic">compute</span> <span class="id" title="tactic">in</span> (<a class="idref" href="lecture_tactics_long_version.html#ourisinjinvmap'"><span class="id" title="lemma">ourisinjinvmap'</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.v"><span class="id" title="variable">v</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.w"><span class="id" title="variable">w</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot.w'"><span class="id" title="variable">w'</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If one uses <span class="inlinecode"><span class="id" title="keyword">Compute</span></span> in place of <span class="inlinecode"><span class="id" title="keyword">Eval</span></span> <span class="inlinecode"><span class="id" title="tactic">compute</span></span> <span class="inlinecode"><span class="id" title="tactic">in</span></span>, then <span class="inlinecode"><span class="id" title="keyword">Opaque</span></span> has no effect. 
+<div class="paragraph"> </div>
+
+ Full and irreversible opaqueness is obtained for a construction
+    in interactive mode by completing it with <span class="inlinecode"><span class="id" title="keyword">Qed</span>.</span> in place of <span class="inlinecode"><span class="id" title="keyword">Defined</span>.</span>
+
+<div class="paragraph"> </div>
+
+    Using <span class="inlinecode"><span class="id" title="keyword">Qed</span>.</span> is discouraged by the UniMath style guide. In Coq,
+    most lemmas, theorems, etc. (nearly every assertion in <span class="inlinecode"><span class="id" title="keyword">Prop</span></span>) are
+    made opaque in this way. In UniMath, many lemmas enter subsequent
+    computation, and one should have good reasons for not closing an
+    interactive construction with <span class="inlinecode"><span class="id" title="keyword">Defined</span>.</span>. More than 5kloc of the UniMath
+    library have <span class="inlinecode"><span class="id" title="keyword">Qed</span>.</span>, so these good reasons do exist and are not rare.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="lecture_tactics_long_version.html#homot"><span class="id" title="section">homot</span></a>.<br/>
+<span class="id" title="keyword">Check</span> <a class="idref" href="lecture_tactics_long_version.html#ourisinjinvmap'"><span class="id" title="lemma">ourisinjinvmap'</span></a>.<br/>
+</div>
+
+<div class="doc">
+The section parameters <span class="inlinecode"><span class="id" title="var">A</span></span> and <span class="inlinecode"><span class="id" title="var">B</span></span> are abstracted away after the end
+    of the section - only the relevant ones. 
+<div class="paragraph"> </div>
+
+ <span class="inlinecode"><span class="id" title="tactic">assert</span></span> is a "chameleon" w.r.t. to opaqueness: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_curried_with_assert2" class="idref" href="#combinatorS_curried_with_assert2"><span class="id" title="definition">combinatorS_curried_with_assert2</span></a> (<a id="A:56" class="idref" href="#A:56"><span class="id" title="binder">A</span></a> <a id="B:57" class="idref" href="#B:57"><span class="id" title="binder">B</span></a> <a id="C:58" class="idref" href="#C:58"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:56"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:57"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:58"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:56"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:57"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#A:56"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:58"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H1</span> <span class="id" title="var">H2</span> <span class="id" title="var">H3</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">proofofB</span> : <span class="id" title="var">B</span>).<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="var">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="var">proofofB</span></span> is just an identifier and not associated to the
+      construction we gave. Hence, the proof is opaque for us. 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">H1</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_curried_with_assert2"><span class="id" title="definition">combinatorS_curried_with_assert2</span></a>.<br/>
+</div>
+
+<div class="doc">
+We see that <span class="inlinecode"><span class="id" title="var">proofofB</span></span> is there with its definition, so it is
+    transparent.
+
+<div class="paragraph"> </div>
+
+    See much further below for <span class="inlinecode"><span class="id" title="var">transparent</span></span> <span class="inlinecode"><span class="id" title="tactic">assert</span></span> that is like
+    <span class="inlinecode"><span class="id" title="tactic">assert</span></span>, but consistently transparent.
+
+<div class="paragraph"> </div>
+
+<a id="lab12"></a><h2 class="section">composing tactics</h2>
+
+<div class="paragraph"> </div>
+
+ Up to now, we "composed" tactics in two ways: we gave them sequentially,
+    separated by periods, or we introduced a tree structure through the
+    "bullet" notation. We did not think of these operations as composition
+    of tactics, in particular since we had to trigger each of them separately
+    in interactive mode. However, we can also explicitly compose them, like so:
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_induction_in_one_step" class="idref" href="#combinatorS_induction_in_one_step"><span class="id" title="definition">combinatorS_induction_in_one_step</span></a> (<a id="A:59" class="idref" href="#A:59"><span class="id" title="binder">A</span></a> <a id="B:60" class="idref" href="#B:60"><span class="id" title="binder">B</span></a> <a id="C:61" class="idref" href="#C:61"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:59"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#B:60"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:61"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:59"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:60"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#A:59"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:61"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">Hyp123</span>;<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">Hyp123</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">Hyp1</span> <span class="id" title="var">Hyp23</span>];<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp1</span>;<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">Hyp23</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">Hyp2</span> <span class="id" title="var">Hyp3</span>];<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>;<br/>
+&nbsp;&nbsp;[ <span class="id" title="tactic">assumption</span><br/>
+&nbsp;&nbsp;| <span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp2</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>].<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The sequential composition is written by (infix) semicolon,
+    and the two branches reated by <span class="inlinecode"><span class="id" title="tactic">split</span></span> are treated in the 
+    |-separated list of arguments to the brackets. 
+<div class="paragraph"> </div>
+
+ Why would we want to do such compositions? There are at least four good reasons:
+
+<div class="paragraph"> </div>
+
+    (1) We indicate that the intermediate results are irrelevant for someone who
+        executes the script so as to understand how and why the construction /
+        the proof works.
+
+<div class="paragraph"> </div>
+
+    (2) The same tactic (expression) can uniformly treat all sub-goals stemming
+        from the preceding tactic application, as will be shown next.
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_curried_with_assert_in_one_step" class="idref" href="#combinatorS_curried_with_assert_in_one_step"><span class="id" title="definition">combinatorS_curried_with_assert_in_one_step</span></a> (<a id="A:62" class="idref" href="#A:62"><span class="id" title="binder">A</span></a> <a id="B:63" class="idref" href="#B:63"><span class="id" title="binder">B</span></a> <a id="C:64" class="idref" href="#C:64"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:62"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:63"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:64"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:62"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:63"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#A:62"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:64"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H1</span> <span class="id" title="var">H2</span> <span class="id" title="var">H3</span>;<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">proofofB</span> : <span class="id" title="var">B</span>) <span class="id" title="tactic">by</span><br/>
+&nbsp;&nbsp;( <span class="id" title="tactic">apply</span> <span class="id" title="var">H2</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span><br/>
+&nbsp;&nbsp;);<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">H1</span>;<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This illustrates the grouping of tactic expressions by parentheses, the variant
+    <span class="inlinecode"><span class="id" title="tactic">assert</span></span> <span class="inlinecode"><span class="id" title="tactic">by</span></span> of <span class="inlinecode"><span class="id" title="tactic">assert</span></span> used when only one tactic expression forms the proof of
+    the assertion, and also point (2): the last line is simpler than the expected line
+<br/>
+<span class="inlinecode">[<span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">assumption</span>].
+<div class="paragraph"> </div>
+
+</span>
+<div class="paragraph"> </div>
+
+ Why would we want to do such compositions (cont'd)?
+
+<div class="paragraph"> </div>
+
+    (3) We want to capture recurring patterns of construction / proof by tactics into
+        reusable Ltac definitions, see below.
+
+<div class="paragraph"> </div>
+
+    (4) We want to make use of the <span class="inlinecode"><span class="id" title="tactic">abstract</span></span> facility, explained now.
+ 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_induction_with_abstract" class="idref" href="#combinatorS_induction_with_abstract"><span class="id" title="definition">combinatorS_induction_with_abstract</span></a> (<a id="A:65" class="idref" href="#A:65"><span class="id" title="binder">A</span></a> <a id="B:66" class="idref" href="#B:66"><span class="id" title="binder">B</span></a> <a id="C:67" class="idref" href="#C:67"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:65"><span class="id" title="variable">A</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#B:66"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:67"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:65"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:66"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#A:65"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:67"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">Hyp123</span>;<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">Hyp123</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">Hyp1</span> <span class="id" title="var">Hyp23</span>];<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp1</span>;<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">Hyp23</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">Hyp2</span> <span class="id" title="var">Hyp3</span>].<br/>
+</div>
+
+<div class="doc">
+Now imagine that the following proof was very complicated but had no computational
+      relevance, i.e., could also be packed into a lemma whose proof would be finished
+      by <span class="inlinecode"><span class="id" title="keyword">Qed</span></span>. We can encapsulate it into <span class="inlinecode"><span class="id" title="tactic">abstract</span></span>: 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="tactic">abstract</span> (<span class="id" title="tactic">split</span>;<br/>
+&nbsp;&nbsp;[ <span class="id" title="tactic">assumption</span><br/>
+&nbsp;&nbsp;| <span class="id" title="tactic">apply</span> <span class="id" title="var">Hyp2</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>]).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Print</span> <a class="idref" href="lecture_tactics_long_version.html#combinatorS_induction_with_abstract"><span class="id" title="definition">combinatorS_induction_with_abstract</span></a>.<br/>
+</div>
+
+<div class="doc">
+The term features an occurrence of <span class="inlinecode"><span class="id" title="var">combinatorS_induction_with_abstract_subproof</span></span>
+    that contains the abstracted part; using the latter name is forbidden by the
+    UniMath style guide. Note that <span class="inlinecode"><span class="id" title="tactic">abstract</span></span> is used hundreds of times in the
+    UniMath library. 
+<div class="paragraph"> </div>
+
+<a id="lab13"></a><h3 class="section">Ltac language for defining tactics</h3>
+
+<div class="paragraph"> </div>
+
+ Disclaimer: Ltac can do more than that, in fact Ltac is the name of the
+    whole tactic language of Coq. 
+<div class="paragraph"> </div>
+
+ Ltac definitions can associate identifiers for tactics with tactic expressions.
+
+<div class="paragraph"> </div>
+
+    We have already used one such identifier: <span class="inlinecode"><span class="id" title="var">intermediate_path</span></span> in the <span class="inlinecode"><span class="id" title="var">Foundations</span></span>
+    package of UniMath. In file <span class="inlinecode"><span class="id" title="var">PartA.v</span></span>, we have the code
+<br/>
+<span class="inlinecode"><span class="id" title="keyword">Ltac</span> <span class="id" title="var">intermediate_path</span> <span class="id" title="var">x</span> := <span class="id" title="tactic">apply</span> (<span class="id" title="var">pathscomp0</span> (<span class="id" title="var">b</span> := <span class="id" title="var">x</span>)).
+<div class="paragraph"> </div>
+
+</span>
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Ltac</span> <span class="id" title="var">intermediate_path</span>.<br/>
+</div>
+
+<div class="doc">
+does not show the formal argument <span class="inlinecode"><span class="id" title="var">x</span></span> in the right-hand side.
+    Remedy (in ProofGeneral but not in VSCode): 
+</div>
+<div class="code">
+<span class="id" title="keyword">Set Printing All</span>.<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Ltac</span> <span class="id" title="var">intermediate_path</span>.<br/>
+<span class="id" title="keyword">Unset Printing All</span>.<br/>
+</div>
+
+<div class="doc">
+The problem with these Ltac definitions is that they are barely typed, they
+    behave rather like LaTeX macros. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Local Ltac</span> <span class="id" title="var">intermediate_path_wrong</span> <span class="id" title="var">x</span> := <span class="id" title="tactic">apply</span> (<span class="id" title="definition">pathscomp0</span> (<span class="id" title="var">X</span> := <span class="id" title="var">x</span>)(<span class="id" title="var">b</span> := <span class="id" title="var">x</span>)).<br/>
+</div>
+
+<div class="doc">
+This definition confounds the type argument <span class="inlinecode"><span class="id" title="var">X</span></span> and its element <span class="inlinecode"><span class="id" title="var">b</span></span>.
+    The soundness of Coq is not at stake here, but the errors only appear
+    at runtime, as we will see below. Normal printing output hides the difference
+    with the correct tactic definition: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Ltac</span> <span class="id" title="var">intermediate_path_wrong</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="homot2" class="idref" href="#homot2"><span class="id" title="section">homot2</span></a>.<br/>
+<span class="id" title="keyword">Context</span> (<a id="A:68" class="idref" href="#A:68"><span class="id" title="binder">A</span></a> <a id="B:69" class="idref" href="#B:69"><span class="id" title="binder">B</span></a> : <span class="id" title="definition">UU</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="ourisinjinvmap'_failed_proof" class="idref" href="#ourisinjinvmap'_failed_proof"><span class="id" title="lemma">ourisinjinvmap'_failed_proof</span></a>: <a class="idref" href="lecture_tactics_long_version.html#interestingstatement"><span class="id" title="definition">interestingstatement</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot2.A"><span class="id" title="variable">A</span></a> <a class="idref" href="lecture_tactics_long_version.html#homot2.B"><span class="id" title="variable">B</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ? ? ? ? <span class="id" title="var">homoth1</span> <span class="id" title="var">homoth2</span> <span class="id" title="var">hyp</span> <span class="id" title="var">a</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">Fail</span> <span class="id" title="var">intermediate_path_wrong</span> (<span class="id" title="var">w</span> (<span class="id" title="var">w'</span> (<span class="id" title="var">v</span> <span class="id" title="var">a</span>))).<br/>
+</div>
+
+<div class="doc">
+The message does not point to the problem that argument <span class="inlinecode"><span class="id" title="var">x</span></span> appears
+      a second time in the Ltac definition with a different needed type. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Abort</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="lecture_tactics_long_version.html#homot2"><span class="id" title="section">homot2</span></a>.<br/>
+</div>
+
+<div class="doc">
+See <a href="https://github.com/UniMath/UniMath/blob/master/UniMath/PAdics/frac.v#L23"><span class="inlinecode"><span class="id" title="var">https</span>://<span class="id" title="var">github.com</span>/<span class="id" title="var">UniMath</span>/<span class="id" title="var">UniMath</span>/<span class="id" title="var">blob</span>/<span class="id" title="var">master</span>/<span class="id" title="var">UniMath</span>/<span class="id" title="var">PAdics</span>/<span class="id" title="var">frac.v</span>#<span class="id" title="var">L23</span></span></a>
+    for a huge Ltac definition in the UniMath library to appreciate the lack
+    of type information. 
+<div class="paragraph"> </div>
+
+ The UniMath library provides some Ltac definitions for general use: 
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Ltac</span> <span class="id" title="var">etrans</span>. </div>
+
+<div class="doc">
+no need to explain - rather an abbreviation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Set Printing All</span>.<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Ltac</span> <span class="id" title="var">intermediate_weq</span>. </div>
+
+<div class="doc">
+problem with VSCode analogous to <span class="inlinecode"><span class="id" title="var">intermediate_path</span></span> 
+</div>
+<div class="code">
+<span class="id" title="keyword">Unset Printing All</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+for the next tactic 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.Tactics</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Set Printing All</span>.<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Ltac</span> <span class="id" title="var">show_id_type</span>.<br/>
+</div>
+
+<div class="doc">
+output with ProofGeneral (output with VSCode falls again short of crucial information)
+<br/>
+<span class="inlinecode"><span class="id" title="keyword">Ltac</span> <span class="id" title="var">show_id_type</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| |- @<span class="id" title="var">paths</span> ?<span class="id" title="var">ID</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <span class="id" title="tactic">set</span> (<span class="id" title="var">TYPE</span> := <span class="id" title="var">ID</span>); <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">TYPE</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>
+<div class="paragraph"> </div>
+
+</span>Hardly ever present in proofs in the library, but it can be an excellent tool
+while trying to prove an equation: it puts the index of the path space
+into the context. This index is invisible in the notation with an equals
+sign that one normally sees as the goal, and coercions can easily give a wrong
+impression about that index. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Unset Printing All</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab14"></a><h4 class="section">The most useful Ltac definition of UniMath</h4>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="keyword">Ltac</span> <span class="id" title="var">simple_rapply</span>.<br/>
+</div>
+
+<div class="doc">
+It applies the <span class="inlinecode"><span class="id" title="tactic">simple</span></span> <span class="inlinecode"><span class="id" title="tactic">refine</span></span> tactic with zero up to fifteen unknown
+    arguments. 
+<div class="paragraph"> </div>
+
+ This tactic must not be used in UniMath since a "tactic notation"
+    is favoured: <span class="inlinecode"><span class="id" title="var">Foundations</span>/<span class="id" title="var">Preamble.v</span></span> contains the definition
+<br/>
+<span class="inlinecode"><span class="id" title="keyword">Tactic</span> <span class="id" title="keyword">Notation</span> "use" <span class="id" title="var">uconstr</span>(<span class="id" title="var">p</span>) := <span class="id" title="var">simple_rapply</span> <span class="id" title="var">p</span>.
+<div class="paragraph"> </div>
+
+</span>
+<div class="paragraph"> </div>
+
+Use of <span class="inlinecode"><span class="id" title="var">use</span></span>:
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a id="sumex_with_use" class="idref" href="#sumex_with_use"><span class="id" title="lemma">sumex_with_use</span></a> (<a id="A:70" class="idref" href="#A:70"><span class="id" title="binder">A</span></a>: <span class="id" title="definition">UU</span>) (<a id="P:71" class="idref" href="#P:71"><span class="id" title="binder">P</span></a> <a id="Q:72" class="idref" href="#Q:72"><span class="id" title="binder">Q</span></a>: <a class="idref" href="lecture_tactics_long_version.html#A:70"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">∑</span> <a id="x:73" class="idref" href="#x:73"><span class="id" title="binder">x</span></a>:<a class="idref" href="lecture_tactics_long_version.html#A:70"><span class="id" title="variable">A</span></a><span class="id" title="notation">,</span> <a class="idref" href="lecture_tactics_long_version.html#P:71"><span class="id" title="variable">P</span></a> <a class="idref" href="lecture_tactics_long_version.html#x:73"><span class="id" title="variable">x</span></a> <span class="id" title="notation">×</span> <a class="idref" href="lecture_tactics_long_version.html#Q:72"><span class="id" title="variable">Q</span></a> <a class="idref" href="lecture_tactics_long_version.html#x:73"><span class="id" title="variable">x</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="notation">(</span><span class="id" title="notation">∑</span> <a id="x:74" class="idref" href="#x:74"><span class="id" title="binder">x</span></a>:<a class="idref" href="lecture_tactics_long_version.html#A:70"><span class="id" title="variable">A</span></a><span class="id" title="notation">,</span> <a class="idref" href="lecture_tactics_long_version.html#P:71"><span class="id" title="variable">P</span></a> <a class="idref" href="lecture_tactics_long_version.html#x:74"><span class="id" title="variable">x</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">×</span> <span class="id" title="notation">∑</span> <a id="x:75" class="idref" href="#x:75"><span class="id" title="binder">x</span></a>:<a class="idref" href="lecture_tactics_long_version.html#A:70"><span class="id" title="variable">A</span></a><span class="id" title="notation">,</span> <a class="idref" href="lecture_tactics_long_version.html#Q:72"><span class="id" title="variable">Q</span></a> <a class="idref" href="lecture_tactics_long_version.html#x:75"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">induction</span> <span class="id" title="var">H</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">x</span> <span class="id" title="var">H'</span>]; <span class="id" title="tactic">induction</span> <span class="id" title="var">H'</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">H1</span> <span class="id" title="var">H2</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">cbn</span>. </div>
+
+<div class="doc">
+this is often necessary since <span class="inlinecode"><span class="id" title="var">use</span></span> does as little as possible 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- </div>
+
+<div class="doc">
+to remind the version where the "witness" is given explicitly: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">∃</span> <span class="id" title="var">x</span>; <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+</div>
+
+<div class="doc">
+To conclude: <span class="inlinecode"><span class="id" title="var">use</span></span> <span class="inlinecode"><span class="id" title="var">tpair</span></span> is the right idiom for an interactive
+    construction of inhabitants of Σ-types. Note that the second
+    generated sub-goal may need <span class="inlinecode"><span class="id" title="var">cbn</span></span> to make further tactics
+    applicable.
+
+<div class="paragraph"> </div>
+
+    If the first component of the inhabitant is already at hand,
+    then the "exists" tactic yields a leaner proof script.
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="var">use</span></span> is not confined to Σ-types. Whenever one would be
+    inclined to start trying to apply a lemma <span class="inlinecode"><span class="id" title="var">H</span></span> with a varying
+    number of underscores, <span class="inlinecode"><span class="id" title="var">use</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span> may be a better option.
+
+<div class="paragraph"> </div>
+
+ There is another recommendable tactic notation that is also by
+    Jason Gross:
+<br/>
+<span class="inlinecode"><span class="id" title="keyword">Tactic</span> <span class="id" title="keyword">Notation</span> "transparent" "assert"<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"(" <span class="id" title="var">ident</span>(<span class="id" title="var">name</span>) ":" <span class="id" title="keyword">constr</span>(<span class="id" title="keyword">type</span>) ")" :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="keyword">let</span> <span class="id" title="var">name</span> := (<span class="id" title="var">_</span> : <span class="id" title="keyword">type</span>) <span class="id" title="tactic">in</span> <span class="id" title="var">_</span>).
+<div class="paragraph"> </div>
+
+</span>
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="combinatorS_curried_with_transparent_assert" class="idref" href="#combinatorS_curried_with_transparent_assert"><span class="id" title="definition">combinatorS_curried_with_transparent_assert</span></a> (<a id="A:76" class="idref" href="#A:76"><span class="id" title="binder">A</span></a> <a id="B:77" class="idref" href="#B:77"><span class="id" title="binder">B</span></a> <a id="C:78" class="idref" href="#C:78"><span class="id" title="binder">C</span></a>: <span class="id" title="definition">UU</span>):<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:76"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:77"><span class="id" title="variable">B</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:78"><span class="id" title="variable">C</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <span class="id" title="notation">(</span><a class="idref" href="lecture_tactics_long_version.html#A:76"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#B:77"><span class="id" title="variable">B</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#A:76"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="lecture_tactics_long_version.html#C:78"><span class="id" title="variable">C</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">H1</span> <span class="id" title="var">H2</span> <span class="id" title="var">H3</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">transparent</span> <span class="id" title="tactic">assert</span> (<span class="id" title="var">proofofB</span> : <span class="id" title="var">B</span>).<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="var">H2</span>; <span class="id" title="tactic">assumption</span>. } </div>
+
+<div class="doc">
+There is no <span class="inlinecode"><span class="id" title="var">transparent</span></span> <span class="inlinecode"><span class="id" title="tactic">assert</span></span> <span class="inlinecode"><span class="id" title="tactic">by</span></span>. 
+<div class="paragraph"> </div>
+
+ Now, <span class="inlinecode"><span class="id" title="var">proofB</span></span> is present with the constructed proof of <span class="inlinecode"><span class="id" title="var">B</span></span>. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Abort</span>.<br/>
+</div>
+
+<div class="doc">
+To conclude: <span class="inlinecode"><span class="id" title="var">transparent</span></span> <span class="inlinecode"><span class="id" title="tactic">assert</span></span> is a replacement for <span class="inlinecode"><span class="id" title="tactic">assert</span></span>
+    if the construction of the assertion is needed in the rest of
+    the proof.
+
+<div class="paragraph"> </div>
+
+<a id="lab15"></a><h2 class="section">a final word, just on searching the library</h2>
+
+<div class="paragraph"> </div>
+
+ <span class="inlinecode"><span class="id" title="keyword">SearchPattern</span></span> searches for the given pattern in what the library
+    gives as *conclusions* of definitions, lemmas, etc., and the current
+    hypotheses.
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" title="keyword">Search</span></span> searches in the (full) types of all the library elements (and
+    the current hypotheses). It may provide too many irrelevant result
+    for your question. At least, it will also show all the relevant ones.
+
+<div class="paragraph"> </div>
+
+    Anyway, only the imported part of the library is searched. The quick
+    way for importing the whole UniMath library is
+<br/>
+<span class="inlinecode"><span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">UniMath.All</span>.
+<div class="paragraph"> </div>
+
+</span>You may test it with
+<br/>
+<span class="inlinecode"><span class="id" title="keyword">SearchPattern</span> (<span class="id" title="var">_</span> ≃ <span class="id" title="var">_</span>).
+<div class="paragraph"> </div>
+
+</span>with very numerous results.
+
+<div class="paragraph"> </div>
+
+<a id="lab16"></a><h2 class="section">List of tactics that were mentioned</h2>
+
+<div class="paragraph"> </div>
+
+<br/>
+<span class="inlinecode"><span class="id" title="tactic">exact</span><br/>
+<span class="id" title="tactic">apply</span><br/>
+<span class="id" title="tactic">intro</span><br/>
+<span class="id" title="tactic">set</span><br/>
+<span class="id" title="var">cbn</span> / <span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> (<span class="id" title="var">old</span> <span class="id" title="var">but</span> <span class="id" title="var">sometimes</span> <span class="id" title="var">useful</span> <span class="id" title="var">form</span>: <span class="id" title="tactic">simpl</span> / <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span>)<br/>
+<span class="id" title="tactic">assumption</span><br/>
+<span class="id" title="tactic">intros</span> (<span class="id" title="keyword">with</span> <span class="id" title="tactic">pattern</span>, <span class="id" title="keyword">with</span> <span class="id" title="var">wild</span> <span class="id" title="var">cards</span>)<br/>
+<span class="id" title="tactic">split</span> / <span class="id" title="tactic">split</span> <span class="id" title="keyword">with</span> / <span class="id" title="tactic">∃</span><br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="keyword">as</span> --- <span class="id" title="var">not</span> <span class="id" title="var">desirable</span> <span class="id" title="tactic">in</span> <span class="id" title="var">UniMath</span><br/>
+<span class="id" title="tactic">induction</span> / <span class="id" title="tactic">induction</span> <span class="id" title="keyword">as</span><br/>
+<span class="id" title="var">admit</span> --- <span class="id" title="var">only</span> <span class="id" title="var">during</span> <span class="id" title="var">proof</span> <span class="id" title="var">development</span><br/>
+<span class="id" title="tactic">eapply</span><br/>
+<span class="id" title="tactic">eexact</span><br/>
+<span class="id" title="tactic">refine</span> --- <span class="id" title="tactic">first</span> <span class="id" title="var">consider</span> "use" <span class="id" title="var">instead</span><br/>
+<span class="id" title="tactic">instantiate</span><br/>
+<span class="id" title="tactic">unfold</span> / <span class="id" title="tactic">unfold</span> <span class="id" title="tactic">in</span><br/>
+<span class="id" title="var">intermediate_path</span> (<span class="id" title="keyword">Ltac</span> <span class="id" title="var">def</span>.)<br/>
+<span class="id" title="tactic">rewrite</span> / <span class="id" title="tactic">rewrite</span> &lt;-<br/>
+<span class="id" title="tactic">change</span> / <span class="id" title="tactic">change</span> <span class="id" title="tactic">in</span><br/>
+<span class="id" title="tactic">clear</span><br/>
+<span class="id" title="tactic">assert</span> {} / <span class="id" title="tactic">assert</span> <span class="id" title="tactic">by</span><br/>
+<span class="id" title="tactic">abstract</span><br/>
+<span class="id" title="var">etrans</span> (<span class="id" title="keyword">Ltac</span> <span class="id" title="var">def</span>.)<br/>
+<span class="id" title="var">intermediate_weq</span> (<span class="id" title="keyword">Ltac</span> <span class="id" title="var">def</span>.)<br/>
+<span class="id" title="var">show_id_type</span> (<span class="id" title="keyword">Ltac</span> <span class="id" title="var">def</span>.)<br/>
+<span class="id" title="var">simple_rapply</span> (<span class="id" title="keyword">Ltac</span> <span class="id" title="var">def</span>., <span class="id" title="var">not</span> <span class="id" title="var">to</span> <span class="id" title="var">be</span> <span class="id" title="var">used</span>)<br/>
+<span class="id" title="var">use</span> (<span class="id" title="keyword">Ltac</span> <span class="id" title="var">notation</span>)<br/>
+<span class="id" title="var">transparent</span> <span class="id" title="tactic">assert</span> (<span class="id" title="keyword">Ltac</span> <span class="id" title="var">notation</span>)
+<div class="paragraph"> </div>
+
+</span>
+</div>
+<div class="code">
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
