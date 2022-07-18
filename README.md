@@ -6,6 +6,8 @@
 - [Lecture](2022-07-Cortona/1_Type-Theory/Lecture_Type-Theory.pdf)
 
 
+### Lecture 2: Fundamentals of Coq (by Marco Maggesi)
+- [Lecture](2022-07-Cortona/2_Fundamentals-Coq/)
 
 
 
