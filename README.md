@@ -22,6 +22,12 @@
 - [Solutions](2022-07-Cortona/4_Tactics-UniMath/exercises_tactics_with_solutions.v)
 - [Advanced solutions](2022-07-Cortona/4_Tactics-UniMath/weq_exercises_with_solutions.v)
 
+### Lecture 5: *Set-Level Mathematics* by [Benedikt Ahrens](https://benediktahrens.gitlab.io)
+- [Lecture](2022-07-Cortona/5_Set_level_mathematics/5_set_level_mathematics_lecture.pdf)
+- [Exercises](2022-07-Cortona/5_Set_level_mathematics/set_level_mathematics_exercises.v)
+- [Solutions](2019-04-Birmingham/5_Set_level_mathematics/set_level_mathematics_solutions.v)
+
+
 ### Lecture 6: Univalent Category Theory (by [Niels van der Weide](https://nmvdw.github.io))
 - [Lecture](2022-07-Cortona/6_Category_Theory/lecture.pdf)
 - [Code](2022-07-Cortona/6_Category_Theory/category_theory.v)
