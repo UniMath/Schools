@@ -2,11 +2,11 @@
 
 ## School on Univalent Mathematics, Cortona, 2022
 
-### Lecture 1: Type Theory (by Gianluca Amato)
+### Lecture 1: Type Theory (by [Gianluca Amato](https://www.sci.unich.it/~amato/))
 - [Lecture](2022-07-Cortona/1_Type-Theory/Lecture_Type-Theory.pdf)
 
 
-### Lecture 2: Fundamentals of Coq (by Marco Maggesi)
+### Lecture 2: Fundamentals of Coq (by [Marco Maggesi](https://sites.google.com/unifi.it/maggesi/))
 - [Lecture](https://github.com/UniMath/Schools/tree/master/2022-07-Cortona/2_Fundamentals-Coq)
 
 ### Lecture 3: Univalent foundations (by Paige Randall North)
@@ -22,7 +22,7 @@
 - [Solutions](2022-07-Cortona/4_Tactics-UniMath/exercises_tactics_with_solutions.v)
 - [Advanced solutions](2022-07-Cortona/4_Tactics-UniMath/weq_exercises_with_solutions.v)
 
-### Lecture 5: *Set-Level Mathematics* (by [Benedikt Ahrens](https://benediktahrens.gitlab.io))
+### Lecture 5: Set-Level Mathematics (by [Benedikt Ahrens](https://benediktahrens.gitlab.io))
 - [Lecture](2022-07-Cortona/5_Set-level-mathematics/5_set_level_mathematics_lecture.pdf)
 - [Exercises](2022-07-Cortona/5_Set-level-mathematics/set_level_mathematics_exercises.v)
 - [Solutions](2022-07-Cortona/5_Set-level-mathematics/set_level_mathematics_solutions.v)
@@ -33,6 +33,9 @@
 - [Code](2022-07-Cortona/6_Category_Theory/category_theory.v)
 - [Exercises](2022-07-Cortona/6_Category_Theory/category_theory_exercises.v)
 - [Exercises with solutions](2022-07-Cortona/6_Category_Theory/category_theory_solutions.v)
+
+### Lecture 7: Synthetic Homotopy Theory (by [Peter LeFanu Lumsdaine](http://peterlefanulumsdaine.com/))
+- [Exercises](2022-07-Cortona/7_Synthetic-Homotopy-Theory/Synthetic_Homotopy_Theory.v)
 
 
 
