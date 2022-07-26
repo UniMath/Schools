@@ -9,7 +9,7 @@
 ### Lecture 2: Fundamentals of Coq (by [Marco Maggesi](https://sites.google.com/unifi.it/maggesi/))
 - [Lecture](https://github.com/UniMath/Schools/tree/master/2022-07-Cortona/2_Fundamentals-Coq)
 
-### Lecture 3: Univalent foundations (by Paige Randall North)
+### Lecture 3: Univalent foundations (by [Paige Randall North](https://paigenorth.github.io/))
 - [Lecture](https://github.com/UniMath/Schools/tree/master/2022-07-Cortona/3_Univalent-foundations.pdf)
 
 ### Lecture 4: Tactics in UniMath (by [Ralph Matthes](https://www.irit.fr/~/Ralph.Matthes/))
