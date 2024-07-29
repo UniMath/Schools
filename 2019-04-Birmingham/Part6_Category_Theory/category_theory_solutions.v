@@ -13,7 +13,10 @@ Require Import UniMath.CategoryTheory.Core.Prelude.
 Require Import UniMath.CategoryTheory.Core.Setcategories.
 Require Import UniMath.CategoryTheory.categories.HSET.All.
 Require Import UniMath.CategoryTheory.DisplayedCats.Core.
+Require Import UniMath.CategoryTheory.DisplayedCats.Isos.
 Require Import UniMath.CategoryTheory.DisplayedCats.Constructions.
+Require Import UniMath.CategoryTheory.DisplayedCats.Total.
+Require Import UniMath.CategoryTheory.DisplayedCats.Univalence.
 Require Import UniMath.CategoryTheory.limits.graphs.colimits.
 Require Import UniMath.CategoryTheory.limits.graphs.limits.
 Require Import UniMath.CategoryTheory.limits.terminal.
@@ -36,15 +39,14 @@ Section Exercise_0.
 
   Show that in any univalent category, the type of objects has h-level 3 *)
 
-  Proposition isofhlevel3_ob_of_univalent_cat (C : category) (H : is_univalent C)
+  Proposition isofhlevel3_ob_of_univalent_cat (C : category) (univ : is_univalent C)
     : isofhlevel 3 (ob C).
   Proof.
     intros a b.
-    induction H as [univ homsets].
     apply (isofhlevelweqb 2 (make_weq idtoiso (univ a b))).
     unfold iso.
     apply isofhleveltotal2.
-    - apply homsets.
+    - apply homset_property.
     - intro f.
       apply isasetaprop.
       apply isaprop_is_iso.
@@ -120,7 +122,7 @@ Section Exercise_1.
 
   Proposition nat_category_not_univalent : ¬ (is_univalent nat_category).
   Proof.
-    intros [univ_nat homsets].
+    intro univ_nat.
     set (equiv22 := univ_nat 2 2).
     assert (isaprop_id : isaprop (2 = 2)).
     { apply isasetnat. }
