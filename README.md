@@ -5,6 +5,10 @@
 ### Lecture 1: Type Theory (by Paige Randall North)
 - [Lecture](2024-07-Minneapolis/1_Type-Theory/minneapolis_lecture_1.pdf)
 
+### Lecture 2: Type Theory (by Niels van der Weide)
+- [Lecture](2024-07-Minneapolis/2_Coq/Fundamentals_Coq.pdf)
+- [Coq file](2024-07-Minneapolis/2_Coq/fundamentals_lecture.v)
+
 
 ## School on Univalent Mathematics, Cortona, 2022
 
