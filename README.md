@@ -2,7 +2,9 @@
 
 ## School on Univalent Mathematics, Minneapolis, 2024
 
-TBA
+### Lecture 1: Type Theory (by Paige Randall North)
+- [Lecture](2024-07-Minneapolis/1_Type-Theory/minneapolis_lecture_1.pdf)
+
 
 ## School on Univalent Mathematics, Cortona, 2022
 
