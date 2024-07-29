@@ -8,7 +8,8 @@
 ### Lecture 2: Type Theory (by Niels van der Weide)
 - [Lecture](2024-07-Minneapolis/2_Coq/Fundamentals_Coq.pdf)
 - [Coq file](2024-07-Minneapolis/2_Coq/fundamentals_lecture.v)
-
+- [Exercises](2024-07-Minneapolis/2_Coq/coq_exercises.v)
+- [Solutions](2024-07-Minneapolis/2_Coq/coq_solutions.v)
 
 ## School on Univalent Mathematics, Cortona, 2022
 
