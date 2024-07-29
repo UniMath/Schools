@@ -1,5 +1,9 @@
 # Learning Material for Univalent Mathematics and the UniMath library
 
+## School on Univalent Mathematics, Minneapolis, 2024
+
+TBA
+
 ## School on Univalent Mathematics, Cortona, 2022
 
 ### Lecture 1: Type Theory (by [Gianluca Amato](https://www.sci.unich.it/~amato/))
