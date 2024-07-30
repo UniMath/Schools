@@ -12,7 +12,7 @@
 - [Solutions](2024-07-Minneapolis/2_Coq/coq_solutions.v)
 
 ### Lecture 3: Univalent Foundations (by Paige Randall North)
-- [Lecture](2024-07-Minneapolis/3_Univalent-Foundations/minneapolis_lecture_3.v)
+- [Lecture](2024-07-Minneapolis/3_Univalent-Foundations/minneapolis_lecture_3.pdf)
 
 ### Lecture 4: Tactics in Coq (by Benedikt Ahrens)
 - [Lecture](2024-07-Minneapolis/4_Tactics/tactics_lecture.v)
