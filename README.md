@@ -11,6 +11,17 @@
 - [Exercises](2024-07-Minneapolis/2_Coq/coq_exercises.v)
 - [Solutions](2024-07-Minneapolis/2_Coq/coq_solutions.v)
 
+### Lecture 3: Univalent Foundations (by Paige Randall North)
+TBA
+
+### Lecture 4: Tactics in Coq (by Benedikt Ahrens)
+- [Lecture](2024-07-Minneapolis/4_Tactics/tactics_lecture.v)
+- [Lecture (extended)](2024-07-Minneapolis/4_Tactics/tactics_lecture_extended.v)
+- [Exercises](2024-07-Minneapolis/4_Tactics/exercises_tactics.v)
+- [Solutions](2024-07-Minneapolis/4_Tactics/exercises_tactics_with_solutions.v)
+
+
+
 ## School on Univalent Mathematics, Cortona, 2022
 
 ### Lecture 1: Type Theory (by [Gianluca Amato](https://www.sci.unich.it/~amato/))
