@@ -20,6 +20,10 @@
 - [Exercises](2024-07-Minneapolis/4_Tactics/exercises_tactics.v)
 - [Solutions](2024-07-Minneapolis/4_Tactics/exercises_tactics_with_solutions.v)
 
+### Lecture 5: Set-Level Mathematics (by Carlo Angiuli)
+- [Lecture](2024-07-Minneapolis/5_Set-level-mathematics/lecture5.pdf)
+- Exercises TBA
+- Solutions TBA
 
 
 ## School on Univalent Mathematics, Cortona, 2022
