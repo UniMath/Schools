@@ -25,6 +25,13 @@
 - [Exercises](2024-07-Minneapolis/5_Set-level-mathematics/set_level_mathematics_exercises.v)
 - [Solutions](2024-07-Minneapolis/5_Set-level-mathematics/set_level_mathematics_solutions.v)
 
+### Lecture 6: Univalent Category Theory (by Niels van der Weide)
+- [Lecture](2024-07-Minneapolis/6_Category-theory-in-UF/lecture.pdf)
+- [Code](2024-07-Minneapolis/6_Category-theory-in-UF/category_theory.v)
+- [Exercises](2024-07-Minneapolis/6_Category-theory-in-UF/category_theory_exercises.v)
+- [Exercises with solutions](2024-07-Minneapolis/6_Category-theory-in-UF/category_theory_solutions.v)
+
+
 
 ## School on Univalent Mathematics, Cortona, 2022
 
