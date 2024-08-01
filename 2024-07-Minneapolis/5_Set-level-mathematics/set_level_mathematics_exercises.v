@@ -213,6 +213,12 @@ Admitted.
 (* Once the goals are solved, replace "Admitted" by "Defined" *)
 (* Defined. *)
 
+Definition transportf_ptdset :
+  ∏ (P : ptdset → UU) (X Y : ptdset), ptdset_iso X Y → P X → P Y.
+Proof.
+  admit.
+Admitted.
+
 
 End Pointed.
 

@@ -235,6 +235,14 @@ Proof.
   - apply ptdset_iso_weq.
 Defined.
 
+Definition transportf_ptdset :
+  ∏ (P : ptdset → UU) (X Y : ptdset), ptdset_iso X Y → P X → P Y.
+Proof.
+  intros P X Y f.
+  apply sip_for_ptdset in f.
+  exact (transportf P f).
+Defined.
+
 
 End Pointed.
 
