@@ -2,36 +2,36 @@
 
 ## School on Univalent Mathematics, Minneapolis, 2024
 
-### Lecture 1: Type Theory (by Paige Randall North)
+### Lecture 1: Type Theory (by [Paige Randall North](https://paigenorth.github.io/))
 - [Lecture](2024-07-Minneapolis/1_Type-Theory/minneapolis_lecture_1.pdf)
 
-### Lecture 2: Type Theory (by Niels van der Weide)
+### Lecture 2: Type Theory (by [Niels van der Weide](https://nmvdw.github.io))
 - [Lecture](2024-07-Minneapolis/2_Coq/Fundamentals_Coq.pdf)
 - [Coq file](2024-07-Minneapolis/2_Coq/fundamentals_lecture.v)
 - [Exercises](2024-07-Minneapolis/2_Coq/coq_exercises.v)
 - [Solutions](2024-07-Minneapolis/2_Coq/coq_solutions.v)
 
-### Lecture 3: Univalent Foundations (by Paige Randall North)
+### Lecture 3: Univalent Foundations (by [Paige Randall North](https://paigenorth.github.io/))
 - [Lecture](2024-07-Minneapolis/3_Univalent-Foundations/minneapolis_lecture_3.pdf)
 
-### Lecture 4: Tactics in Coq (by Benedikt Ahrens)
+### Lecture 4: Tactics in Coq (by [Benedikt Ahrens](https://benediktahrens.gitlab.io))
 - [Lecture](2024-07-Minneapolis/4_Tactics/tactics_lecture.v)
 - [Lecture (extended)](2024-07-Minneapolis/4_Tactics/tactics_lecture_extended.v)
 - [Exercises](2024-07-Minneapolis/4_Tactics/exercises_tactics.v)
 - [Solutions](2024-07-Minneapolis/4_Tactics/exercises_tactics_with_solutions.v)
 
-### Lecture 5: Set-Level Mathematics (by Carlo Angiuli)
+### Lecture 5: Set-Level Mathematics (by [Carlo Angiuli](https://carloangiuli.com/))
 - [Lecture](2024-07-Minneapolis/5_Set-level-mathematics/lecture5.pdf)
 - [Exercises](2024-07-Minneapolis/5_Set-level-mathematics/set_level_mathematics_exercises.v)
 - [Solutions](2024-07-Minneapolis/5_Set-level-mathematics/set_level_mathematics_solutions.v)
 
-### Lecture 6: Univalent Category Theory (by Niels van der Weide)
+### Lecture 6: Univalent Category Theory (by [Niels van der Weide](https://nmvdw.github.io))
 - [Lecture](2024-07-Minneapolis/6_Category-theory-in-UF/lecture.pdf)
 - [Code](2024-07-Minneapolis/6_Category-theory-in-UF/category_theory.v)
 - [Exercises](2024-07-Minneapolis/6_Category-theory-in-UF/category_theory_exercises.v)
 - [Exercises with solutions](2024-07-Minneapolis/6_Category-theory-in-UF/category_theory_solutions.v)
 
-### Lecture 7: Synthetic Homotopy Theory (by Favonia)
+### Lecture 7: Synthetic Homotopy Theory (by [Favonia](https://favonia.org/))
 - [Exercises](2024-07-Minneapolis/7_Synthetic-Homotopy-Theory/circle_exercises.v)
 - [Solutions](2024-07-Minneapolis/7_Synthetic-Homotopy-Theory/circle_solutions.v)
 
