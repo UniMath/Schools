@@ -158,8 +158,11 @@ Definition Z : UU := coprod nat nat.
 Notation "⊹ x" := (inl x) (at level 20).
 Notation "─ x" := (inr x) (at level 40).
 
+Definition Z5 : Z := ⊹ 5.
 Definition Z1 : Z := ⊹ 1.
 Definition Z0 : Z := ⊹ 0.
+Definition Zn1 : Z := ─ 0.
+Definition Zn2 : Z := ─ 1.
 Definition Zn3 : Z := ─ 2.
 
 Definition Zcase (A : UU) (fpos : nat → A) (fneg : nat → A) : Z → A :=
@@ -180,4 +183,7 @@ Eval compute in Zadd Zn3 Z1.  (* ─ 1 *)
 Eval compute in Zadd Zn3 Zn3. (* ─ 5 *)
 Eval compute in Zadd (Zadd Zn3 Zn3) Zn3. (* ─ 8 *)
 Eval compute in Zadd Z0 (negate (Zn3)). (* ⊹ 3 *)
+Eval compute in Zadd Z0 Zn1. (* ─ 0 *)
+Eval compute in Zadd Z1 Zn1. (* ⊹ 0 *)
+Eval compute in Zadd Z5 Zn2. (* ⊹ 3 *)
 *)
