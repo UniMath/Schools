@@ -31,6 +31,9 @@
 - [Exercises](2024-07-Minneapolis/6_Category-theory-in-UF/category_theory_exercises.v)
 - [Exercises with solutions](2024-07-Minneapolis/6_Category-theory-in-UF/category_theory_solutions.v)
 
+### Lecture 7: Synthetic Homotopy Theory (by Favonia)
+- [Exercises](2024-07-Minneapolis/7_Synthetic-Homotopy-Theory/circle_exercises.v)
+- [Solutions](2024-07-Minneapolis/7_Synthetic-Homotopy-Theory/circle_solutions.v)
 
 
 ## School on Univalent Mathematics, Cortona, 2022
