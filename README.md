@@ -1,6 +1,6 @@
 # Learning Material for Univalent Mathematics and the UniMath library
 
-## School on Univalent Mathematics, Minneapolis, 2024
+## [School on Univalent Mathematics, Minneapolis, 2024](https://unimath.github.io/minneapolis2024/)
 
 ### Lecture 1: Type Theory (by [Paige Randall North](https://paigenorth.github.io/))
 - [Lecture](2024-07-Minneapolis/1_Type-Theory/minneapolis_lecture_1.pdf)
@@ -36,7 +36,8 @@
 - [Solutions](2024-07-Minneapolis/7_Synthetic-Homotopy-Theory/circle_solutions.v)
 
 
-## School on Univalent Mathematics, Cortona, 2022
+
+## [School on Univalent Mathematics, Cortona, 2022](https://unimath.github.io/cortona2022/)
 
 ### Lecture 1: Type Theory (by [Gianluca Amato](https://www.sci.unich.it/~amato/))
 - [Lecture](2022-07-Cortona/1_Type-Theory/Lecture_Type-Theory.pdf)
@@ -63,7 +64,6 @@
 - [Exercises](2022-07-Cortona/5_Set-level-mathematics/set_level_mathematics_exercises.v)
 - [Solutions](2022-07-Cortona/5_Set-level-mathematics/set_level_mathematics_solutions.v)
 
-
 ### Lecture 6: Univalent Category Theory (by [Niels van der Weide](https://nmvdw.github.io))
 - [Lecture](2022-07-Cortona/6_Category_Theory/lecture.pdf)
 - [Code](2022-07-Cortona/6_Category_Theory/category_theory.v)
@@ -75,9 +75,7 @@
 
 
 
-
-
-## School and Workshop on Univalent Mathematics, Birmingham, 2019
+## [School and Workshop on Univalent Mathematics, Birmingham, 2019](https://unimath.github.io/bham2019/)
 
 ### Coq and UniMath Installation Instructions
 - See [Installation Instructions](installation.md)
