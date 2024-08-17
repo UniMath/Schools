@@ -21,7 +21,7 @@ on:
 
 env:
   # Set this to the version of Coq that should be used.
-  coq-version: 8.20.0
+  coq-version: 8.19.0
   dune-version: 3.5.0
   DUNE_CACHE_STORAGE_MODE: copy
 
