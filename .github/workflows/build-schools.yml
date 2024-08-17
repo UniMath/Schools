@@ -22,7 +22,7 @@ on:
 env:
   # Set this to the version of Coq that should be used.
   coq-version: 8.19.0
-  dune-version: 3.5.0
+  dune-version: 3.8.0
   DUNE_CACHE_STORAGE_MODE: copy
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
