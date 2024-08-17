@@ -64,5 +64,5 @@ jobs:
         run: opam pin add coq ${{ env.coq-version }}
 
       # Schools is built using the flags specified in code/dune.
-      - name: Compile SetHITs.
-        run: opam exec -- dune build SetHITs --display=short --error-reporting=twice
+      - name: Compile Schools.
+        run: opam exec -- dune build Schools --display=short --error-reporting=twice
