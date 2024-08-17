@@ -2,7 +2,7 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
@@ -10,28 +10,59 @@ on:
   pull_request:
     branches: [ master ]
 
+  schedule:
+    # Run this workflow at 02:15 UTC every Tuesday to keep the cache from being
+    # evicted. A typical run with everything cached should take less than 10
+    # minutes.
+    - cron: 15 2 * * TUE
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  # Set this to the version of Coq that should be used.
+  coq-version: 8.20.0
+  dune-version: 3.5.0
+  DUNE_CACHE_STORAGE_MODE: copy
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
+    name: Build Schools
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # Checkout UniMath into the working directory
+      - name: Checkout UniMath.
+        uses: actions/checkout@v3
+        with:
+          repository: UniMath/UniMath
+          clean: false
+          path: .
 
-      
-      # Install everything needed for building UniMath (and more)
-      - name: Install build dependencies
-        run: sudo apt-get install build-essential git ocaml ocaml-nox ocaml-native-compilers camlp5 libgtk2.0 libgtksourceview2.0 liblablgtk-extras-ocaml-dev ocaml-findlib libnum-ocaml-dev emacs
+      # Checkout the current branch into Schools/
+      - name: Checkout Schools.
+        uses: actions/checkout@v3
+        with:
+          path: Schools
 
-      # Change into UniMath directory and build UniMath
-      - name: Build UniMath and Schools files
-        run: |
-          cd $GITHUB_WORKSPACE
-          time make 
+      # Ideally we would use docker-coq. A setup currently takes about 7min
+      # before it starts compiling, with OCaml cached.
+      - name: Install OCaml.
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ocaml-variants.4.14.0+options,ocaml-option-flambda
+          dune-cache: true
+          opam-disable-sandboxing: true
+
+      - name: Install Dune
+        run: opam pin add dune ${{ env.dune-version }}
+      - name: Install Coq
+        run: opam pin add coq ${{ env.coq-version }}
+
+      # Schools is built using the flags specified in code/dune.
+      - name: Compile SetHITs.
+        run: opam exec -- dune build SetHITs --display=short --error-reporting=twice
