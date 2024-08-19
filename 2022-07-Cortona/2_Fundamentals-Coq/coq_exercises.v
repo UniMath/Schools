@@ -67,7 +67,7 @@ this is already used. *)
 
 (* Check that negbool' uses ifbool by disabling printing of notations *)
 (* Command palette Display All Basic Low-level Contents. *)
-Print negbool'.
+(* Print negbool'. *)
 (* Command palette Display All Basic Low-level Contents. *)
 
 (* This should satisfy:

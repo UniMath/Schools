@@ -40,7 +40,8 @@ Proof.
   - cbn.
     intro p.
     induction p as [x H].
-    rewrite H.
+    (* rewrite H. *)
+    induction H.
     apply idpath.
 Defined.
 

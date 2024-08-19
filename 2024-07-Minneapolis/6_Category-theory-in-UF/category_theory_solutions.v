@@ -11,23 +11,23 @@
 Require Import UniMath.MoreFoundations.All.
 Require Import UniMath.CategoryTheory.Core.Prelude.
 Require Import UniMath.CategoryTheory.Core.Setcategories.
-Require Import UniMath.CategoryTheory.categories.HSET.All.
+Require Import UniMath.CategoryTheory.Categories.HSET.All.
 Require Import UniMath.CategoryTheory.DisplayedCats.Core.
 Require Import UniMath.CategoryTheory.DisplayedCats.Constructions.
 Require Import UniMath.CategoryTheory.DisplayedCats.Total.
 Require Import UniMath.CategoryTheory.DisplayedCats.Isos.
 Require Import UniMath.CategoryTheory.DisplayedCats.Univalence.
-Require Import UniMath.CategoryTheory.limits.graphs.colimits.
-Require Import UniMath.CategoryTheory.limits.graphs.limits.
-Require Import UniMath.CategoryTheory.limits.terminal.
-Require Import UniMath.CategoryTheory.limits.initial.
-Require Import UniMath.CategoryTheory.limits.FinOrdProducts.
-Require Import UniMath.CategoryTheory.limits.equalizers.
-Require Import UniMath.CategoryTheory.limits.pullbacks.
+Require Import UniMath.CategoryTheory.Limits.Graphs.Colimits.
+Require Import UniMath.CategoryTheory.Limits.Graphs.Limits.
+Require Import UniMath.CategoryTheory.Limits.Terminal.
+Require Import UniMath.CategoryTheory.Limits.Initial.
+Require Import UniMath.CategoryTheory.Limits.FinOrdProducts.
+Require Import UniMath.CategoryTheory.Limits.Equalizers.
+Require Import UniMath.CategoryTheory.Limits.Pullbacks.
 Require Import UniMath.CategoryTheory.Adjunctions.Core.
 Require Import UniMath.CategoryTheory.Monads.Monads.
 Require Import UniMath.Combinatorics.StandardFiniteSets.
-Require Import UniMath.CategoryTheory.limits.binproducts.
+Require Import UniMath.CategoryTheory.Limits.BinProducts.
 
 Local Open Scope cat.
 
@@ -52,7 +52,7 @@ Section Exercise_0.
     - apply homset_property.
     - intro f.
       apply isasetaprop.
-      apply isaprop_is_iso.
+      apply isaprop_is_z_isomorphism.
   Qed.
 End Exercise_0.
 
@@ -133,13 +133,10 @@ Section Exercise_1.
     set (isaprop_iso := isofhlevelweqf 1 (make_weq idtoiso equiv22) isaprop_id).
     set (zero := stnel (2,0)).
     set (one := stnel (2,1)).
-    set (f := @identity nat_category_data 2).
-    set (g := two_rec one zero : (nat_category_data ⟦ 2, 2 ⟧)%Cat).
-    set (fiso := identity_is_iso nat_category 2).
-    assert (giso : is_iso g).
+    set (f := @identity_z_iso nat_category 2).
+    set (g := two_rec one zero : (nat_category_data ⟦ 2, 2 ⟧)%cat).
+    assert (giso : is_inverse_in_precat g g).
     {
-      apply (@is_iso_from_is_z_iso nat_category 2 2).
-      exists g.
       unfold is_inverse_in_precat. split.
       - apply funextfun.
         unfold homot.
@@ -152,15 +149,14 @@ Section Exercise_1.
         + apply idpath.
         + apply idpath.
     }
-    set (f' := make_iso _ fiso).
-    set (g' := @make_iso nat_category 2 2 g giso).
+    set (g' := (@make_z_iso nat_category 2 2 g g giso)).
     set (proofirr_iso := proofirrelevance _ isaprop_iso).
-    set (f'eqg' := proofirr_iso f' g').
+    set (f'eqg' := proofirr_iso f g').
     assert (nonsense : stnel (2,0) = stnel (2,1)).
     {
-      change (stnpr 0) with (f (stnpr 0)).
+      change (stnpr 0) with (z_iso_mor f (stnpr 0)).
       change (stnpr 1) with (g (stnpr 0)).
-      apply (@eqtohomot _ _ f g).
+      apply (@eqtohomot _ _ (z_iso_mor f) g).
       exact (maponpaths pr1 f'eqg').
     }
     apply (negpaths0sx 0).
@@ -271,7 +267,7 @@ Section Exercise_2.
     - apply X.
     - apply isaproptotal2.
       + intro.
-        apply isaprop_is_iso_disp.
+        apply isaprop_is_z_iso_disp.
       + intros p q r₁ r₂.
         apply X.
   Defined.
@@ -293,7 +289,7 @@ Section Exercise_2.
       apply isaset_set_fun_space.
     - apply isaproptotal2.
       + intro.
-        apply isaprop_is_iso_disp.
+        apply isaprop_is_z_iso_disp.
       + intros p q r₁ r₂.
         simpl in p, q.
         use funextsec.
@@ -315,7 +311,7 @@ Section Exercise_2.
     : is_univalent pointed_operation_set.
   Proof.
     apply is_univalent_total_category.
-    - Search HSET.
+    - (* Search HSET. *)
       exact is_univalent_HSET.
     - exact pointed_operation_is_univalent_disp.
   Defined.
@@ -399,7 +395,7 @@ Section Exercise_3.
     use total2_paths_f.
     - apply isotoid.
       + apply univalent_category_is_univalent.
-      + exact (iso_Initials aInit bInit).
+      + exact (ziso_Initials aInit bInit).
     - apply proofirrelevance.
       unfold isInitial.
       apply impred_isaprop.

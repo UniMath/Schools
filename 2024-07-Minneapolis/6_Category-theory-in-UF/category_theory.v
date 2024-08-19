@@ -12,7 +12,7 @@ Require Import UniMath.CategoryTheory.Core.Univalence.
 Require Import UniMath.CategoryTheory.Core.Functors.
 Require Import UniMath.CategoryTheory.Core.NaturalTransformations.
 Require Import UniMath.CategoryTheory.Core.Isos.
-Require Import UniMath.CategoryTheory.categories.HSET.All.
+Require Import UniMath.CategoryTheory.Categories.HSET.All.
 
 Require Import UniMath.CategoryTheory.DisplayedCats.Core.
 Require Import UniMath.CategoryTheory.DisplayedCats.Total.
@@ -85,7 +85,7 @@ Proof.
   intros X Y f.
   apply idpath.
 Qed.
-  
+
 Definition pure : functor_identity SET ⟹ maybe.
 Proof.
   use make_nat_trans.
@@ -213,7 +213,7 @@ Proof.
   - apply X.
   - apply isaproptotal2.
     + intro.
-      apply isaprop_is_iso_disp.
+      apply isaprop_is_z_iso_disp.
     + intros p q r₁ r₂.
       apply X.
 Defined.
