@@ -12,9 +12,12 @@ Require Import UniMath.CategoryTheory.Core.Univalence.
 Require Import UniMath.CategoryTheory.Core.Functors.
 Require Import UniMath.CategoryTheory.Core.NaturalTransformations.
 Require Import UniMath.CategoryTheory.Core.Isos.
-Require Import UniMath.CategoryTheory.categories.HSET.All.
+Require Import UniMath.CategoryTheory.Categories.HSET.All.
 
 Require Import UniMath.CategoryTheory.DisplayedCats.Core.
+Require Import UniMath.CategoryTheory.DisplayedCats.Total.
+Require Import UniMath.CategoryTheory.DisplayedCats.Univalence.
+Require Import UniMath.CategoryTheory.DisplayedCats.Isos.
 
 Open Scope cat.
 
@@ -24,7 +27,7 @@ These definition are done in multiple steps. First we, define the data and then 
  *)
 Definition maybe_data : functor_data SET SET.
 Proof.
-  use mk_functor_data.
+  use make_functor_data.
   - exact (λ X, setcoprod X unitset).
   - intros X Y f x.
     induction x as [x | y].
@@ -62,7 +65,7 @@ By combining these two, we get an actual functor from `SET` to `SET`.
  *)
 Definition maybe : SET ⟶ SET.
 Proof.
-  use mk_functor.
+  use make_functor.
   - exact maybe_data.
   - exact maybe_is_functor.
 Defined.
@@ -82,10 +85,10 @@ Proof.
   intros X Y f.
   apply idpath.
 Qed.
-  
+
 Definition pure : functor_identity SET ⟹ maybe.
 Proof.
-  use mk_nat_trans.
+  use make_nat_trans.
   - exact pure_data.
   - exact pure_is_nat_trans.
 Defined.
@@ -104,7 +107,7 @@ A displayed morphism over `f : X → Y` from `x` to `y` is a path `f x = y`.
 Definition pointed_disp_ob_mor
   : disp_cat_ob_mor SET.
 Proof.
-  use mk_disp_cat_ob_mor.
+  use make_disp_cat_ob_mor.
   - intro X.
     apply X.
   - exact (λ X Y x y f, f x = y).
@@ -148,7 +151,7 @@ Definition pointed_disp_cat_axioms
 Proof.
   repeat split.
   - intros X Y f x y p.
-    apply transportf_transpose.
+    apply transportf_transpose_right.
     apply transportf_comp_lemma_hset.
     { apply homset_property. }
     cbn in *.
@@ -210,7 +213,7 @@ Proof.
   - apply X.
   - apply isaproptotal2.
     + intro.
-      apply isaprop_is_iso_disp.
+      apply isaprop_is_z_iso_disp.
     + intros p q r₁ r₂.
       apply X.
 Defined.

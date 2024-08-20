@@ -69,8 +69,8 @@ Definition parity (n : nat) := nat_rect (fun _ => nat) 0 (fun _ b => flip b) n.
    notion of image in which we replace ∑ with ∃. *)
 Require Import UniMath.Foundations.Propositions.
 
-Definition image {A B : UU} (f : A → B) :
-  ∑ (y : B), ∃ (x : A), f x = y.
+Definition image {A B : UU} (f : A → B) : UU
+  := ∑ (y : B), ∃ (x : A), f x = y.
 
 (* Prove that the (univalent) image of partiy is equivalent to Bool. *)
 Theorem image_parity_equiv_bool :

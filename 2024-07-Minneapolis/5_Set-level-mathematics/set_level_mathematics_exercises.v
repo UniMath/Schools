@@ -194,7 +194,7 @@ Admitted.
 Definition ptdset_iso_weq (X Y : ptdset) : (X ╝ Y) ≃ (ptdset_iso X Y).
 Proof.
   use weqtotal2.
-  + Search ( (_ = _) ≃ ( _ ≃ _)).
+  + (* Search ( (_ = _) ≃ ( _ ≃ _)). *)
     (* Solve this goal. *)
     admit.
   + (* Solve this goal. *)
@@ -277,7 +277,7 @@ Proof.
   unfold monoidiso'.
   unfold monoidiso.
   (* Observe that this is just an reassociation of Sigma-types. *)
-  Search ( (∑ _ , _ ) ≃ _ ).
+  (* Search ( (∑ _ , _ ) ≃ _ ). *)
   admit.
 Admitted.
 

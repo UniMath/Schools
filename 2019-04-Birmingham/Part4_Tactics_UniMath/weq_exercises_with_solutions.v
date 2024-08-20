@@ -38,8 +38,9 @@ Proof.
   - cbn.
     intro p.
     induction p as [x H].
-    unfold idfun in H.
-    rewrite H.
+    (* unfold idfun in H.
+    rewrite H. *)
+    induction H.
     apply idpath.
 Defined.
 

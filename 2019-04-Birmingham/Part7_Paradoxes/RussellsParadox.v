@@ -8,6 +8,8 @@
 
 **)
 
+Require Import UniMath.Foundations.All.
+
 Section russell.
 
 Set Implicit Arguments.
@@ -16,14 +18,13 @@ Set Implicit Arguments.
     which contains names for all sets.
 *)
 
-Variable set : Set.
-Variable name : Set -> set.
-Variable El : set -> Set.
-Axiom reflect : forall A:Set,A = El (name A).
+Variable set : hSet.
+Variable name : hSet → set.
+Variable El : set → hSet.
+Axiom reflect : ∏ A:hSet, A = El (name A).
 
-
-Lemma paradox : False.
-
+Lemma paradox : ∅.
+Abort.
 
 End russell.
 
