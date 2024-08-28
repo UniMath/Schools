@@ -49,9 +49,9 @@ Proof.
   (** Now we still have to give the term, but we are in interactive mode. *)
   (** If you want to see everything in the currently loaded part of the UniMath library
       that *involves* booleans, then do *)
-  (* Search bool. *)
+  Search bool.
   (** If you only want to find library elements that *yield* booleans, then try *)
-  (* SearchPattern bool. *)
+  SearchPattern bool.
   (** [true] does not take an argument, and it is already a term we can take as definiens. *)
   exact true.
   (** [exact] is a tactic which takes the term as argument and informs Coq in the proof mode to
@@ -65,7 +65,7 @@ Defined.
     verify it and to associate it with the given identifer, here [myfirsttruthvalue].
     This may go wrong for different reasons, including implementation errors of the Coq
     system - that will not affect trustworthiness of the library. *)
-(* Search bool. *)
+Search bool.
 (** The new definition appears at the beginning of the list. *)
 Print myfirsttruthvalue.  (** or just point to the identifier and hit the
                               key combination mentioned in Part 2 *)
@@ -76,7 +76,7 @@ Print myfirsttruthvalue.  (** or just point to the identifier and hit the
 (** *** a more compelling example *)
 Definition mysecondtruthvalue: bool.
 Proof.
-  (* Search bool. *)
+  Search bool.
   apply negb.
   (** applies the function [negb] to obtain the required boolean,
       thus the system has to ask for its argument *)
@@ -109,7 +109,7 @@ Definition andb (b1 b2: bool) : bool := if b1 then b2 else false.
 
 Definition mythirdtruthvalue: bool.
 Proof.
-  (* Search bool. *)
+  Search bool.
   apply andb.
   (** [apply andb.] applies the function [andb] to obtain the required boolean,
       thus the system has to ask for its TWO arguments, one by one. *)
@@ -359,7 +359,7 @@ Print paths.
 (** A word of warning for those who read "Coq in a Hurry": [SearchRewrite]
     does not find equations w.r.t. this notion, only w.r.t. Coq's built-in
     propositional equality. *)
-(* SearchPattern (paths _ _). *)
+SearchPattern (paths _ _).
 (** Among the search results is [pathsinv0r] that has [idpath] in its conclusion. *)
 (* SearchRewrite idpath. *)
 (** No result! *)
@@ -496,11 +496,11 @@ We need to help Coq with the argument [b] to [pathscomp0].
 *)
   apply (pathscomp0 (b := A × (B × (C × D)))).
   - (** is this not just associativity with third argument [C × D]? *)
-    (* SearchPattern (_ × _ =  _ × _). *)
+    SearchPattern (_ × _ =  _ × _).
     (** Nothing for our equation - we can only hope for weak equivalence ≃. *)
 Abort.
 
-(* SearchPattern(_ ≃ _). *)
+SearchPattern(_ ≃ _).
 Print weqcomp.
 Print weqdirprodasstor.
 Print weqdirprodasstol.

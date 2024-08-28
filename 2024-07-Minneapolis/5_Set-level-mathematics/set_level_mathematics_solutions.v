@@ -217,7 +217,7 @@ Defined.
 Definition ptdset_iso_weq (X Y : ptdset) : (X ╝ Y) ≃ (ptdset_iso X Y).
 Proof.
   use weqtotal2.
-  + (* Search ( (_ = _) ≃ ( _ ≃ _)). *)
+  + Search ( (_ = _) ≃ ( _ ≃ _)).
     use hSet_univalence.
   + intro p.
     induction X as [X x].
@@ -257,7 +257,7 @@ Local Open Scope multmonoid.
 Notation "x * y" := (op x y) : multmonoid.
 Notation "1" := (unel _) : multmonoid.
 
-(* Search monoid. *)
+Search monoid.
 
 (*
   Construct the following chain of equivalences
