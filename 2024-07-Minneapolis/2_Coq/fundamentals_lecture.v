@@ -572,10 +572,10 @@ in UniMath it is very important to be able to search the library so
 that you don't do something someone else has already done. *)
 
 (** To find everything about nat type: *)
-(* Search nat. *)
+Search nat.
 
 (** To search for all lemmas involving the pattern *)
-(* Search _ (_ -> _ -> _). *)
+Search _ (_ -> _ -> _).
 
 (** To find information about a notation *)
 Locate "+".

@@ -311,7 +311,7 @@ Section Exercise_2.
     : is_univalent pointed_operation_set.
   Proof.
     apply is_univalent_total_category.
-    - (* Search HSET. *)
+    - Search HSET.
       exact is_univalent_HSET.
     - exact pointed_operation_is_univalent_disp.
   Defined.
