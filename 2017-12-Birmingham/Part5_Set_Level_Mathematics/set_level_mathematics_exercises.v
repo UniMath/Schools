@@ -214,7 +214,11 @@ Definition isrefl {X : UU} (R : hrel X) : UU
 (* FILL IN THE DEFINITIONS OF istrans AND issymm *)
 (* Definition istrans {X : UU} (R : hrel X) : UU := *)
 (* Definition issymm {X : UU} (R : hrel X) : UU := *)
-Variables istrans issymm: forall {X: UU}, hrel X -> UU. (* to be deleted *)
+
+Definition istrans {X : UU} (R : hrel X) : UU.
+Admitted.
+Definition issymm {X : UU} (R : hrel X) : UU.
+Admitted.
 
 Definition ispreorder {X : UU} (R : hrel X) : UU := istrans R × isrefl R.
 
