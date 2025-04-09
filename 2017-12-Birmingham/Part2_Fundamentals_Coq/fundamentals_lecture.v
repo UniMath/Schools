@@ -293,7 +293,7 @@ In fact one can write:
 Definition iter (A : UU) (a : A) (f : A → A) : nat → A :=
   nat_rec A a (λ _ y, f y).
 
-(** A more fancy notation where the ̂ symbol is the unicode one (written \^ ) *)
+(** A fancier notation where the ̂ symbol is the unicode one (written \^ ) *)
 Notation "f ̂ n" := (λ x, iter _ x f n) (at level 10).
 
 Eval compute in pred ̂  2 5.
