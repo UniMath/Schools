@@ -296,7 +296,7 @@ Definition iter (A : UU) (a : A) (f : A → A) : nat → A :=
 (** A more fancy notation where the ̂ symbol is the unicode one (written \^ ) *)
 Notation "f ̂ n" := (λ x, iter _ x f n) (at level 10).
 
-Eval compute in pred̂2 5.
+Eval compute in pred ̂  2 5.
 
 (** Exercise: define a notation "myif b then x else y" for "ifbool _ x y b"
 and rewrite negbool and andbool using this notation.
@@ -306,7 +306,7 @@ this is already used.
 
 *)
 
-Definition sub (m n : nat) : nat := pred̂n m.
+Definition sub (m n : nat) : nat := pred ̂  n m.
 
 Eval compute in sub 15 4.
 Eval compute in sub 11 15.
