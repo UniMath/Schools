@@ -282,7 +282,7 @@ Proof.
     + intros i. use proofirrelevance. use isapropismonoidop.
     + intros i. induction i. use idpath.
     + use setproperty.
-    + use isapropifcontr. exact (@isapropismonoidop X (pr2 X) Xop Yop).
+    + use isapropifcontr. exact (@isapropismonoidop (pr1setwithbinop X) (pr2 X) Xop Yop).
 Defined.
 Opaque monoid_univalence_weq2.
 
