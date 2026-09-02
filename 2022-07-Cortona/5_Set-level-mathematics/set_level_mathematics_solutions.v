@@ -219,9 +219,9 @@ Definition iseqrelconstr {X : UU} {R : hrel X}
 
 Definition eqrel (X : UU) : UU
   := ∑ R : hrel X, iseqrel R.
-Definition eqrelpair {X : UU} (R : hrel X) (is : iseqrel R)
+Definition eqrelpair {X : UU} (R : hrel X) (ise : iseqrel R)
   : eqrel X
-  := tpair (λ R : hrel X, iseqrel R) R is.
+  := tpair (λ R : hrel X, iseqrel R) R ise.
 Definition eqrelconstr {X : UU} (R : hrel X)
            (is1 : istrans R) (is2 : isrefl R) (is3 : issymm R) : eqrel X
   := eqrelpair R (make_dirprod (make_dirprod is1 is2) is3).
@@ -253,7 +253,7 @@ Defined.
 (** ** A subtype with paths between any two elements is an [hProp]. *)
 
 Lemma isapropsubtype {X : UU} (A : hsubtype X)
-      (is : ∏ (x1 x2 : X), A x1 -> A x2 -> x1 = x2)
+      (hyp : ∏ (x1 x2 : X), A x1 -> A x2 -> x1 = x2)
   : isaprop (carrier A).
 Proof.
   apply invproofirrelevance.
@@ -268,7 +268,7 @@ Proof.
   induction x as [ x0 is0 ].
   induction x' as [ x0' is0' ].
   simpl.
-  apply (is x0 x0' is0 is0').
+  apply (hyp x0 x0' is0 is0').
 Defined.
 
 (** ** Equivalence classes with respect to a given relation *)
@@ -290,13 +290,13 @@ Definition iseqclassconstr {X : UU} (R : hrel X) {A : hsubtype X}
 
 Definition eqax0 {X : UU} {R : hrel X} {A : hsubtype X}
   : iseqclass R A -> ishinh (carrier A)
-  := λ is : iseqclass R A, pr1 is.
+  := λ ise : iseqclass R A, pr1 ise.
 Definition eqax1 {X : UU} {R : hrel X} {A : hsubtype X}
   : iseqclass R A -> ∏ x1 x2 : X, R x1 x2 -> A x1 -> A x2
-  := λ is : iseqclass R A, pr1 (pr2 is).
+  := λ ise : iseqclass R A, pr1 (pr2 ise).
 Definition eqax2 {X : UU} {R : hrel X} {A : hsubtype X}
   : iseqclass R A -> ∏ x1 x2 : X, A x1 -> A x2 -> R x1 x2
-  := λ is : iseqclass R A, pr2 (pr2 is).
+  := λ ise : iseqclass R A, pr2 (pr2 ise).
 
 Lemma isapropiseqclass {X : UU} (R : hrel X) (A : hsubtype X)
   : isaprop (iseqclass R A).
@@ -323,9 +323,9 @@ Definition setquot {X : UU} (R : hrel X) : UU
   := ∑ A : hsubtype X, iseqclass R A.
 
 Definition setquotpair {X : UU} (R : hrel X) (A : hsubtype X)
-           (is : iseqclass R A)
+           (ise : iseqclass R A)
   : setquot R
-  := A ,, is.
+  := A ,, ise.
 
 Definition pr1setquot {X : UU} (R : hrel X)
   : setquot R -> hsubtype X
@@ -405,7 +405,7 @@ Definition iscomprelfun {X Y : UU} (R : hrel X) (f : X -> Y) : UU
   := ∏ x x' : X, R x x' -> f x = f x'.
 
 Lemma isapropimeqclass {X : UU} (R : hrel X) (Y : hSet) (f : X -> Y)
-      (is : iscomprelfun R f) (c : setquot R) :
+      (isc : iscomprelfun R f) (c : setquot R) :
   isaprop (image (λ x : c, f (pr1 x))).
 Proof.
   apply isapropsubtype.
@@ -417,16 +417,16 @@ Proof.
   destruct x1 as [ x1 is1' ]. destruct x2 as [ x2 is2' ].
   simpl in is1. simpl in is2. simpl in is1'. simpl in is2'.
   assert (r : R x1 x2) by apply (eqax2 iseq _ _ is1' is2').
-  apply ( !is1 @  (is _ _ r) @ is2).
+  apply ( !is1 @  (isc _ _ r) @ is2).
 Defined.
 
 Definition setquotuniv {X : UU} (R : hrel X) (Y : hSet) (f : X -> Y)
-        (is : iscomprelfun R f) (c : setquot R) : Y.
+        (isc : iscomprelfun R f) (c : setquot R) : Y.
 Proof.
   apply (pr1image (λ x : c, f (pr1 x))).
   apply (@squash_to_prop (carrier c)).
   - apply (eqax0 (pr2 c)).
-  - apply isapropimeqclass. apply is.
+  - apply isapropimeqclass. apply isc.
   - unfold carrier. apply prtoimage.
 Defined.
 
@@ -437,8 +437,8 @@ Defined.
   can be empty. Nevertheless setquotuniv will apply. *)
 
 Theorem setquotunivcomm {X : UU} (R : eqrel X) (Y : hSet) (f : X -> Y)
-        (is : iscomprelfun R f) :
-  ∏ x : X, setquotuniv R Y f is (setquotpr R x) = f x.
+        (isc : iscomprelfun R f) :
+  ∏ x : X, setquotuniv R Y f isc (setquotpr R x) = f x.
 Proof.
   intros. apply idpath.
 Defined.
