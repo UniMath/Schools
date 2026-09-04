@@ -1,11 +1,11 @@
 (include_subdirs qualified)
 
-(coq.theory
+(rocq.theory
  (name Columbus2019)
  (flags :standard
         -noinit
         -indices-matter
-        -type-in-type
+ ;;       -type-in-type
         -w -notation-overridden)
  (theories UniMath))
 
